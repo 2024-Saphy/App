@@ -1,16 +1,19 @@
-# saphy
+# Saphy
 
-A new Flutter project.
+중고 전자기기 거래 플랫폼
 
-## Getting Started
+# FE(Flutter)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<table align="center">
+  <td colspan=3 align=center>개발</td>
+    <tr>
+  <td align="center"><a href="http://github.com/boroboro01"/><img src=https://avatars.githubusercontent.com/u/98679575?v=4/>
+   <td align="center"><a href="https://github.com/cho4u4o"/><img src=https://avatars.githubusercontent.com/u/128016678?v=4/>
+     <td align="center"><a href="https://github.com/DURAM0830"/><img src=https://avatars.githubusercontent.com/u/113645474?v=4></a>
+  </tr>
+    <tr>
+  <td align="center"><a href="http://github.com/boroboro01"/>박성민</td>
+  <td align="center"><a href="https://github.com/DURAM0830"/>한유진</td>
+    <td align="center"><a href="https://github.com/cho4u4o"/>이원희</td>
+  </tr>
+</table>
