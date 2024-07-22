@@ -4,14 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/models/product.dart';
 import 'package:saphy/widgets/app_bar.dart';
-import 'package:saphy/widgets/bottom_nav_bar.dart';
 import 'package:saphy/widgets/product_card.dart';
-
-void main() {
-  // async {
-  // await dotenv.load(fileName: 'assets/config/.env');
-  runApp(const MainScreen());
-}
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -151,7 +144,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ],
         ),
-        bottomNavigationBar: const BottomNavBar(),
       ),
     );
   }
