@@ -16,6 +16,9 @@ Widget productCard({
       color: Colors.white,
     ),
     child: Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           height: 120,
@@ -28,37 +31,34 @@ Widget productCard({
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(productBrand,
-                  style: const TextStyle(
-                    fontFamily: "Pretendard",
-                    fontSize: 15,
-                  )),
-              Text(
-                productName,
+        const Spacer(),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(productBrand,
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
                   fontFamily: "Pretendard",
                   fontSize: 15,
-                ),
+                )),
+            Text(
+              productName,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: "Pretendard",
+                fontSize: 15,
               ),
-              Text(
-                "${numberFormat.format(price)}원",
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Pretendard",
-                  fontSize: 20,
-                ),
+            ),
+            Text(
+              "${numberFormat.format(price)}원",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: "Pretendard",
+                fontSize: 20,
               ),
-            ],
-          ),
-        )
+            ),
+          ],
+        ),
       ],
     ),
   );

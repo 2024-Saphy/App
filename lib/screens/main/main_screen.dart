@@ -6,12 +6,6 @@ import 'package:saphy/models/product.dart';
 import 'package:saphy/widgets/bottom_nav_bar.dart';
 import 'package:saphy/widgets/product_card.dart';
 
-void main() {
-  // async {
-  // await dotenv.load(fileName: 'assets/config/.env');
-  runApp(const MainScreen());
-}
-
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -111,7 +105,6 @@ class _MainScreenState extends State<MainScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
-                  height: 100,
                   decoration: BoxDecoration(
                       color: const Color(0xffDFE1E6),
                       borderRadius: BorderRadius.circular(30)),
@@ -161,7 +154,7 @@ class _MainScreenState extends State<MainScreen> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 15,
                   crossAxisSpacing: 15,
-                  childAspectRatio: 0.84,
+                  childAspectRatio: 0.8,
                 ),
               ),
               padding: const EdgeInsets.all(20.0),
