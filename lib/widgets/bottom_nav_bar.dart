@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saphy/screens/main/main_screen.dart';
+import 'package:saphy/screens/products/liked_list_page.dart';
 import 'package:saphy/screens/search/search_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -60,7 +61,14 @@ class BottomNavBar extends StatelessWidget {
               children: [
                 IconButton(
                   icon: const Icon(Icons.favorite),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LikedListPage(),
+                      ),
+                    );
+                  },
                 ),
                 const Text("관심 목록"),
               ],
