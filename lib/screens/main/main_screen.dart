@@ -3,8 +3,15 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/models/product.dart';
+import 'package:saphy/widgets/app_bar.dart';
 import 'package:saphy/widgets/bottom_nav_bar.dart';
 import 'package:saphy/widgets/product_card.dart';
+
+void main() {
+  // async {
+  // await dotenv.load(fileName: 'assets/config/.env');
+  runApp(const MainScreen());
+}
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -62,26 +69,7 @@ class _MainScreenState extends State<MainScreen> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: const Color(0xfff4f4f4),
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Image.asset(
-              "assets/images/SaphyLogoSmall.png",
-              height: 24,
-            ),
-          ),
-          centerTitle: false,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                icon: const Icon(Icons.notifications_outlined),
-                onPressed: () {},
-              ),
-            ),
-          ],
-        ),
+        appBar: const TopAppBar(),
         body: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
@@ -105,6 +93,7 @@ class _MainScreenState extends State<MainScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
+                  height: 100,
                   decoration: BoxDecoration(
                       color: const Color(0xffDFE1E6),
                       borderRadius: BorderRadius.circular(30)),
@@ -127,9 +116,10 @@ class _MainScreenState extends State<MainScreen> {
                         Text(
                           "사피 초대하고 지원금 받기",
                           style: TextStyle(
-                              fontFamily: "Pretendard",
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold),
+                            fontFamily: "Pretendard",
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -141,7 +131,7 @@ class _MainScreenState extends State<MainScreen> {
               sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return productCard(
+                    return ProductCard(
                         productBrand: productList[index].productBrand ?? "",
                         productName: productList[index].productName ?? "",
                         productImageUrl:
@@ -154,7 +144,7 @@ class _MainScreenState extends State<MainScreen> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 15,
                   crossAxisSpacing: 15,
-                  childAspectRatio: 0.8,
+                  childAspectRatio: 0.86,
                 ),
               ),
               padding: const EdgeInsets.all(20.0),
