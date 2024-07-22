@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:saphy/widgets/bottom_nav_bar.dart';
 import 'package:saphy/widgets/text_field.dart';
 
 class SearchScreen extends StatelessWidget {
