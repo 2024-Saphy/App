@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saphy/widgets/app_bar.dart';
 
 class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
@@ -10,11 +11,10 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("My Page"),
-      ),
-      body: const Center(
+    return const Scaffold(
+      backgroundColor: Color(0xfff4f4f4),
+      appBar: TopAppBar(),
+      body: Center(
         child: Text("My Page"),
       ),
     );

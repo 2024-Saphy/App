@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saphy/screens/main/main_screen.dart';
+import 'package:saphy/screens/mypage/mypage.dart';
 import 'package:saphy/screens/products/liked_list_page.dart';
 import 'package:saphy/screens/search/search_screen.dart';
 
@@ -65,7 +66,7 @@ class BottomNavBar extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const LikedListPage(),
+                        builder: (context) => const SearchScreen(),
                       ),
                     );
                   },
@@ -77,7 +78,14 @@ class BottomNavBar extends StatelessWidget {
               children: [
                 IconButton(
                   icon: const Icon(Icons.person),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyPage(),
+                      ),
+                    );
+                  },
                 ),
                 const Text("나의 사피"),
               ],
