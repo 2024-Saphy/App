@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:saphy/screens/main/main_screen.dart';
+import 'package:saphy/utils/screen_controller.dart';
 
 void main() async{
   await dotenv.load(fileName: 'assets/config/.env');
-  runApp(const MainScreen());
+  runApp(const ScreenController());
 }
 
 class MyApp extends StatelessWidget {

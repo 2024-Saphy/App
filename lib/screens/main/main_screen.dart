@@ -123,7 +123,7 @@ class _MainScreenState extends State<MainScreen> {
               sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return productCard(
+                    return ProductCard(
                         productBrand: productList[index].productBrand ?? "",
                         productName: productList[index].productName ?? "",
                         productImageUrl:
