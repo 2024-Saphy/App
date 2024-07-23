@@ -1,98 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:saphy/screens/main/main_screen.dart';
-import 'package:saphy/screens/mypage/mypage.dart';
-import 'package:saphy/screens/products/liked_list_page.dart';
-import 'package:saphy/screens/search/search_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({super.key});
+  final int currentIndex;
+  final Function(int) onTap;
+
+  const BottomNavBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      height: 90,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.home),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MainScreen(),
-                      ),
-                    );
-                  },
-                ),
-                const Text("홈"),
-              ],
-            ),
-            Column(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.build),
-                  onPressed: () {},
-                ),
-                const Text("수리센터"),
-              ],
-            ),
-            Column(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SearchScreen(),
-                      ),
-                    );
-                  },
-                ),
-                const Text("탐색"),
-              ],
-            ),
-            Column(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.favorite),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SearchScreen(),
-                      ),
-                    );
-                  },
-                ),
-                const Text("관심 목록"),
-              ],
-            ),
-            Column(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.person),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MyPage(),
-                      ),
-                    );
-                  },
-                ),
-                const Text("나의 사피"),
-              ],
-            ),
-          ],
+    return BottomNavigationBar(
+      currentIndex: currentIndex,
+      backgroundColor: Colors.white,
+      selectedItemColor: const Color(0xff9abcff),
+      unselectedItemColor: Colors.black,
+      onTap: onTap,
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: "홈",
         ),
-      ),
+        //BottomNavigationBarItem(
+        // icon: Icon(Icons.build),
+        // label: "수리센터",
+        // ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.search),
+          label: "탐색",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.favorite),
+          label: "찜 목록",
+        ),
+        // BottomNavigationBarItem(
+        // icon: Icon(Icons.person),
+        // label: "나의 사피",
+        // ),
+      ],
     );
   }
 }

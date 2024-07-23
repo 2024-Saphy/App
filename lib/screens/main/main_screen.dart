@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/models/product.dart';
 import 'package:saphy/widgets/app_bar.dart';
-import 'package:saphy/widgets/bottom_nav_bar.dart';
 import 'package:saphy/widgets/product_card.dart';
 
 class MainScreen extends StatefulWidget {
@@ -144,7 +143,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ],
         ),
-        bottomNavigationBar: const BottomNavBar(),
       ),
     );
   }
