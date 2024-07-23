@@ -35,10 +35,10 @@ class BottomNavBar extends StatelessWidget {
           icon: Icon(Icons.favorite),
           label: "찜 목록",
         ),
-        // BottomNavigationBarItem(
-        // icon: Icon(Icons.person),
-        // label: "나의 사피",
-        // ),
+        BottomNavigationBarItem(
+        icon: Icon(Icons.person),
+        label: "나의 사피",
+        ),
       ],
     );
   }

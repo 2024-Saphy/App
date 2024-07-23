@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/models/product.dart';
 import 'package:saphy/widgets/app_bar.dart';
@@ -137,7 +136,7 @@ class _MainScreenState extends State<MainScreen> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 15,
                   crossAxisSpacing: 15,
-                  childAspectRatio: 0.86,
+                  childAspectRatio: 0.7,
                 ),
               ),
               padding: const EdgeInsets.all(20.0),

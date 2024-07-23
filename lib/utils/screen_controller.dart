@@ -3,12 +3,13 @@ import 'package:saphy/widgets/bottom_nav_bar.dart';
 import 'package:saphy/screens/main/main_screen.dart';
 import 'package:saphy/screens/products/liked_list_page.dart';
 import 'package:saphy/screens/search/search_screen.dart';
+import 'package:saphy/screens/mypage/mypage.dart';
 
-void main() {
-  // async {
-  // await dotenv.load(fileName: 'assets/config/.env');
-  runApp(const ScreenController());
-}
+// void main() {
+//   // async {
+//   // await dotenv.load(fileName: 'assets/config/.env');
+//   runApp(const ScreenController());
+// }
 
 class ScreenController extends StatefulWidget {
   const ScreenController({super.key});
@@ -23,6 +24,7 @@ class ScreenControllerState extends State<ScreenController> {
     const MainScreen(),
     const SearchScreen(),
     const LikedListPage(),
+    const MyPage(),
   ];
 
   void _onItemTapped(int index) {
