@@ -74,12 +74,7 @@ class _LikedListPageState extends State<LikedListPage> {
                 IconButton(
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MainScreen(),
-                      ),
-                    );
+                    Navigator.of(context).pop();
                   },
                 ),
                 const SizedBox(
