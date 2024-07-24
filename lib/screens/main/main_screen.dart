@@ -1,24 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/models/product.dart';
+import 'package:saphy/widgets/app_bar.dart';
 import 'package:saphy/widgets/product_card.dart';
 
-void main() {
-  // async {
-  // await dotenv.load(fileName: 'assets/config/.env');
-  runApp(const HomePage());
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MainScreenState extends State<MainScreen> {
   final NumberFormat numberFormat = NumberFormat('###,###,###,###');
   List<Product> productList = [
     // 그냥 구현용 샘플 데이터
@@ -67,24 +61,7 @@ class _HomePageState extends State<HomePage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: const Color(0xfff4f4f4),
-        appBar: AppBar(
-            title: Padding(
-              padding: const EdgeInsets.only(left: 20.0),
-              child: Image.asset(
-                "assets/images/SaphyLogoSmall.png",
-                height: 24,
-              ),
-            ),
-            centerTitle: false,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: IconButton(
-                  icon: const Icon(Icons.notifications_outlined),
-                  onPressed: () {},
-                ),
-              ),
-            ]),
+        appBar: const TopAppBar(),
         body: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
@@ -131,9 +108,10 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           "사피 초대하고 지원금 받기",
                           style: TextStyle(
-                              fontFamily: "Pretendard",
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold),
+                            fontFamily: "Pretendard",
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -145,7 +123,7 @@ class _HomePageState extends State<HomePage> {
               sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return productCard(
+                    return ProductCard(
                         productBrand: productList[index].productBrand ?? "",
                         productName: productList[index].productName ?? "",
                         productImageUrl:
@@ -158,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 15,
                   crossAxisSpacing: 15,
-                  childAspectRatio: 0.84,
+                  childAspectRatio: 0.7,
                 ),
               ),
               padding: const EdgeInsets.all(20.0),

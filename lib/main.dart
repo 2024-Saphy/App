@@ -4,6 +4,7 @@ import 'package:saphy/screens/welcome/signup_screen.dart';
 import 'package:saphy/screens/welcome/welcome_screen.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:saphy/utils/colors.dart';
+import 'package:saphy/utils/screen_controller.dart';
 
 void main() async {
   await dotenv.load(fileName: 'assets/config/.env');
@@ -12,7 +13,7 @@ void main() async {
   KakaoSdk.init(
     nativeAppKey: kakaoNativeAppKey,
   );
-  runApp(const MyApp());
+  runApp(const ScreenController());
 }
 
 class MyApp extends StatelessWidget {
