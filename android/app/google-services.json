@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1087162194276",
+    "project_id": "saphy-e9775",
+    "storage_bucket": "saphy-e9775.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087162194276:android:2bcd92a156f8b0b0e1c271",
+        "android_client_info": {
+          "package_name": "com.example.saphy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_bWIuhUT2yUAKN3LJEB-889dLBvYmjO0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
