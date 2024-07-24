@@ -1,5 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="com.example.saphy">
+<!-- 인터넷 사용 권한 설정-->
 <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="saphy"

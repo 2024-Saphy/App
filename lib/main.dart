@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:saphy/screens/welcome/signup_screen.dart';
 import 'package:saphy/screens/welcome/welcome_screen.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+import 'package:saphy/utils/colors.dart';
 
 void main() async {
   await dotenv.load(fileName: 'assets/config/.env');
@@ -22,13 +24,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Saphy',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: altBlack),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: WelcomeScreen.id,
       routes: {
         WelcomeScreen.id: (context) => const WelcomeScreen(),
+        SignupScreen.id: (context) => const SignupScreen(
+              socialType: '',
+              userEmail: '',
+              userName: '',
+              userPhotoUrl: '',
+              userToken: '',
+            ),
       },
     );
   }

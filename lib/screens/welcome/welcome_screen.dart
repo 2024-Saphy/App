@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:saphy/screens/welcome/signup_screen.dart';
 import 'package:saphy/service/google_login_controller.dart';
 import 'package:saphy/service/kakao_login_controller.dart';
 import 'package:saphy/service/main_view_model.dart';
+import 'package:saphy/service/secure_storage.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/widgets/login_button.dart';
 
@@ -17,7 +18,8 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  final viewModel = MainViewModel(KakaoLoginController());
+  final kakaoViewModel = MainViewModel(KakaoLoginController());
+  final googleViewModel = MainViewModel(GoogleLoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       width: 20.0,
                     ),
                     color: white,
-                    onTap: () {},
+                    onTap: () async {
+                      final GoogleSignInAccount user =
+                          await googleViewModel.login();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => SignupScreen(
+                          socialType: 'GOOGLE',
+                          userName: user.displayName,
+                          userEmail: user.email,
+                          userPhotoUrl: user.photoUrl,
+                          userToken: readAccessToken().toString(),
+                        ),
+                      ));
+                      setState(() {});
+                    },
                   ),
                   const SizedBox(height: 5.0),
                   LoginButton(
@@ -66,25 +81,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                     color: systemKakao,
                     onTap: () async {
-                      await viewModel.login();
-                      setState(() {});
-                    },
-                  ),
-                  SizedBox(
-                    width: 50.0,
-                    child: Image.network(viewModel
-                            .user?.kakaoAccount?.profile?.profileImageUrl ??
-                        'https://beforeigosolutions.com/wp-content/uploads/2021/12/dummy-profile-pic-300x300-1.png'),
-                  ),
-                  LoginButton(
-                    title: '카카오 로그아웃',
-                    logo: Image.asset(
-                      'assets/images/Kakao.png',
-                    ),
-                    color: systemKakao,
-                    onTap: () async {
-                      await viewModel.logout();
-                      setState(() {});
+                      final User user = await kakaoViewModel.login();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => SignupScreen(
+                          socialType: 'KAKAO',
+                          userName: user.kakaoAccount?.profile?.nickname,
+                          userEmail: user.kakaoAccount?.email,
+                          userPhotoUrl:
+                              user.kakaoAccount?.profile?.thumbnailImageUrl,
+                          userToken: readAccessToken().toString(),
+                        ),
+                      ));
                     },
                   ),
                   const SizedBox(height: 10.0),
@@ -104,3 +111,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 }
+
+
+                  // SizedBox(
+                  //   width: 50.0,
+                  //   child: Image.network(kakaoViewModel
+                  //           .user?.kakaoAccount?.profile?.profileImageUrl ??
+                  //       'https://beforeigosolutions.com/wp-content/uploads/2021/12/dummy-profile-pic-300x300-1.png'),
+                  // ),
+                  // LoginButton(
+                  //   title: '카카오 로그아웃',
+                  //   logo: Image.asset(
+                  //     'assets/images/Kakao.png',
+                  //   ),
+                  //   color: systemKakao,
+                  //   onTap: () async {
+                  //     await kakaoViewModel.logout();
+                  //     setState(() {});
+                  //   },
+                  // ),

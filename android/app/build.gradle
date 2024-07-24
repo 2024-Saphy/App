@@ -62,13 +62,22 @@ android {
         // manifestPlaceholders 추가 및 null 체크
         def kakaoKey = dotenv['KAKAO_NATIVE_APP_KEY']
         if (kakaoKey == null) {
-            throw new GradleException("KAKAO_NATIVE_APP_KEY not found in .env file")
+            throw GradleException("KAKAO_NATIVE_APP_KEY not found in .env file")
         }
         manifestPlaceholders = [YOUR_NATIVE_APP_KEY: kakaoKey]
     }
 
+    signingConfigs {
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('mykey.jks')
+            storePassword 'android'
+        }
+    }
+
     buildTypes {
-        release {
+        debug {
             signingConfig signingConfigs.debug
         }
     }

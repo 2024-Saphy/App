@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:saphy/service/secure_storage.dart';
 import 'package:saphy/service/social_login.dart';
 
 class KakaoLoginController implements SocialLogin {
@@ -8,6 +9,8 @@ class KakaoLoginController implements SocialLogin {
     if (await isKakaoTalkInstalled()) {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
+        writeAccessToke(token.accessToken);
+        writeRefreshToke(token.refreshToken);
         print('Kakaotalk Login Success ${token.accessToken}');
         return true;
       } catch (error) {
