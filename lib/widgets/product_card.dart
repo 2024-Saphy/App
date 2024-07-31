@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
-// import 'package:saphy/screens/products/product_detail_page.dart';
+import 'package:saphy/screens/products/product_detail_page.dart';
 
 class ProductCard extends StatelessWidget {
   final String productBrand;
@@ -22,17 +22,17 @@ class ProductCard extends StatelessWidget {
     final NumberFormat numberFormat = NumberFormat('###,###,###,###');
     return InkWell(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => ProductDetail(
-        //       productBrand: productBrand,
-        //       productName: productName,
-        //       productImageUrl: productImageUrl,
-        //       price: price,
-        //     ),
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetail(
+              productBrand: productBrand,
+              productName: productName,
+              productImageUrl: productImageUrl,
+              price: price,
+            ),
+          ),
+        );
       },
       child: Container(
         padding: const EdgeInsets.all(10),
