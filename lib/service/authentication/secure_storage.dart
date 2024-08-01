@@ -11,7 +11,7 @@ writeAccessToke(String? value) async {
   await storage.write(key: 'AccessToken', value: value);
 }
 
-deleteAccessToke(String? value) async {
+deleteAccessToke() async {
   await storage.delete(key: 'AccessToken');
 }
 
@@ -24,6 +24,6 @@ writeRefreshToke(String? value) async {
   await storage.write(key: 'RefreshToken', value: value);
 }
 
-deleteRefreshToke(String? value) async {
+deleteRefreshToke() async {
   await storage.delete(key: 'RefreshToken');
 }

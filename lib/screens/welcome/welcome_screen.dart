@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+
 import 'package:saphy/screens/welcome/signup_screen.dart';
-import 'package:saphy/service/google_login_controller.dart';
-import 'package:saphy/service/kakao_login_controller.dart';
-import 'package:saphy/service/main_view_model.dart';
-import 'package:saphy/service/secure_storage.dart';
+import 'package:saphy/service/auth_service.dart';
+import 'package:saphy/service/authentication/google_login_controller.dart';
+import 'package:saphy/service/authentication/kakao_login_controller.dart';
+import 'package:saphy/service/authentication/main_view_model.dart';
+import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/colors.dart';
+import 'package:saphy/utils/log.dart';
+import 'package:saphy/utils/screen_controller.dart';
 import 'package:saphy/widgets/login_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -61,15 +65,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     onTap: () async {
                       final GoogleSignInAccount user =
                           await googleViewModel.login();
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => SignupScreen(
-                          socialType: 'GOOGLE',
-                          userName: user.displayName,
-                          userEmail: user.email,
-                          userPhotoUrl: user.photoUrl,
-                          userToken: readAccessToken().toString(),
-                        ),
-                      ));
+
+                      final accessToken = await readAccessToken();
+                      logger.i("TOKEN : $accessToken");
+
+                      // await loginService('GOOGLE', user.email, accessToken);
+
+                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      //   builder: (context) => SignupScreen(
+                      //     socialType: 'GOOGLE',
+                      //     userName: user.displayName,
+                      //     userEmail: user.email,
+                      //     userPhotoUrl: user.photoUrl,
+                      //     userToken: readAccessToken().toString(),
+                      //   ),
+                      // ));
                       setState(() {});
                     },
                   ),
@@ -82,16 +92,31 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     color: systemKakao,
                     onTap: () async {
                       final User user = await kakaoViewModel.login();
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => SignupScreen(
-                          socialType: 'KAKAO',
-                          userName: user.kakaoAccount?.profile?.nickname,
-                          userEmail: user.kakaoAccount?.email,
-                          userPhotoUrl:
-                              user.kakaoAccount?.profile?.thumbnailImageUrl,
-                          userToken: readAccessToken().toString(),
-                        ),
-                      ));
+
+                      final accessToken = await readAccessToken();
+                      logger.i("TOKEN : $accessToken");
+
+                      final code = await loginService(
+                          'KAKAO', user.kakaoAccount!.email!, accessToken);
+
+                      if (code == 200) {
+                        //Login Success
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const ScreenController(),
+                        ));
+                      } else if (code == 300) {
+                        //Navigate register screen
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => SignupScreen(
+                            socialType: 'KAKAO',
+                            userName: user.kakaoAccount?.profile?.nickname,
+                            userEmail: user.kakaoAccount?.email,
+                            userPhotoUrl:
+                                user.kakaoAccount?.profile?.thumbnailImageUrl,
+                            userToken: readAccessToken().toString(),
+                          ),
+                        ));
+                      }
                     },
                   ),
                   const SizedBox(height: 10.0),

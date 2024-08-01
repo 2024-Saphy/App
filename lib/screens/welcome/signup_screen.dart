@@ -126,52 +126,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 initialValue: '',
                 labelText: '전화번호를 알려주세요',
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
-                child: NormalButton(
-                  title: '주소 찾기',
-                  color: mainPrimary,
-                  onTap: () async {
-                    flag = false;
-                    setState(() {});
-                    Map<String, String> formData =
-                        await searchAdress(context, logger);
-                    _postcodeController.value =
-                        TextEditingValue(text: formData['postcode'] ?? '');
-                    _addressController.value =
-                        TextEditingValue(text: formData['address'] ?? '');
-                    _addressDetailController.value = TextEditingValue(
-                        text: formData['address_detail'] ?? '');
-                  },
-                ),
-              ),
-              SignUpForm(
-                textEditingController: _postcodeController,
-                readOnly: true,
-                formatter: const [],
-                initialValue: '',
-                labelText: '우편번호를 검색하세요',
-              ),
-              SignUpForm(
-                textEditingController: _addressController,
-                readOnly: true,
-                formatter: const [],
-                initialValue: '',
-                labelText: '배송을 위한 주소를 검색하세요',
-              ),
-              SignUpForm(
-                textEditingController: _addressDetailController,
-                readOnly: flag,
-                formatter: const [],
-                initialValue: '',
-                labelText: '상세 주소를 입력하세요',
-              ),
               NormalButton(
                   title: '다 적었어요',
                   color: mainPrimary,
                   onTap: () {
                     logger.i(
-                      '${_nameController.text} / ${_emailController.text} / ${_phoneController.text} / ${_postcodeController.text} / ${_addressController.text}/ ${_addressDetailController.text}',
+                      '${_nameController.text} / ${_emailController.text} / ${_phoneController.text}',
                     );
                   })
             ],
@@ -181,3 +141,47 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 }
+
+ // Padding(
+              //   padding: const EdgeInsets.only(bottom: 10.0),
+              //   child: NormalButton(
+              //     title: '주소 찾기',
+              //     color: mainPrimary,
+              //     onTap: () async {
+              //       flag = false;
+              //       setState(() {});
+              //       Map<String, String> formData =
+              //           await searchAdress(context, logger);
+              //       _postcodeController.value =
+              //           TextEditingValue(text: formData['postcode'] ?? '');
+              //       _addressController.value =
+              //           TextEditingValue(text: formData['address'] ?? '');
+              //       _addressDetailController.value = TextEditingValue(
+              //           text: formData['address_detail'] ?? '');
+              //     },
+              //   ),
+              // ),
+              // SignUpForm(
+              //   textEditingController: _postcodeController,
+              //   readOnly: true,
+              //   formatter: const [],
+              //   initialValue: '',
+              //   labelText: '우편번호를 검색하세요',
+              // ),
+              // SignUpForm(
+              //   textEditingController: _addressController,
+              //   readOnly: true,
+              //   formatter: const [],
+              //   initialValue: '',
+              //   labelText: '배송을 위한 주소를 검색하세요',
+              // ),
+              // SignUpForm(
+              //   textEditingController: _addressDetailController,
+              //   readOnly: flag,
+              //   formatter: const [],
+              //   initialValue: '',
+              //   labelText: '상세 주소를 입력하세요',
+              // ),
+                    //               logger.i(
+                    //   '${_nameController.text} / ${_emailController.text} / ${_phoneController.text} / ${_postcodeController.text} / ${_addressController.text}/ ${_addressDetailController.text}',
+                    // );

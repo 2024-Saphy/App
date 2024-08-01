@@ -1,7 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:saphy/service/google_login_controller.dart';
-import 'package:saphy/service/kakao_login_controller.dart';
+import 'package:saphy/service/authentication/google_login_controller.dart';
+import 'package:saphy/service/authentication/kakao_login_controller.dart';
 import 'package:saphy/service/social_login.dart';
 
 class MainViewModel {

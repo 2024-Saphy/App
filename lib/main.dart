@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
+import 'package:saphy/screens/welcome/otp_screen.dart';
 import 'package:saphy/screens/welcome/signup_screen.dart';
 import 'package:saphy/screens/welcome/welcome_screen.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
@@ -13,7 +15,7 @@ void main() async {
   KakaoSdk.init(
     nativeAppKey: kakaoNativeAppKey,
   );
-  runApp(const ScreenController());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -39,6 +41,7 @@ class MyApp extends StatelessWidget {
               userPhotoUrl: '',
               userToken: '',
             ),
+        OtpScreen.id: (context) => const OtpScreen(),
       },
     );
   }

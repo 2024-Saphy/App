@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:saphy/service/secure_storage.dart';
+import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/service/social_login.dart';
+import 'package:saphy/utils/log.dart';
 
 class GoogleLoginController implements SocialLogin {
   static final _googleSignIn = GoogleSignIn();
@@ -15,7 +16,7 @@ class GoogleLoginController implements SocialLogin {
       final refreshToken = googleKey?.idToken;
       writeAccessToke(accessToken);
       writeRefreshToke(refreshToken);
-      print('Google Login Success $user');
+      logger.i('Google Login Success $user');
       return user;
     } catch (error) {
       print('Google Login Failed $error');
