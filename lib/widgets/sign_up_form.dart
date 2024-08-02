@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:saphy/utils/colors.dart';
 
 class SignUpForm extends StatelessWidget {
-  SignUpForm({
+  const SignUpForm({
     super.key,
     required this.initialValue,
     required this.labelText,
@@ -13,11 +13,11 @@ class SignUpForm extends StatelessWidget {
     required this.textEditingController,
   });
 
-  TextEditingController textEditingController;
-  String initialValue;
-  String labelText;
-  List<TextInputFormatter> formatter;
-  bool readOnly;
+  final TextEditingController textEditingController;
+  final String initialValue;
+  final String labelText;
+  final List<TextInputFormatter> formatter;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class SignUpForm extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(10.0),
-          color: gray200,
+          color: readOnly ? gray500 : gray200,
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10.0),
@@ -36,21 +36,21 @@ class SignUpForm extends StatelessWidget {
             controller: textEditingController,
             readOnly: readOnly,
             inputFormatters: formatter,
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: 'Pretendard-Medium',
               fontSize: 20.0,
               fontWeight: FontWeight.w400,
-              color: altBlack,
+              color: readOnly ? gray200 : altBlack,
             ),
             decoration: InputDecoration(
                 border: InputBorder.none,
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 labelText: labelText,
-                labelStyle: const TextStyle(
+                labelStyle: TextStyle(
                   fontFamily: 'Pretendard-Medium',
                   fontSize: 15.0,
                   fontWeight: FontWeight.w300,
-                  color: altBlack,
+                  color: readOnly ? gray200 : altBlack,
                 )),
           ),
         ),

@@ -1,12 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/web.dart';
+import 'package:saphy/screens/welcome/otp_screen.dart';
+import 'package:saphy/service/auth_service.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/phone_input_formatter.dart';
-import 'package:saphy/utils/search_adress.dart';
-import 'package:saphy/widgets/login_button.dart';
 import 'package:saphy/widgets/normal_button.dart';
 import 'package:saphy/widgets/sign_up_form.dart';
 
@@ -38,15 +38,12 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   Logger logger = Logger();
-  bool flag = true;
+  static bool phoneAuth = false;
+  String userPhoneNumber = '010-';
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _postcodeController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _addressDetailController =
-      TextEditingController();
 
   String? socialType;
   String? userName;
@@ -64,9 +61,6 @@ class _SignupScreenState extends State<SignupScreen> {
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
-    _postcodeController.dispose();
-    _addressController.dispose();
-    _addressDetailController.dispose();
     super.dispose();
   }
 
@@ -103,37 +97,93 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               SignUpForm(
                 textEditingController: _nameController,
-                readOnly: false,
+                readOnly: true,
                 formatter: const [],
                 initialValue: userName ?? '',
                 labelText: '어떻게 불러드릴까요?',
               ),
               SignUpForm(
                 textEditingController: _emailController,
-                readOnly: false,
+                readOnly: true,
                 formatter: const [],
                 initialValue: userEmail ?? '',
                 labelText: '이메일을 알려주세요',
               ),
               SignUpForm(
                 textEditingController: _phoneController,
-                readOnly: false,
+                readOnly: phoneAuth,
                 formatter: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(11),
                   PhoneInputFormatter(),
                 ],
-                initialValue: '',
+                initialValue: userPhoneNumber,
                 labelText: '전화번호를 알려주세요',
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 100.0),
+                child: NormalButton(
+                    title: "인증번호 전송",
+                    color: phoneAuth ? gray300 : mainPrimary,
+                    flag: !phoneAuth,
+                    onTap: () async {
+                      String phoneNumber = _phoneController.text.trim();
+                      String formattedNumber = '';
+                      if (phoneNumber.isNotEmpty) {
+                        // '-'를 제거하고, 앞에 +82를 붙임
+                        formattedNumber = phoneNumber
+                            .replaceAll('-', '') // '-' 제거
+                            .replaceFirst(
+                                '010', '+8210'); // '010'을 '+8210'으로 변환
+                      }
+                      logger.i(formattedNumber);
+                      await FirebaseAuth.instance.verifyPhoneNumber(
+                        phoneNumber: formattedNumber,
+                        verificationCompleted: (PhoneAuthCredential) {},
+                        verificationFailed: (error) {
+                          logger.i(error);
+                        },
+                        codeSent: (verificationId, forceResendingToken) {
+                          //if code is send successfully then nevigate to next screen
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => OtpScreen(
+                                verificationId: verificationId,
+                                phoneNumber: formattedNumber,
+                                onVerificationSuccess: () {
+                                  setState(() {
+                                    phoneAuth = true;
+                                    userPhoneNumber = _phoneController.text;
+                                  });
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                        codeAutoRetrievalTimeout: (verificationId) {},
+                      );
+                    }),
+              ),
+              const SizedBox(
+                height: 50.0,
+              ),
               NormalButton(
-                  title: '다 적었어요',
-                  color: mainPrimary,
-                  onTap: () {
-                    logger.i(
-                      '${_nameController.text} / ${_emailController.text} / ${_phoneController.text}',
-                    );
-                  })
+                title: '사피 시작하기',
+                color: phoneAuth ? mainPrimary : gray400,
+                flag: phoneAuth,
+                onTap: () {
+                  logger.i(
+                    '${_nameController.text} / ${_emailController.text} / ${_phoneController.text} / ${widget.userPhotoUrl} / ${widget.userToken}',
+                  );
+                  joinService(
+                      widget.socialType!,
+                      _emailController.text,
+                      _nameController.text,
+                      widget.userPhotoUrl ?? '',
+                      _phoneController.text,
+                      widget.userToken!);
+                },
+              )
             ],
           ),
         ),
@@ -142,6 +192,23 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // final TextEditingController _postcodeController = TextEditingController();
+  // final TextEditingController _addressController = TextEditingController();
+  // final TextEditingController _addressDetailController =
+  //     TextEditingController();
  // Padding(
               //   padding: const EdgeInsets.only(bottom: 10.0),
               //   child: NormalButton(

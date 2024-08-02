@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-
 import 'package:saphy/screens/welcome/signup_screen.dart';
 import 'package:saphy/service/auth_service.dart';
 import 'package:saphy/service/authentication/google_login_controller.dart';
@@ -63,11 +62,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                     color: white,
                     onTap: () async {
-                      final GoogleSignInAccount user =
-                          await googleViewModel.login();
+                      // final GoogleSignInAccount user =
+                      //     await googleViewModel.login();
 
-                      final accessToken = await readAccessToken();
-                      logger.i("TOKEN : $accessToken");
+                      // final accessToken = await readAccessToken();
+                      // logger.i("TOKEN : $accessToken");
 
                       // await loginService('GOOGLE', user.email, accessToken);
 
@@ -113,7 +112,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             userEmail: user.kakaoAccount?.email,
                             userPhotoUrl:
                                 user.kakaoAccount?.profile?.thumbnailImageUrl,
-                            userToken: readAccessToken().toString(),
+                            userToken: accessToken,
                           ),
                         ));
                       }
