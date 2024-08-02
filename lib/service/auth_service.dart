@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:saphy/models/status.dart';
 import 'package:saphy/service/api_service.dart';
+import 'package:saphy/utils/log.dart';
 
 Future<int?> loginService(String socialType, String email, String token) async {
   final socialTypeLowerCase = socialType.toLowerCase();
@@ -10,18 +14,24 @@ Future<int?> loginService(String socialType, String email, String token) async {
       contentType: 'application/json',
       token: token,
     );
+
+    final responseData = response.data;
+    final statusCode = responseData['status']['code'];
+    logger.i('Status code: $statusCode');
+
     if (response.statusCode == 200) {
-      print('API call login successful: ${response.data}');
-      return response.statusCode;
+      logger.i('API call login successful: ${response.data}');
+      return statusCode;
     } else if (response.statusCode == 300) {
-      print('API call successful, redirect register screen: ${response.data}');
-      return response.statusCode;
+      logger
+          .i('API call successful, redirect register screen: ${response.data}');
+      return statusCode;
     } else {
-      print('API call failed: ${response.statusMessage}');
-      return response.statusCode;
+      logger.i('API call failed: ${response.statusMessage}');
+      return statusCode;
     }
   } catch (e) {
-    print('Network error occurred: $e');
+    logger.i('Network error occurred: $e');
   }
   return null;
 }
