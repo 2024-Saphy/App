@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:saphy/models/loginInfo.dart';
 import 'package:saphy/screens/welcome/otp_screen.dart';
 import 'package:saphy/screens/welcome/signup_screen.dart';
 import 'package:saphy/screens/welcome/welcome_screen.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+import 'package:saphy/service/auth_service.dart';
+import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/screen_controller.dart';
 
@@ -40,7 +45,6 @@ class MyApp extends StatelessWidget {
               userEmail: '',
               userName: '',
               userPhotoUrl: '',
-              userToken: '',
             ),
         OtpScreen.id: (context) => OtpScreen(
               verificationId: '',

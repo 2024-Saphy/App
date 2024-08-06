@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:saphy/models/loginInfo.dart';
+import 'package:saphy/screens/welcome/loding_screen.dart';
 import 'package:saphy/screens/welcome/signup_screen.dart';
 import 'package:saphy/service/auth_service.dart';
 import 'package:saphy/service/authentication/google_login_controller.dart';
@@ -21,11 +25,48 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  bool _isLoading = true;
   final kakaoViewModel = MainViewModel(KakaoLoginController());
   final googleViewModel = MainViewModel(GoogleLoginController());
 
   @override
+  void initState() {
+    super.initState();
+    _autoLogin();
+  }
+
+  Future<void> _autoLogin() async {
+    final loginInfo = await readLoginInfo();
+    final jwt = await readJwt();
+    if (loginInfo != null) {
+      LoginInfo userInfo = LoginInfo.fromJson(jsonDecode(loginInfo));
+      final code = await loginService(userInfo.socialType, userInfo.email!);
+      if (code == 200) {
+        logger.i(
+            "Auto Login Success : ${userInfo.email}, ${userInfo.socialType}, / JWT : $jwt");
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const ScreenController(),
+          ),
+        );
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const LoadingScreen();
+    }
+
     return Scaffold(
       body: Column(
         children: [
@@ -62,24 +103,27 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                     color: white,
                     onTap: () async {
-                      // final GoogleSignInAccount user =
-                      //     await googleViewModel.login();
+                      final GoogleSignInAccount user =
+                          await googleViewModel.login();
 
-                      // final accessToken = await readAccessToken();
-                      // logger.i("TOKEN : $accessToken");
+                      final code = await loginService('GOOGLE', user.email);
 
-                      // await loginService('GOOGLE', user.email, accessToken);
-
-                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      //   builder: (context) => SignupScreen(
-                      //     socialType: 'GOOGLE',
-                      //     userName: user.displayName,
-                      //     userEmail: user.email,
-                      //     userPhotoUrl: user.photoUrl,
-                      //     userToken: readAccessToken().toString(),
-                      //   ),
-                      // ));
-                      setState(() {});
+                      if (code == 200) {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const ScreenController(),
+                        ));
+                      } else if (code == 300) {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => SignupScreen(
+                              socialType: 'GOOGLE',
+                              userName: user.displayName,
+                              userEmail: user.email,
+                              userPhotoUrl: user.photoUrl,
+                            ),
+                          ),
+                        );
+                      }
                     },
                   ),
                   const SizedBox(height: 5.0),
@@ -91,13 +135,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     color: systemKakao,
                     onTap: () async {
                       final User user = await kakaoViewModel.login();
-
-                      final accessToken = await readAccessToken();
-                      logger.i("TOKEN : $accessToken");
-
                       final code = await loginService(
-                          'KAKAO', user.kakaoAccount!.email!, accessToken);
-
+                        'KAKAO',
+                        user.kakaoAccount!.email!,
+                      );
                       if (code == 200) {
                         //Login Success
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -105,16 +146,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ));
                       } else if (code == 300) {
                         //Navigate register screen
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => SignupScreen(
-                            socialType: 'KAKAO',
-                            userName: user.kakaoAccount?.profile?.nickname,
-                            userEmail: user.kakaoAccount?.email,
-                            userPhotoUrl:
-                                user.kakaoAccount?.profile?.thumbnailImageUrl,
-                            userToken: accessToken,
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => SignupScreen(
+                              socialType: 'KAKAO',
+                              userName: user.kakaoAccount?.profile?.nickname,
+                              userEmail: user.kakaoAccount?.email,
+                              userPhotoUrl:
+                                  user.kakaoAccount?.profile?.thumbnailImageUrl,
+                            ),
                           ),
-                        ));
+                        );
                       }
                     },
                   ),

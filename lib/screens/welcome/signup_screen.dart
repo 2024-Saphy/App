@@ -5,26 +5,27 @@ import 'package:flutter/widgets.dart';
 import 'package:logger/web.dart';
 import 'package:saphy/screens/welcome/otp_screen.dart';
 import 'package:saphy/service/auth_service.dart';
+import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/phone_input_formatter.dart';
+import 'package:saphy/utils/screen_controller.dart';
 import 'package:saphy/widgets/normal_button.dart';
 import 'package:saphy/widgets/sign_up_form.dart';
 
 class SignupScreen extends StatefulWidget {
   static String id = 'signup_screen';
-  const SignupScreen(
-      {super.key,
-      required this.socialType,
-      required this.userEmail,
-      required this.userName,
-      required this.userPhotoUrl,
-      required this.userToken});
+  const SignupScreen({
+    super.key,
+    required this.socialType,
+    required this.userEmail,
+    required this.userName,
+    required this.userPhotoUrl,
+  });
 
   final String? socialType;
   final String? userEmail;
   final String? userName;
   final String? userPhotoUrl;
-  final String? userToken;
 
   @override
   State<SignupScreen> createState() => _SignupScreenState(
@@ -32,7 +33,6 @@ class SignupScreen extends StatefulWidget {
         userName: userName,
         userEmail: userEmail,
         userPhotoUrl: userPhotoUrl,
-        userToken: userToken,
       );
 }
 
@@ -171,17 +171,21 @@ class _SignupScreenState extends State<SignupScreen> {
                 title: '사피 시작하기',
                 color: phoneAuth ? mainPrimary : gray400,
                 flag: phoneAuth,
-                onTap: () {
+                onTap: () async {
                   logger.i(
-                    '${_nameController.text} / ${_emailController.text} / ${_phoneController.text} / ${widget.userPhotoUrl} / ${widget.userToken}',
+                    '${_nameController.text} / ${_emailController.text} / ${_phoneController.text} / ${widget.userPhotoUrl} /',
                   );
-                  joinService(
-                      widget.socialType!,
-                      _emailController.text,
-                      _nameController.text,
-                      widget.userPhotoUrl ?? '',
-                      _phoneController.text,
-                      widget.userToken!);
+                  final code = await joinService(
+                    widget.socialType!,
+                    _emailController.text,
+                    _nameController.text,
+                    _phoneController.text,
+                  );
+                  if (code == 200) {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const ScreenController(),
+                    ));
+                  }
                 },
               )
             ],
