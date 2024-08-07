@@ -3,7 +3,7 @@ package="com.example.saphy">
 <!-- 인터넷 사용 권한 설정-->
 <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="saphy"
+        android:label="Saphy"
         android:icon="@mipmap/ic_launcher">
          <!-- 카카오 로그인 커스텀 URL 스킴 설정 -->
     <activity 
