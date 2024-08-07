@@ -1,30 +1,31 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/web.dart';
+import 'package:saphy/screens/welcome/otp_screen.dart';
+import 'package:saphy/service/auth_service.dart';
+import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/phone_input_formatter.dart';
-import 'package:saphy/utils/search_adress.dart';
-import 'package:saphy/widgets/login_button.dart';
+import 'package:saphy/utils/screen_controller.dart';
 import 'package:saphy/widgets/normal_button.dart';
 import 'package:saphy/widgets/sign_up_form.dart';
 
 class SignupScreen extends StatefulWidget {
   static String id = 'signup_screen';
-  const SignupScreen(
-      {super.key,
-      required this.socialType,
-      required this.userEmail,
-      required this.userName,
-      required this.userPhotoUrl,
-      required this.userToken});
+  const SignupScreen({
+    super.key,
+    required this.socialType,
+    required this.userEmail,
+    required this.userName,
+    required this.userPhotoUrl,
+  });
 
   final String? socialType;
   final String? userEmail;
   final String? userName;
   final String? userPhotoUrl;
-  final String? userToken;
 
   @override
   State<SignupScreen> createState() => _SignupScreenState(
@@ -32,21 +33,17 @@ class SignupScreen extends StatefulWidget {
         userName: userName,
         userEmail: userEmail,
         userPhotoUrl: userPhotoUrl,
-        userToken: userToken,
       );
 }
 
 class _SignupScreenState extends State<SignupScreen> {
   Logger logger = Logger();
-  bool flag = true;
+  static bool phoneAuth = false;
+  String userPhoneNumber = '010-';
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _postcodeController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _addressDetailController =
-      TextEditingController();
 
   String? socialType;
   String? userName;
@@ -64,9 +61,6 @@ class _SignupScreenState extends State<SignupScreen> {
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
-    _postcodeController.dispose();
-    _addressController.dispose();
-    _addressDetailController.dispose();
     super.dispose();
   }
 
@@ -103,77 +97,97 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               SignUpForm(
                 textEditingController: _nameController,
-                readOnly: false,
+                readOnly: true,
                 formatter: const [],
                 initialValue: userName ?? '',
                 labelText: '어떻게 불러드릴까요?',
               ),
               SignUpForm(
                 textEditingController: _emailController,
-                readOnly: false,
+                readOnly: true,
                 formatter: const [],
                 initialValue: userEmail ?? '',
                 labelText: '이메일을 알려주세요',
               ),
               SignUpForm(
                 textEditingController: _phoneController,
-                readOnly: false,
+                readOnly: phoneAuth,
                 formatter: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(11),
                   PhoneInputFormatter(),
                 ],
-                initialValue: '',
+                initialValue: userPhoneNumber,
                 labelText: '전화번호를 알려주세요',
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 100.0),
                 child: NormalButton(
-                  title: '주소 찾기',
-                  color: mainPrimary,
-                  onTap: () async {
-                    flag = false;
-                    setState(() {});
-                    Map<String, String> formData =
-                        await searchAdress(context, logger);
-                    _postcodeController.value =
-                        TextEditingValue(text: formData['postcode'] ?? '');
-                    _addressController.value =
-                        TextEditingValue(text: formData['address'] ?? '');
-                    _addressDetailController.value = TextEditingValue(
-                        text: formData['address_detail'] ?? '');
-                  },
-                ),
+                    title: "인증번호 전송",
+                    color: phoneAuth ? gray300 : mainPrimary,
+                    flag: !phoneAuth,
+                    onTap: () async {
+                      String phoneNumber = _phoneController.text.trim();
+                      String formattedNumber = '';
+                      if (phoneNumber.isNotEmpty) {
+                        // '-'를 제거하고, 앞에 +82를 붙임
+                        formattedNumber = phoneNumber
+                            .replaceAll('-', '') // '-' 제거
+                            .replaceFirst(
+                                '010', '+8210'); // '010'을 '+8210'으로 변환
+                      }
+                      logger.i(formattedNumber);
+                      await FirebaseAuth.instance.verifyPhoneNumber(
+                        phoneNumber: formattedNumber,
+                        verificationCompleted: (PhoneAuthCredential) {},
+                        verificationFailed: (error) {
+                          logger.i(error);
+                        },
+                        codeSent: (verificationId, forceResendingToken) {
+                          //if code is send successfully then nevigate to next screen
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => OtpScreen(
+                                verificationId: verificationId,
+                                phoneNumber: formattedNumber,
+                                onVerificationSuccess: () {
+                                  setState(() {
+                                    phoneAuth = true;
+                                    userPhoneNumber = _phoneController.text;
+                                  });
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                        codeAutoRetrievalTimeout: (verificationId) {},
+                      );
+                    }),
               ),
-              SignUpForm(
-                textEditingController: _postcodeController,
-                readOnly: true,
-                formatter: const [],
-                initialValue: '',
-                labelText: '우편번호를 검색하세요',
-              ),
-              SignUpForm(
-                textEditingController: _addressController,
-                readOnly: true,
-                formatter: const [],
-                initialValue: '',
-                labelText: '배송을 위한 주소를 검색하세요',
-              ),
-              SignUpForm(
-                textEditingController: _addressDetailController,
-                readOnly: flag,
-                formatter: const [],
-                initialValue: '',
-                labelText: '상세 주소를 입력하세요',
+              const SizedBox(
+                height: 50.0,
               ),
               NormalButton(
-                  title: '다 적었어요',
-                  color: mainPrimary,
-                  onTap: () {
-                    logger.i(
-                      '${_nameController.text} / ${_emailController.text} / ${_phoneController.text} / ${_postcodeController.text} / ${_addressController.text}/ ${_addressDetailController.text}',
-                    );
-                  })
+                title: '사피 시작하기',
+                color: phoneAuth ? mainPrimary : gray400,
+                flag: phoneAuth,
+                onTap: () async {
+                  logger.i(
+                    '${_nameController.text} / ${_emailController.text} / ${_phoneController.text} / ${widget.userPhotoUrl} /',
+                  );
+                  final code = await joinService(
+                    widget.socialType!,
+                    _emailController.text,
+                    _nameController.text,
+                    _phoneController.text,
+                  );
+                  if (code == 200) {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const ScreenController(),
+                    ));
+                  }
+                },
+              )
             ],
           ),
         ),
@@ -181,3 +195,64 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // final TextEditingController _postcodeController = TextEditingController();
+  // final TextEditingController _addressController = TextEditingController();
+  // final TextEditingController _addressDetailController =
+  //     TextEditingController();
+ // Padding(
+              //   padding: const EdgeInsets.only(bottom: 10.0),
+              //   child: NormalButton(
+              //     title: '주소 찾기',
+              //     color: mainPrimary,
+              //     onTap: () async {
+              //       flag = false;
+              //       setState(() {});
+              //       Map<String, String> formData =
+              //           await searchAdress(context, logger);
+              //       _postcodeController.value =
+              //           TextEditingValue(text: formData['postcode'] ?? '');
+              //       _addressController.value =
+              //           TextEditingValue(text: formData['address'] ?? '');
+              //       _addressDetailController.value = TextEditingValue(
+              //           text: formData['address_detail'] ?? '');
+              //     },
+              //   ),
+              // ),
+              // SignUpForm(
+              //   textEditingController: _postcodeController,
+              //   readOnly: true,
+              //   formatter: const [],
+              //   initialValue: '',
+              //   labelText: '우편번호를 검색하세요',
+              // ),
+              // SignUpForm(
+              //   textEditingController: _addressController,
+              //   readOnly: true,
+              //   formatter: const [],
+              //   initialValue: '',
+              //   labelText: '배송을 위한 주소를 검색하세요',
+              // ),
+              // SignUpForm(
+              //   textEditingController: _addressDetailController,
+              //   readOnly: flag,
+              //   formatter: const [],
+              //   initialValue: '',
+              //   labelText: '상세 주소를 입력하세요',
+              // ),
+                    //               logger.i(
+                    //   '${_nameController.text} / ${_emailController.text} / ${_phoneController.text} / ${_postcodeController.text} / ${_addressController.text}/ ${_addressDetailController.text}',
+                    // );

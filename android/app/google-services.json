@@ -1,26 +1,52 @@
 {
   "project_info": {
-    "project_number": "1087162194276",
-    "project_id": "saphy-e9775",
-    "storage_bucket": "saphy-e9775.appspot.com"
+    "project_number": "754445879555",
+    "project_id": "saphy-27f69",
+    "storage_bucket": "saphy-27f69.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1087162194276:android:2bcd92a156f8b0b0e1c271",
+        "mobilesdk_app_id": "1:754445879555:android:a8dc2d555589872e04c136",
         "android_client_info": {
           "package_name": "com.example.saphy"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "754445879555-2cf68o04seos49f93a81tnu8mr49ev7k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.saphy",
+            "certificate_hash": "de75bd90a439941e86d2d5df7b44b4450bc27233"
+          }
+        },
+        {
+          "client_id": "754445879555-msrjakrvhv016ltraa30o6qak37ajqoi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.saphy",
+            "certificate_hash": "c51808929095346237d2a1b2f70f998fab61643b"
+          }
+        },
+        {
+          "client_id": "754445879555-e2lt672vru7gia1kih23rpo3kq725m39.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyA_bWIuhUT2yUAKN3LJEB-889dLBvYmjO0"
+          "current_key": "AIzaSyDvgHWxTCbZ8jlDktwOtfAnacs5JN2ZI9o"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "754445879555-e2lt672vru7gia1kih23rpo3kq725m39.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

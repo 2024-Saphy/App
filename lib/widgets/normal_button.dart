@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:saphy/utils/colors.dart';
 
 class NormalButton extends StatelessWidget {
-  NormalButton({
+  const NormalButton({
     super.key,
     required this.title,
     required this.color,
     required this.onTap,
+    required this.flag,
   });
 
-  String title;
-  Color color;
-  Function() onTap;
+  final String title;
+  final Color color;
+  final bool flag;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      onPressed: onTap,
+      onPressed: flag ? onTap : () {},
       style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),

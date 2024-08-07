@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:saphy/utils/colors.dart';
 
 class LoginButton extends StatelessWidget {
-  LoginButton({
+  const LoginButton({
     super.key,
     required this.title,
     required this.logo,
@@ -10,10 +10,10 @@ class LoginButton extends StatelessWidget {
     required this.onTap,
   });
 
-  String title;
-  Image logo;
-  Color color;
-  Function() onTap;
+  final String title;
+  final Image logo;
+  final Color color;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {

@@ -37,21 +37,24 @@ dependencies:
   google_sign_in: ^6.2.1
   dio: ^5.5.0+1
   platform: ^3.1.5
-  shared_preferences: ^2.2.3
+  # shared_preferences: ^2.3.0
   crypto: ^3.0.3
   encrypt: ^5.0.3
   kakao_flutter_sdk_user: ^1.9.0
   kakao_flutter_sdk_talk: ^1.9.0
-  flutter_secure_storage: ^4.2.1
+  flutter_secure_storage: ^9.2.2
   remedi_kopo: ^0.0.2
   logger: ^2.4.0
+  pretty_dio_logger: ^1.4.0
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.16.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
   json_serializable: ^6.8.0
 
 flutter:

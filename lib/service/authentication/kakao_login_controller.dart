@@ -1,7 +1,9 @@
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:saphy/service/secure_storage.dart';
+import 'package:saphy/models/loginInfo.dart';
+import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/service/social_login.dart';
+import 'package:saphy/utils/log.dart';
 
 class KakaoLoginController implements SocialLogin {
   @override
@@ -9,31 +11,35 @@ class KakaoLoginController implements SocialLogin {
     if (await isKakaoTalkInstalled()) {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-        writeAccessToke(token.accessToken);
-        writeRefreshToke(token.refreshToken);
-        print('Kakaotalk Login Success ${token.accessToken}');
+        await writeAccessToke(token.accessToken);
+        await writeRefreshToke(token.refreshToken);
+        logger.i('Kakaotalk Login Success ${token.accessToken}');
         return true;
       } catch (error) {
-        print('Kakaotalk Login Failed $error');
+        logger.i('Kakaotalk Login Failed $error');
         if (error is PlatformException && error.code == 'CANCELED') {
           return false;
         }
         try {
           OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-          print('KakaoAccount Login Success ${token.accessToken}');
+          await writeAccessToke(token.accessToken);
+          await writeRefreshToke(token.refreshToken);
+          logger.i('KakaoAccount Login Success ${token.accessToken}');
           return true;
         } catch (error) {
-          print('KakaoAccount Login Failed $error');
+          logger.i('KakaoAccount Login Failed $error');
           return false;
         }
       }
     } else {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-        print('KakaoAccount Login Success ${token.accessToken}');
+        logger.i('KakaoAccount Login Success ${token.accessToken}');
+        await writeAccessToke(token.accessToken);
+        await writeRefreshToke(token.refreshToken);
         return true;
       } catch (error) {
-        print('KakaoAccount Login Failed $error');
+        logger.i('KakaoAccount Login Failed $error');
         return false;
       }
     }
@@ -43,10 +49,10 @@ class KakaoLoginController implements SocialLogin {
   Future logout() async {
     try {
       await UserApi.instance.unlink();
-      print('Kakao Logout Success');
+      logger.i('Kakao Logout Success');
       return true;
     } catch (error) {
-      print('Kakao Logout Failed $error');
+      logger.i('Kakao Logout Failed $error');
       return false;
     }
   }
