@@ -67,6 +67,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -124,7 +125,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 100.0),
                 child: NormalButton(
                     title: "인증번호 전송",
-                    color: phoneAuth ? gray300 : mainPrimary,
+                    bgColor: phoneAuth ? gray300 : mainPrimary,
+                    txtColor: black,
                     flag: !phoneAuth,
                     onTap: () async {
                       String phoneNumber = _phoneController.text.trim();
@@ -169,7 +171,8 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               NormalButton(
                 title: '사피 시작하기',
-                color: phoneAuth ? mainPrimary : gray400,
+                bgColor: phoneAuth ? mainPrimary : gray400,
+                txtColor: black,
                 flag: phoneAuth,
                 onTap: () async {
                   logger.i(

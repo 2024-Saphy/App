@@ -5,13 +5,15 @@ class NormalButton extends StatelessWidget {
   const NormalButton({
     super.key,
     required this.title,
-    required this.color,
+    required this.bgColor,
+    required this.txtColor,
     required this.onTap,
     required this.flag,
   });
 
   final String title;
-  final Color color;
+  final Color bgColor;
+  final Color txtColor;
   final bool flag;
   final Function() onTap;
 
@@ -30,15 +32,17 @@ class NormalButton extends StatelessWidget {
         ),
         surfaceTintColor: Colors.transparent,
         overlayColor: Colors.transparent,
-        backgroundColor: color,
+        backgroundColor: bgColor,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             title,
-            style: const TextStyle(
-                fontFamily: 'Pretendard-Medium', fontSize: 15.0, color: black),
+            style: TextStyle(
+                fontFamily: 'Pretendard-Medium',
+                fontSize: 15.0,
+                color: txtColor),
           ),
         ],
       ),
