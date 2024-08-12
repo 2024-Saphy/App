@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:saphy/widgets/app_bar.dart';
+import 'package:saphy/screens/mypage/edit_profile.dart';
+import 'package:saphy/screens/mypage/setting.dart';
 
 class MyPage extends StatefulWidget {
-  const MyPage({Key? key}) : super(key: key);
+  const MyPage({super.key});
 
   @override
   _MyPageState createState() => _MyPageState();
@@ -32,7 +33,11 @@ class _MyPageState extends State<MyPage> {
               icon: const Icon(Icons.settings),
               onPressed: () {
                 // 설정 페이지 이동
-
+                Navigator.of(context).push(
+                    CupertinoPageRoute(
+                        builder: (context) => const SettingPage()
+                    )
+                );
               },
             ),
           ),
@@ -97,7 +102,11 @@ class _MyPageState extends State<MyPage> {
                   const SizedBox(height: 15),
                   InkWell(
                     onTap: (){
-
+                      Navigator.of(context).push(
+                          CupertinoPageRoute(
+                              builder: (context) => const EditProfile()
+                          )
+                      );
                     },
                     child: Container(
                       padding: const EdgeInsets.only(top: 3, bottom: 3),
@@ -109,7 +118,7 @@ class _MyPageState extends State<MyPage> {
                           color: Colors.black38,
                         ),
                       ),
-                      child: const Text("개인정보 수정", style: TextStyle(
+                      child: const Text("프로필 수정", style: TextStyle(
                         fontSize: 13,
                         fontFamily: "Pretendard",
                         fontWeight: FontWeight.w500,
