@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -20,7 +21,7 @@ class BottomNavBar extends StatelessWidget {
       onTap: onTap,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: FaIcon(FontAwesomeIcons.house, size: 20.0),
           label: "홈",
         ),
         //BottomNavigationBarItem(
@@ -28,16 +29,20 @@ class BottomNavBar extends StatelessWidget {
         // label: "수리센터",
         // ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
+          icon: FaIcon(FontAwesomeIcons.magnifyingGlass, size: 20.0),
           label: "탐색",
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
+          icon: FaIcon(FontAwesomeIcons.solidGem, size: 20.0),
+          label: "판매",
+        ),
+        BottomNavigationBarItem(
+          icon: FaIcon(FontAwesomeIcons.solidHeart, size: 20.0),
           label: "찜 목록",
         ),
         BottomNavigationBarItem(
-        icon: Icon(Icons.person),
-        label: "나의 사피",
+          icon: FaIcon(FontAwesomeIcons.solidUser, size: 20.0),
+          label: "나의 사피",
         ),
       ],
     );

@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:saphy/screens/selling/photo_screen.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/widgets/normal_button.dart';
@@ -16,17 +14,15 @@ class _ProcessScreenState extends State<ProcessScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          const Expanded(
-            flex: 2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 40.0,
-                ),
-                Text(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(left: 20.0, top: 40.0, bottom: 100.0),
+                child: Text(
                   '판매절차를\n알려드릴게요',
                   style: TextStyle(
                     fontFamily: 'Pretendard',
@@ -35,50 +31,44 @@ class _ProcessScreenState extends State<ProcessScreen> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-              ],
-            ),
+              ),
+              const Process(
+                number: '1',
+                content: '사진 촬영 지침에 맞게 \n제품 사진 촬영하기!',
+              ),
+              const Process(
+                number: '2',
+                content: '사진 촬영 지침에 맞게 \n제품 사진 촬영하기!',
+              ),
+              const Process(
+                number: '3',
+                content: '사진 촬영 지침에 맞게 \n제품 사진 촬영하기!',
+              ),
+              const Process(
+                number: '4',
+                content: '사진 촬영 지침에 맞게 \n제품 사진 촬영하기!',
+              ),
+              const SizedBox(height: 100.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                child: NormalButton(
+                  title: '확인했어요',
+                  bgColor: black,
+                  txtColor: white,
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const PhotoScreen(),
+                    ));
+                  },
+                  flag: true,
+                ),
+              ),
+              const SizedBox(
+                height: 30.0,
+              ),
+            ],
           ),
-          const Expanded(
-            flex: 3,
-            child: Column(
-              children: [
-                Process(
-                  number: '1',
-                  content: '사진 촬영 지침에 맞게 \n제품 사진 촬영하기!',
-                ),
-                Process(
-                  number: '2',
-                  content: '사진 촬영 지침에 맞게 \n제품 사진 촬영하기!',
-                ),
-                Process(
-                  number: '3',
-                  content: '사진 촬영 지침에 맞게 \n제품 사진 촬영하기!',
-                ),
-                Process(
-                  number: '4',
-                  content: '사진 촬영 지침에 맞게 \n제품 사진 촬영하기!',
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0),
-            child: NormalButton(
-              title: '확인했어요',
-              bgColor: black,
-              txtColor: white,
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const PhotoScreen(),
-                ));
-              },
-              flag: true,
-            ),
-          ),
-          const SizedBox(
-            height: 50.0,
-          )
-        ],
+        ),
       ),
     );
   }
@@ -115,13 +105,15 @@ class Process extends StatelessWidget {
             const SizedBox(
               width: 20.0,
             ),
-            Text(
-              content,
-              style: const TextStyle(
-                fontFamily: 'Pretendard',
-                fontSize: 20.0,
-                color: black,
-                fontWeight: FontWeight.w600,
+            Expanded(
+              child: Text(
+                content,
+                style: const TextStyle(
+                  fontFamily: 'Pretendard',
+                  fontSize: 20.0,
+                  color: black,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],

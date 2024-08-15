@@ -712,6 +712,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.28.0"
+  scroll_to_index:
+    dependency: transitive
+    description:
+      name: scroll_to_index
+      sha256: b707546e7500d9f070d63e5acf74fd437ec7eeeb68d3412ef7b0afada0b4f176
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   shared_preferences:
     dependency: transitive
     description:
@@ -869,6 +877,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.0"
+  toggle_list:
+    dependency: "direct main"
+    description:
+      name: toggle_list
+      sha256: c1403fb7518d88495866ba083a1f8a9cfbe74f0764dc6f45246490dab11df414
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   typed_data:
     dependency: transitive
     description:

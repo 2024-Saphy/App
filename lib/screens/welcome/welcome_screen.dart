@@ -13,7 +13,7 @@ import 'package:saphy/service/authentication/main_view_model.dart';
 import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/log.dart';
-import 'package:saphy/utils/screen_controller.dart';
+import 'package:saphy/screens/screen_controller.dart';
 import 'package:saphy/widgets/login_button.dart';
 
 class WelcomeScreen extends StatefulWidget {

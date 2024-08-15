@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saphy/screens/selling/splash_selling_screen.dart';
 import 'package:saphy/widgets/bottom_nav_bar.dart';
 import 'package:saphy/screens/main/main_screen.dart';
 import 'package:saphy/screens/products/liked_list_page.dart';
@@ -23,6 +24,7 @@ class ScreenControllerState extends State<ScreenController> {
   final List<Widget> _widgetOptions = <Widget>[
     const MainScreen(),
     const SearchScreen(),
+    const SplashSellingScreen(),
     const LikedListPage(),
     const MyPage(),
   ];

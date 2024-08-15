@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logger/web.dart';
+import 'package:saphy/screens/screen_controller.dart';
 import 'package:saphy/screens/welcome/otp_screen.dart';
 import 'package:saphy/service/auth_service.dart';
 import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/phone_input_formatter.dart';
-import 'package:saphy/utils/screen_controller.dart';
 import 'package:saphy/widgets/normal_button.dart';
 import 'package:saphy/widgets/sign_up_form.dart';
 

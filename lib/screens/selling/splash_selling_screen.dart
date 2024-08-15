@@ -22,6 +22,7 @@ class _SplashSellingScreenState extends State<SplashSellingScreen> {
           child: Image.asset(
             fit: BoxFit.cover,
             'assets/images/products.jpg',
+            width: MediaQuery.of(context).size.width,
           ),
         ),
         const Expanded(

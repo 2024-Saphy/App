@@ -49,6 +49,7 @@ dependencies:
   firebase_core: ^2.24.2
   firebase_auth: ^4.16.0
   font_awesome_flutter: ^10.7.0
+  toggle_list: ^0.3.1
 
 dev_dependencies:
   flutter_test:
