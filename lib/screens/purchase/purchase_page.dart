@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saphy/screens/purchase/purchase_process_page.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/widgets/normal_button.dart';
 import 'package:saphy/widgets/purchase_info.dart';
@@ -102,7 +103,13 @@ class _PurchaseFooterState extends State<PurchaseFooter> {
           title: "구매하기",
           color: white,
           onTap: _isAgreed
-              ? () {}
+              ? () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => (const PurchaseProcessPage())),
+                  );
+                }
               : () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('상품 정보를 확인해 주세요.')),
