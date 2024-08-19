@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logger/web.dart';
+import 'package:saphy/screens/screen_controller.dart';
 import 'package:saphy/screens/welcome/otp_screen.dart';
 import 'package:saphy/service/auth_service.dart';
 import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/phone_input_formatter.dart';
-import 'package:saphy/utils/screen_controller.dart';
 import 'package:saphy/widgets/normal_button.dart';
 import 'package:saphy/widgets/sign_up_form.dart';
 
@@ -67,6 +67,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -124,7 +125,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 100.0),
                 child: NormalButton(
                     title: "인증번호 전송",
-                    color: phoneAuth ? gray300 : mainPrimary,
+                    bgColor: phoneAuth ? gray300 : mainPrimary,
+                    txtColor: black,
                     flag: !phoneAuth,
                     onTap: () async {
                       String phoneNumber = _phoneController.text.trim();
@@ -169,7 +171,8 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               NormalButton(
                 title: '사피 시작하기',
-                color: phoneAuth ? mainPrimary : gray400,
+                bgColor: phoneAuth ? mainPrimary : gray400,
+                txtColor: black,
                 flag: phoneAuth,
                 onTap: () async {
                   logger.i(

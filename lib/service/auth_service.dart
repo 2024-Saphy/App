@@ -12,8 +12,7 @@ Future<int?> loginService(String socialType, String email) async {
       contentType: 'application/json',
     );
 
-    final responseData = response.data;
-    final statusCode = responseData['status']['code'];
+    final statusCode = response.data['status']['code'];
     logger.i('Status code: $statusCode');
 
     if (response.statusCode == 200) {
@@ -54,16 +53,15 @@ Future<int?> joinService(
       contentType: 'application/json',
     );
 
-    final responseData = response.data;
-    final statusCode = responseData['status']['code'];
+    final statusCode = response.data['status']['code'];
     logger.i('Status code: $statusCode');
 
     if (response.statusCode == 200) {
       logger.i('API call [joinService] successful: ${response.data}');
-      final authorization = response.headers['Authorization'];
-      final jwt = authorization?[0].replaceFirst('Bearer ', '');
-      await writeJwt(jwt);
-      logger.i('JWT : $jwt');
+      // final authorization = response.headers['Authorization'];
+      // final jwt = authorization?[0].replaceFirst('Bearer ', '');
+      // await writeJwt(jwt);
+      // logger.i('JWT : $jwt');
       return statusCode;
     } else {
       logger.i('API call [loginService] failed: ${response.statusMessage}');
@@ -73,5 +71,3 @@ Future<int?> joinService(
   }
   return null;
 }
-
-autoLogin() {}

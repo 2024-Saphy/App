@@ -20,9 +20,9 @@ class APIService {
 // local -> 'http://10.0.2.2:8080/'
   String get baseUrl {
     if (kDebugMode) {
-      return 'http://3.36.34.122:8080/';
+      return 'https://saphy.site/';
     } else {
-      return 'http://3.36.34.122:8080/';
+      return 'https://saphy.site/';
     }
   }
 

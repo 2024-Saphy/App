@@ -44,6 +44,7 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Form(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -108,7 +109,8 @@ class _OtpScreenState extends State<OtpScreen> {
             ),
             NormalButton(
               title: "인증하기",
-              color: mainPrimary,
+              bgColor: mainPrimary,
+              txtColor: black,
               flag: true,
               onTap: () async {
                 logger.i(smsCode);
