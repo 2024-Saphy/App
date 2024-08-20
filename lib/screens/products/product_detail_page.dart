@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
+import 'package:saphy/screens/purchase/purchase_page.dart';
 
 class ProductDetail extends StatelessWidget {
   final String productBrand;
@@ -130,22 +131,34 @@ class ProductDetail extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          const SizedBox(
+                          SizedBox(
                             height: 50,
                             child: Center(
-                              child: Icon(Icons.add),
+                              child: IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: () {},
+                              ),
                             ),
                           ),
-                          Container(
-                            width: 130,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Center(
-                              child: Text("구매"),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const PurchasePage()),
+                              );
+                            },
+                            child: Container(
+                              width: 130,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Center(
+                                child: Text("구매"),
+                              ),
                             ),
                           ),
                           Container(

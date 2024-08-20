@@ -53,8 +53,12 @@ class _PurchaseProcessPageState extends State<PurchaseProcessPage> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 40, left: 20, right: 20),
-        child:
-            NormalButton(title: "결제", color: black, onTap: () {}, flag: true),
+        child: NormalButton(
+            title: "결제",
+            bgColor: black,
+            onTap: () {},
+            flag: true,
+            txtColor: white),
       ),
     );
   }
