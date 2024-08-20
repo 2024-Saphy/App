@@ -101,7 +101,8 @@ class _PurchaseFooterState extends State<PurchaseFooter> {
         const SizedBox(height: 10),
         NormalButton(
           title: "구매하기",
-          color: white,
+          bgColor: white,
+          txtColor: black,
           onTap: _isAgreed
               ? () {
                   Navigator.push(
