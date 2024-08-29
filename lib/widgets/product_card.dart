@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/screens/products/product_detail_page.dart';
+import 'package:saphy/utils/textstyles.dart';
 
 class ProductCard extends StatelessWidget {
-  final String productBrand;
-  final String productName;
-  final String productImageUrl;
+  final String brand;
+  final String name;
+  final String imageUrl;
   final double price;
 
   const ProductCard({
     super.key,
-    required this.productBrand,
-    required this.productName,
-    required this.productImageUrl,
+    required this.brand,
+    required this.name,
+    required this.imageUrl,
     required this.price,
   });
 
@@ -26,15 +27,17 @@ class ProductCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => ProductDetail(
-              productBrand: productBrand,
-              productName: productName,
-              productImageUrl: productImageUrl,
+              productBrand: brand,
+              productName: name,
+              productImageUrl: imageUrl,
               price: price,
             ),
           ),
         );
       },
       child: Container(
+        width: 190,
+        height: 220,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -47,7 +50,7 @@ class ProductCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
-                  image: CachedNetworkImageProvider(productImageUrl),
+                  image: CachedNetworkImageProvider(imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -62,19 +65,12 @@ class ProductCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Text(name, style: bodyBoldText()),
                       Text(
-                        productBrand,
+                        brand,
                         style: const TextStyle(
                           fontFamily: "Pretendard",
                           fontSize: 10,
-                        ),
-                      ),
-                      Text(
-                        productName,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "Pretendard",
-                          fontSize: 15,
                         ),
                       ),
                     ],

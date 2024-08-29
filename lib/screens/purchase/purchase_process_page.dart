@@ -236,13 +236,7 @@ class _PurchaseProcessPageState extends State<PurchaseProcessPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(label, style: subTitleText()),
         InkWell(
           onTap: onTap,
           child: Container(

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/models/product.dart';
-import 'package:saphy/widgets/bottom_nav_bar.dart';
 import 'package:saphy/widgets/product_card.dart';
-import 'package:saphy/screens/main/main_screen.dart';
 
 class LikedListPage extends StatefulWidget {
   const LikedListPage({super.key});
@@ -15,45 +13,87 @@ class LikedListPage extends StatefulWidget {
 
 class _LikedListPageState extends State<LikedListPage> {
   final NumberFormat numberFormat = NumberFormat('###,###,###,###');
+  final int productLength = 6;
   List<Product> productList = [
     // 그냥 구현용 샘플 데이터
-    // 아직 좋아한거 띄우는건 못함
     Product(
-        productNo: 1,
-        productBrand: "Apple",
-        productName: "Iphone 15",
-        productImageUrl: "https://picsum.photos/id/20/300/300",
-        price: 250000),
+      id: 1,
+      brand: "Apple",
+      name: "iPhone 13",
+      description: 'Latest iPhone model with A15 Bionic chip',
+      color: 'Black',
+      storage: '128GB',
+      grade: 'A',
+      imageUrl:
+          'https://i.pinimg.com/564x/f3/54/dc/f354dc1f040fc1fc4dfc4c436ad52159.jpg',
+      price: 250000,
+      stock: 50,
+    ),
     Product(
-        productNo: 2,
-        productBrand: "Apple",
-        productName: "Iphone 15",
-        productImageUrl: "https://picsum.photos/id/20/300/300",
-        price: 250000),
+      id: 2,
+      brand: "Apple",
+      name: "iPhone 13",
+      description: 'Latest iPhone model with A15 Bionic chip',
+      color: 'White',
+      storage: '128GB',
+      grade: 'A',
+      imageUrl:
+          'https://i.pinimg.com/564x/f3/54/dc/f354dc1f040fc1fc4dfc4c436ad52159.jpg',
+      price: 250000,
+      stock: 45,
+    ),
     Product(
-        productNo: 3,
-        productBrand: "Apple",
-        productName: "Iphone 15",
-        productImageUrl: "https://picsum.photos/id/20/300/300",
-        price: 250000),
+      id: 3,
+      brand: "Apple",
+      name: "iPhone 13",
+      description: 'Latest iPhone model with A15 Bionic chip',
+      color: 'Blue',
+      storage: '256GB',
+      grade: 'B',
+      imageUrl:
+          'https://i.pinimg.com/564x/f3/54/dc/f354dc1f040fc1fc4dfc4c436ad52159.jpg',
+      price: 270000,
+      stock: 40,
+    ),
     Product(
-        productNo: 4,
-        productBrand: "Apple",
-        productName: "Iphone 15",
-        productImageUrl: "https://picsum.photos/id/20/300/300",
-        price: 250000),
+      id: 4,
+      brand: "Apple",
+      name: "iPhone 13",
+      description: 'Latest iPhone model with A15 Bionic chip',
+      color: 'Red',
+      storage: '256GB',
+      grade: 'A',
+      imageUrl:
+          'https://i.pinimg.com/564x/f3/54/dc/f354dc1f040fc1fc4dfc4c436ad52159.jpg',
+      price: 280000,
+      stock: 35,
+    ),
     Product(
-        productNo: 5,
-        productBrand: "Apple",
-        productName: "Iphone 15",
-        productImageUrl: "https://picsum.photos/id/20/300/300",
-        price: 250000),
+      id: 5,
+      brand: "Apple",
+      name: "iPhone 13",
+      description: 'Latest iPhone model with A15 Bionic chip',
+      color: 'Green',
+      storage: '128GB',
+      grade: 'C',
+      imageUrl:
+          'https://i.pinimg.com/564x/f3/54/dc/f354dc1f040fc1fc4dfc4c436ad52159.jpg',
+      price: 240000,
+      stock: 30,
+    ),
     Product(
-        productNo: 6,
-        productBrand: "Apple",
-        productName: "Iphone 15",
-        productImageUrl: "https://picsum.photos/id/20/300/300",
-        price: 250000),
+      id: 6,
+      brand: "Apple",
+      name: "iPhone 13",
+      description: 'Latest iPhone model with A15 Bionic chip',
+      color: 'Pink',
+      storage: '512GB',
+      grade: 'B',
+      imageUrl:
+          'https://i.pinimg.com/564x/f3/54/dc/f354dc1f040fc1fc4dfc4c436ad52159.jpg',
+      price: 290000,
+      stock: 20,
+    ),
   ];
 
   @override
@@ -73,9 +113,7 @@ class _LikedListPageState extends State<LikedListPage> {
               children: [
                 IconButton(
                   icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () {},
                 ),
                 const SizedBox(
                   width: 250,
@@ -87,46 +125,24 @@ class _LikedListPageState extends State<LikedListPage> {
               ],
             ),
           ),
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 20,
-            ),
-          ),
-          const SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 30.0,
-              ),
-              child: Text(
-                "Wish List",
-                style: TextStyle(
-                  fontFamily: "Prompt",
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
           SliverPadding(
-            sliver: SliverGrid(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return ProductCard(
-                      productBrand: productList[index].productBrand ?? "",
-                      productName: productList[index].productName ?? "",
-                      productImageUrl: productList[index].productImageUrl ?? "",
-                      price: productList[index].price ?? 0);
-                },
-                childCount: productList.length,
-              ),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 15,
-                crossAxisSpacing: 15,
-                childAspectRatio: 0.84,
+            padding: const EdgeInsets.all(20),
+            sliver: SliverToBoxAdapter(
+              child: Wrap(
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.spaceBetween,
+                spacing: 15,
+                runSpacing: 15,
+                children: [
+                  for (int i = 0; i < productLength; i++)
+                    ProductCard(
+                        brand: productList[i].brand ?? "",
+                        name: productList[i].name ?? "",
+                        imageUrl: productList[i].imageUrl ?? "",
+                        price: productList[i].price ?? 0),
+                ],
               ),
             ),
-            padding: const EdgeInsets.all(20.0),
           ),
         ],
       ),

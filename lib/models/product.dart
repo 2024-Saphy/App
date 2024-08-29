@@ -1,33 +1,53 @@
 class Product {
-  int? productNo;
-  String? productBrand;
-  String? productName;
-  String? productImageUrl;
+  int? id;
+  String? brand;
+  String? name;
+  String? description;
+  String? color;
+  String? storage;
+  String? grade;
+  String? imageUrl;
   double? price;
+  int? stock;
 
   Product({
-    this.productNo,
-    this.productBrand,
-    this.productName,
-    this.productImageUrl,
+    this.id,
+    this.brand,
+    this.name,
+    this.description,
+    this.color,
+    this.storage,
+    this.grade,
+    this.imageUrl,
     this.price,
+    this.stock,
   });
 
   Product.fromJson(Map<String, dynamic> json) {
-    productNo = int.parse(json['productNo']);
-    productBrand = json['productBrand'];
-    productName = json['productName'];
-    productImageUrl = json['productImageUrl'];
+    id = int.parse(json['id']);
+    brand = json['brand'];
+    name = json['name'];
+    description = json['description'];
+    color = json['color'];
+    storage = json['storage'];
+    grade = json['grade'];
+    imageUrl = json['imageUrl'];
     price = double.parse(json['price']);
+    stock = int.parse(json['stock']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['productNo'] = productNo;
-    data['productBrand'] = productBrand;
-    data['productName'] = productName;
-    data['productImageUrl'] = productImageUrl;
+    data['id'] = id;
+    data['brand'] = brand;
+    data['name'] = name;
+    data['description'] = description;
+    data['color'] = color;
+    data['storage'] = storage;
+    data['grade'] = grade;
+    data['imageUrl'] = imageUrl;
     data['price'] = price;
+    data['stock'] = stock;
     return data;
   }
 }
