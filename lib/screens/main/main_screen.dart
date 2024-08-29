@@ -14,6 +14,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final NumberFormat numberFormat = NumberFormat('###,###,###,###');
+  final int productLength = 6;
   List<Product> productList = [
     // 그냥 구현용 샘플 데이터
     Product(
@@ -120,26 +121,23 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
             SliverPadding(
-              sliver: SliverGrid(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return ProductCard(
-                        productBrand: productList[index].productBrand ?? "",
-                        productName: productList[index].productName ?? "",
-                        productImageUrl:
-                            productList[index].productImageUrl ?? "",
-                        price: productList[index].price ?? 0);
-                  },
-                  childCount: productList.length,
-                ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 15,
-                  crossAxisSpacing: 15,
-                  childAspectRatio: 0.7,
+              padding: const EdgeInsets.all(20),
+              sliver: SliverToBoxAdapter(
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.spaceBetween,
+                  spacing: 15,
+                  runSpacing: 15,
+                  children: [
+                    for (int i = 0; i < productLength; i++)
+                      ProductCard(
+                          productBrand: productList[i].productBrand ?? "",
+                          productName: productList[i].productName ?? "",
+                          productImageUrl: productList[i].productImageUrl ?? "",
+                          price: productList[i].price ?? 0),
+                  ],
                 ),
               ),
-              padding: const EdgeInsets.all(20.0),
             ),
           ],
         ),

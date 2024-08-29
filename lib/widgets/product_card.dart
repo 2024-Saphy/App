@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/screens/products/product_detail_page.dart';
+import 'package:saphy/utils/textstyles.dart';
 
 class ProductCard extends StatelessWidget {
   final String productBrand;
@@ -35,6 +36,8 @@ class ProductCard extends StatelessWidget {
         );
       },
       child: Container(
+        width: 190,
+        height: 220,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -62,19 +65,12 @@ class ProductCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Text(productName, style: bodyBoldText()),
                       Text(
                         productBrand,
                         style: const TextStyle(
                           fontFamily: "Pretendard",
                           fontSize: 10,
-                        ),
-                      ),
-                      Text(
-                        productName,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "Pretendard",
-                          fontSize: 15,
                         ),
                       ),
                     ],

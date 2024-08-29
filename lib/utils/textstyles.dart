@@ -30,3 +30,11 @@ TextStyle bodyText() {
     fontFamily: "Pretendard",
   );
 }
+
+TextStyle bodyBoldText() {
+  return const TextStyle(
+    fontSize: 15,
+    fontFamily: "Pretendard",
+    fontWeight: FontWeight.w600,
+  );
+}
