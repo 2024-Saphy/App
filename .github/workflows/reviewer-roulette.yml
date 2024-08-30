@@ -9,9 +9,7 @@ jobs:
   
     runs-on: ubuntu-latest
     
-    permissions:
-      contents: read
-      pull-requests: write
+    permissions: write-all
       
     name: An example job to assign reviewers
     
