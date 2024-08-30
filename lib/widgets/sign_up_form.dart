@@ -28,7 +28,9 @@ class SignUpForm extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(10.0),
-          color: readOnly ? gray500 : gray200,
+          color: readOnly
+              ? const Color.fromARGB(200, 160, 163, 180)
+              : const Color.fromARGB(200, 223, 225, 230),
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10.0),

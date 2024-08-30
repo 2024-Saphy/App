@@ -30,14 +30,14 @@ class OtpForm extends StatelessWidget {
         },
         decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: mainPrimary, width: 2.0),
+              borderSide: const BorderSide(color: gray100, width: 2.0),
               borderRadius: BorderRadius.circular(10.0),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: mainPrimary, width: 2.0),
+              borderSide: const BorderSide(color: gray100, width: 2.0),
               borderRadius: BorderRadius.circular(10.0),
             )),
-        cursorColor: main500,
+        cursorColor: gray100,
         cursorHeight: 50.0,
         textAlign: TextAlign.center,
         textAlignVertical: TextAlignVertical.center,

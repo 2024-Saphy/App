@@ -9,14 +9,12 @@ class NormalButton extends StatelessWidget {
     required this.txtColor,
     required this.onTap,
     required this.flag,
-    this.fontColor,
   });
 
   final String title;
   final Color bgColor;
   final Color txtColor;
   final bool flag;
-  final Color? fontColor;
   final Function() onTap;
 
   @override
@@ -27,7 +25,7 @@ class NormalButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        side: const BorderSide(color: black, width: 1.0),
+        side: BorderSide(color: bgColor, width: 1.0),
         padding: const EdgeInsets.symmetric(
           horizontal: 15.0,
           vertical: 15.0,
@@ -44,7 +42,7 @@ class NormalButton extends StatelessWidget {
             style: TextStyle(
                 fontFamily: 'Pretendard',
                 fontSize: 20.0,
-                color: fontColor ?? black,
+                color: flag ? txtColor : txtSecondary,
                 fontWeight: FontWeight.bold),
           ),
         ],
