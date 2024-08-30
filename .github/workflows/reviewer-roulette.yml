@@ -6,8 +6,15 @@ on:
 
 jobs:
   example_assign_reviews:
+  
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pull-requests: write
+      
     name: An example job to assign reviewers
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
