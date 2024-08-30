@@ -1,0 +1,18 @@
+groups:
+  - name: boroboro01
+    reviewers: 1 
+    usernames:
+      - DURAM0830
+      - cho4u4o
+groups:
+  - name: DURAM0830
+    reviewers: 1 
+    usernames:
+      - boroboro01
+      - cho4u4o
+groups:
+  - name: cho4u4o
+    reviewers: 1 
+    usernames:
+      - DURAM0830
+      - boroboro01
