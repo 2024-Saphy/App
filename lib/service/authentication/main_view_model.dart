@@ -5,6 +5,7 @@ import 'package:saphy/service/authentication/google_login_controller.dart';
 import 'package:saphy/service/authentication/kakao_login_controller.dart';
 import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/service/social_login.dart';
+import 'package:saphy/utils/log.dart';
 
 class MainViewModel {
   final SocialLogin _socialLogin;
@@ -42,8 +43,12 @@ class MainViewModel {
 
   Future logout() async {
     deleteLoginInfo();
+    deleteAccessToke();
+    deleteRefreshToke();
+    deleteJwt();
     await _socialLogin.logout(); //로그아웃 실행
     isLogined = false; //로그인되어 있는지를 저장하는 변수 false값 저장
     user = null; //user 객체 null
+    logger.i("Logout 성공");
   }
 }

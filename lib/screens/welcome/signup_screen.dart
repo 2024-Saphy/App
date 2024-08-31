@@ -83,36 +83,33 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(height: 30.0),
                 formWidget(context),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: NormalButton(
-                    title: '사피 시작하기',
-                    bgColor: phoneAuth ? mainPrimary : gray400,
-                    txtColor: black,
-                    flag: phoneAuth,
-                    onTap: () async {
-                      logger.i(
-                        '${_nameController.text} / ${_emailController.text} / ${_phoneController.text} / ${widget.userPhotoUrl} /',
-                      );
-                      final code = await joinService(
-                        widget.socialType!,
-                        _emailController.text,
-                        _nameController.text,
-                        _phoneController.text,
-                      );
-                      if (code == 200) {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const ScreenController(),
-                        ));
-                      }
-                    },
-                  ),
+                NormalButton(
+                  title: '사피 시작하기',
+                  bgColor: phoneAuth ? mainPrimary : gray400,
+                  txtColor: black,
+                  flag: phoneAuth,
+                  onTap: () async {
+                    logger.i(
+                      '${_nameController.text} / ${_emailController.text} / ${_phoneController.text} / ${widget.userPhotoUrl} /',
+                    );
+                    final code = await joinService(
+                      widget.socialType!,
+                      _emailController.text,
+                      _nameController.text,
+                      _phoneController.text,
+                    );
+                    if (code == 200) {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const ScreenController(),
+                      ));
+                    }
+                  },
                 )
               ],
             ),
