@@ -15,7 +15,7 @@ class NormalButton extends StatelessWidget {
   final Color bgColor;
   final Color txtColor;
   final bool flag;
-  final Function() onTap;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {

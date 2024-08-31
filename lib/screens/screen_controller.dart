@@ -13,6 +13,7 @@ import 'package:saphy/screens/mypage/mypage.dart';
 // }
 
 class ScreenController extends StatefulWidget {
+  static String id = 'screen_controller';
   const ScreenController({super.key});
 
   @override

@@ -23,7 +23,7 @@ class SignUpForm extends StatelessWidget {
   Widget build(BuildContext context) {
     textEditingController.text = initialValue;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
+      padding: const EdgeInsets.only(bottom: 20.0),
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,

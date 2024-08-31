@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
               onVerificationSuccess: () {},
             ),
         SplashSellingScreen.id: (context) => const SplashSellingScreen(),
+        ScreenController.id: (context) => const ScreenController(),
       },
     );
   }
