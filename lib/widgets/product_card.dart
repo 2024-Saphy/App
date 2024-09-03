@@ -21,6 +21,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final NumberFormat numberFormat = NumberFormat('###,###,###,###');
+    var screenWidth = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -36,7 +37,7 @@ class ProductCard extends StatelessWidget {
         );
       },
       child: Container(
-        width: 190,
+        width: (screenWidth - 55) / 2,
         height: 220,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(

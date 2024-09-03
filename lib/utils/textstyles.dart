@@ -8,11 +8,11 @@ TextStyle titleText() {
   );
 }
 
-TextStyle titleEngText() {
+TextStyle titleText30() {
   return const TextStyle(
     fontSize: 30,
     fontWeight: FontWeight.bold,
-    fontFamily: "Prompt",
+    fontFamily: "Pretendard",
   );
 }
 
