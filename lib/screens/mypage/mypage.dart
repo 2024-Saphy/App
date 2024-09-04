@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:saphy/screens/mypage/edit_profile.dart';
 import 'package:saphy/screens/mypage/setting.dart';
 import 'package:saphy/utils/colors.dart';
@@ -13,6 +14,35 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
+
+  // 사용자 정보
+  String name = "홍길동";
+  String id = "gildong9403";
+
+  // 배송/수거 상태
+  int deliveryRequest = 0;
+  int sellingWait = 0;
+  int selling = 0;
+  int settlement = 0;
+
+  // 기기 판매 내역
+  int deviceDeliveryRequest = 0;
+  int deviceSellingWait = 0;
+  int deviceSelling = 0;
+  int deviceSettlement = 0;
+
+  // 기기 구매 내역
+  int devicePurchaseRequest = 0;
+  int devicePurchaseWait = 0;
+  int devicePurchase = 0;
+  int devicePurchaseSettlement = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,17 +193,17 @@ class _MyPageState extends State<MyPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("발송요청",
+                                    const Text("발송요청",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: "Pretendard",
                                           fontWeight: FontWeight.bold,
                                         )),
-                                    Text("0",
-                                        style: TextStyle(
+                                    Text("$deliveryRequest",
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
                                           color: Colors.blue,
@@ -186,17 +216,17 @@ class _MyPageState extends State<MyPage> {
                                   height: 40,
                                   color: Colors.black26,
                                 ),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("판매대기",
+                                    const Text("판매대기",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: "Pretendard",
                                           fontWeight: FontWeight.bold,
                                         )),
-                                    Text("0",
-                                        style: TextStyle(
+                                    Text("$sellingWait",
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
                                           color: Colors.black,
@@ -204,17 +234,17 @@ class _MyPageState extends State<MyPage> {
                                         )),
                                   ],
                                 ),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("판매 중",
+                                    const Text("판매 중",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: "Pretendard",
                                           fontWeight: FontWeight.bold,
                                         )),
-                                    Text("0",
-                                        style: TextStyle(
+                                    Text("$selling",
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
                                           color: Colors.black,
@@ -222,17 +252,17 @@ class _MyPageState extends State<MyPage> {
                                         )),
                                   ],
                                 ),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("정산완료",
+                                    const Text("정산완료",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: "Pretendard",
                                           fontWeight: FontWeight.bold,
                                         )),
-                                    Text("0",
-                                        style: TextStyle(
+                                    Text("$settlement",
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
                                           color: Colors.black,
@@ -254,7 +284,9 @@ class _MyPageState extends State<MyPage> {
                               const Spacer(),
                               // 더보기
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+
+                                },
                                 child: Container(
                                   padding: const EdgeInsets.only(
                                       top: 1, bottom: 1, left: 10, right: 10),
@@ -285,20 +317,20 @@ class _MyPageState extends State<MyPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("발송요청",
+                                    const Text("발송요청",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: "Pretendard",
                                           fontWeight: FontWeight.bold,
                                         )),
-                                    Text("0",
-                                        style: TextStyle(
+                                    Text("$deviceDeliveryRequest",
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
-                                          color: Colors.green,
+                                          color: Colors.blue,
                                           fontWeight: FontWeight.bold,
                                         )),
                                   ],
@@ -308,17 +340,17 @@ class _MyPageState extends State<MyPage> {
                                   height: 40,
                                   color: Colors.black26,
                                 ),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("판매대기",
+                                    const Text("판매대기",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: "Pretendard",
                                           fontWeight: FontWeight.bold,
                                         )),
-                                    Text("0",
-                                        style: TextStyle(
+                                    Text("$deviceSellingWait",
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
                                           color: Colors.black,
@@ -326,17 +358,17 @@ class _MyPageState extends State<MyPage> {
                                         )),
                                   ],
                                 ),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("판매 중",
+                                    const Text("판매 중",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: "Pretendard",
                                           fontWeight: FontWeight.bold,
                                         )),
-                                    Text("0",
-                                        style: TextStyle(
+                                    Text("$deviceSelling",
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
                                           color: Colors.black,
@@ -344,17 +376,17 @@ class _MyPageState extends State<MyPage> {
                                         )),
                                   ],
                                 ),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("정산완료",
+                                    const Text("정산완료",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: "Pretendard",
                                           fontWeight: FontWeight.bold,
                                         )),
-                                    Text("0",
-                                        style: TextStyle(
+                                    Text("$deviceSettlement",
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
                                           color: Colors.black,
@@ -366,48 +398,6 @@ class _MyPageState extends State<MyPage> {
                             ),
                           )
                         ],
-                      ),
-                      const SizedBox(height: 10),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.black54,
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Icon(Icons.post_add,
-                                  color: Colors.white, size: 30),
-                              SizedBox(width: 10),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("보관 신청하기",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontFamily: "Pretendard",
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                  Text("한 번에 신청하고 한 번에 발송하세요.",
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontFamily: "Pretendard",
-                                        color: Colors.white,
-                                      )),
-                                ],
-                              ),
-                              Spacer(),
-                              Icon(Icons.arrow_forward_ios,
-                                  color: Colors.white, size: 15),
-                            ],
-                          ),
-                        ),
                       ),
                       const SizedBox(height: 20),
                       Column(
@@ -418,7 +408,9 @@ class _MyPageState extends State<MyPage> {
                               const Spacer(),
                               // 더보기
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+
+                                },
                                 child: Container(
                                   padding: const EdgeInsets.only(
                                       top: 1, bottom: 1, left: 10, right: 10),
@@ -449,20 +441,20 @@ class _MyPageState extends State<MyPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("발송요청",
+                                    const Text("배송요청",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: "Pretendard",
                                           fontWeight: FontWeight.bold,
                                         )),
-                                    Text("0",
-                                        style: TextStyle(
+                                    Text("$devicePurchaseRequest",
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
-                                          color: Colors.green,
+                                          color: Colors.blue,
                                           fontWeight: FontWeight.bold,
                                         )),
                                   ],
@@ -472,17 +464,17 @@ class _MyPageState extends State<MyPage> {
                                   height: 40,
                                   color: Colors.black26,
                                 ),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("판매대기",
+                                    const Text("상품준비",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: "Pretendard",
                                           fontWeight: FontWeight.bold,
                                         )),
-                                    Text("0",
-                                        style: TextStyle(
+                                    Text("$devicePurchaseWait",
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
                                           color: Colors.black,
@@ -490,17 +482,17 @@ class _MyPageState extends State<MyPage> {
                                         )),
                                   ],
                                 ),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("판매 중",
+                                    const Text("배송 중",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: "Pretendard",
                                           fontWeight: FontWeight.bold,
                                         )),
-                                    Text("0",
-                                        style: TextStyle(
+                                    Text("$devicePurchase",
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
                                           color: Colors.black,
@@ -508,17 +500,17 @@ class _MyPageState extends State<MyPage> {
                                         )),
                                   ],
                                 ),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("정산완료",
+                                    const Text("배송완료",
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontFamily: "Pretendard",
                                           fontWeight: FontWeight.bold,
                                         )),
-                                    Text("0",
-                                        style: TextStyle(
+                                    Text("$devicePurchaseSettlement",
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
                                           color: Colors.black,
@@ -528,13 +520,90 @@ class _MyPageState extends State<MyPage> {
                                 ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ],
-                  ))
+                  )
+              ),
+              const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+
+                      },
+                      style: ButtonStyle(
+                        overlayColor: WidgetStateProperty.all(Colors.transparent),
+                      ),
+                      child: const Text(
+                        "공지사항",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: "Pretendard",
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 1,
+                      height: 30,
+                      color: Colors.black26,
+                    ),
+                    TextButton(
+                      onPressed: () {
+
+                      },
+                      style: ButtonStyle(
+                        overlayColor: WidgetStateProperty.all(Colors.transparent),
+                      ),
+                      child: const Text(
+                        "이용약관",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: "Pretendard",
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 1,
+                      height: 30,
+                      color: Colors.black26,
+                    ),
+                    TextButton(
+                      onPressed: () {
+
+                      },
+                      style: ButtonStyle(
+                        overlayColor: WidgetStateProperty.all(Colors.transparent),
+                      ),
+                      child: const Text(
+                        "개인정보처리방침",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: "Pretendard",
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
-        ));
+        )
+    );
   }
 }

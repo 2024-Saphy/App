@@ -17,7 +17,7 @@ void main() async {
   KakaoSdk.init(
     nativeAppKey: kakaoNativeAppKey,
   );
-  runApp(const MyApp());
+  runApp(const ScreenController());
 }
 
 class MyApp extends StatelessWidget {
