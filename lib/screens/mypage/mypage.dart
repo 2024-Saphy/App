@@ -158,7 +158,7 @@ class _MyPageState extends State<MyPage> {
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Colors.green.shade50,
+                              color: Colors.blue.shade50,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -176,7 +176,7 @@ class _MyPageState extends State<MyPage> {
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontFamily: "Pretendard",
-                                          color: Colors.green,
+                                          color: Colors.blue,
                                           fontWeight: FontWeight.bold,
                                         )),
                                   ],
@@ -280,7 +280,7 @@ class _MyPageState extends State<MyPage> {
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Colors.green.shade50,
+                              color: Colors.blue.shade50,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -444,7 +444,7 @@ class _MyPageState extends State<MyPage> {
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Colors.green.shade50,
+                              color: Colors.blue.shade50,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
