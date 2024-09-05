@@ -36,7 +36,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.saphy"
+    namespace "com.inq.saphy"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
