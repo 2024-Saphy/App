@@ -54,7 +54,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.saphy"
+        applicationId "com.inq.saphy"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
