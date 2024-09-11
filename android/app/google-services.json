@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:754445879555:android:a8dc2d555589872e04c136",
         "android_client_info": {
-          "package_name": "com.example.saphy"
+          "package_name": "com.inq.saphy"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "754445879555-2cf68o04seos49f93a81tnu8mr49ev7k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.saphy",
+            "package_name": "com.inq.saphy",
             "certificate_hash": "de75bd90a439941e86d2d5df7b44b4450bc27233"
           }
         },
@@ -25,7 +25,7 @@
           "client_id": "754445879555-msrjakrvhv016ltraa30o6qak37ajqoi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.saphy",
+            "package_name": "com.inq.saphy",
             "certificate_hash": "c51808929095346237d2a1b2f70f998fab61643b"
           }
         },
