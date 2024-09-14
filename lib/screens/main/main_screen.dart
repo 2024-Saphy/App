@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:saphy/models/product.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/textstyles.dart';
+import 'package:saphy/widgets/carousel.dart';
 import 'package:saphy/widgets/product_card.dart';
 
 class MainScreen extends StatefulWidget {
@@ -104,72 +105,8 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: const Color(0xfff4f4f4),
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-              height: 575,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: CachedNetworkImageProvider(
-                      "https://i.pinimg.com/736x/cf/aa/d7/cfaad78b35a7b752054dd564b77f1f10.jpg",
-                    ),
-                    fit: BoxFit.cover),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          height: 25,
-                          width: 100,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/SaphyLogoSmallWhite.png'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 25,
-                          width: 25,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image:
-                                  AssetImage('assets/images/notifications.png'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    const Text(
-                      "Phone",
-                      style: TextStyle(color: white, fontSize: 25),
-                    ),
-                    const Text(
-                      "iPhone 15도\nSaphy에서.",
-                      style: TextStyle(
-                          color: white,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 50,
-                          height: 1.2),
-                    ),
-                    const SizedBox(
-                      height: 60,
-                    )
-                  ],
-                ),
-              ),
-            ),
+          const SliverToBoxAdapter(
+            child: Carousel(),
           ),
           const SliverToBoxAdapter(
             child: SizedBox(
