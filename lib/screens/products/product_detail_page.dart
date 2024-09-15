@@ -244,7 +244,7 @@ class ProductDetail extends StatelessWidget {
                                     flex: 1,
                                     child: InkWell(
                                       child: Container(
-                                        width: 150,
+                                        width: screenWidth * 0.3,
                                         decoration: BoxDecoration(
                                             color: const Color(0xff404756),
                                             borderRadius:
@@ -267,7 +267,7 @@ class ProductDetail extends StatelessWidget {
                                     flex: 1,
                                     child: InkWell(
                                       child: Container(
-                                        width: 150,
+                                        width: screenWidth * 0.3,
                                         decoration: BoxDecoration(
                                             color: const Color(0xff404756),
                                             borderRadius:
