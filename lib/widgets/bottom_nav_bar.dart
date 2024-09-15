@@ -26,9 +26,9 @@ class BottomNavBar extends StatelessWidget {
         selectedItemColor: mainPrimary,
         unselectedItemColor: altBlack,
         onTap: onTap,
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.house, size: 20.0),
+            icon: FaIcon(FontAwesomeIcons.house, size: screenWidth / 25),
             label: "홈",
           ),
           //BottomNavigationBarItem(
@@ -36,19 +36,20 @@ class BottomNavBar extends StatelessWidget {
           // label: "수리센터",
           // ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.magnifyingGlass, size: 20.0),
+            icon: FaIcon(FontAwesomeIcons.magnifyingGlass,
+                size: screenWidth / 25),
             label: "탐색",
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.solidGem, size: 20.0),
+            icon: FaIcon(FontAwesomeIcons.solidGem, size: screenWidth / 25),
             label: "판매",
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.solidHeart, size: 20.0),
+            icon: FaIcon(FontAwesomeIcons.solidHeart, size: screenWidth / 25),
             label: "찜 목록",
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.solidUser, size: 20.0),
+            icon: FaIcon(FontAwesomeIcons.solidUser, size: screenWidth / 25),
             label: "나의 사피",
           ),
         ],
