@@ -14,7 +14,9 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
+      width: screenWidth,
       height: 70,
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
