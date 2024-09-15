@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/models/product.dart';
@@ -102,7 +101,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff4f4f4),
+      backgroundColor: altWhite,
       body: CustomScrollView(
         slivers: [
           const SliverToBoxAdapter(
