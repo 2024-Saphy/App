@@ -1,53 +1,68 @@
 class Product {
-  int? id;
-  String? brand;
-  String? name;
-  String? description;
-  String? color;
-  String? storage;
-  String? grade;
-  String? imageUrl;
-  double? price;
-  int? stock;
+  int id;
+  String deviceType;
+  String name;
+  String description;
+  int price;
+  int stock;
+  List<ImageInfo> images;
 
   Product({
-    this.id,
-    this.brand,
-    this.name,
-    this.description,
-    this.color,
-    this.storage,
-    this.grade,
-    this.imageUrl,
-    this.price,
-    this.stock,
+    required this.id,
+    required this.deviceType,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.stock,
+    required this.images,
   });
 
-  Product.fromJson(Map<String, dynamic> json) {
-    id = int.parse(json['id']);
-    brand = json['brand'];
-    name = json['name'];
-    description = json['description'];
-    color = json['color'];
-    storage = json['storage'];
-    grade = json['grade'];
-    imageUrl = json['imageUrl'];
-    price = double.parse(json['price']);
-    stock = int.parse(json['stock']);
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'],
+      deviceType: json['deviceType'],
+      name: json['name'],
+      description: json['description'],
+      price: json['price'],
+      stock: json['stock'],
+      images: List<ImageInfo>.from(
+          json['images'].map((image) => ImageInfo.fromJson(image))),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['id'] = id;
-    data['brand'] = brand;
-    data['name'] = name;
-    data['description'] = description;
-    data['color'] = color;
-    data['storage'] = storage;
-    data['grade'] = grade;
-    data['imageUrl'] = imageUrl;
-    data['price'] = price;
-    data['stock'] = stock;
-    return data;
+    return {
+      'id': id,
+      'deviceType': deviceType,
+      'name': name,
+      'description': description,
+      'price': price,
+      'stock': stock,
+      'images': images.map((image) => image.toJson()).toList(),
+    };
+  }
+}
+
+class ImageInfo {
+  String name;
+  String url;
+
+  ImageInfo({
+    required this.name,
+    required this.url,
+  });
+
+  factory ImageInfo.fromJson(Map<String, dynamic> json) {
+    return ImageInfo(
+      name: json['name'],
+      url: json['url'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'url': url,
+    };
   }
 }
