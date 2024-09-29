@@ -1,102 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:tosspayments_widget_sdk_flutter/model/payment_info.dart';
-import 'package:tosspayments_widget_sdk_flutter/model/payment_widget_options.dart';
-import 'package:tosspayments_widget_sdk_flutter/payment_widget.dart';
-import 'package:tosspayments_widget_sdk_flutter/widgets/agreement.dart';
-import 'package:tosspayments_widget_sdk_flutter/widgets/payment_method.dart';
 
-class PaymentPage extends StatefulWidget {
-  const PaymentPage({super.key});
-  @override
-  State<PaymentPage> createState() {
-    return _PaymentPageState();
-  }
-}
+/* 아임포트 결제 모듈을 불러옵니다. */
+import 'package:iamport_flutter/iamport_payment.dart';
+/* 아임포트 결제 데이터 모델을 불러옵니다. */
+import 'package:iamport_flutter/model/payment_data.dart';
 
-class _PaymentPageState extends State<PaymentPage> {
-  late PaymentWidget _paymentWidget;
-  PaymentMethodWidgetControl? _paymentMethodWidgetControl;
-  AgreementWidgetControl? _agreementWidgetControl;
-  @override
-  void initState() {
-    super.initState();
-    _paymentWidget = PaymentWidget(
-      clientKey: "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm",
-      customerKey: "ynygwDdyclboRnSIgyNqw",
-      // 결제위젯에 브랜드페이 추가하기
-      // paymentWidgetOptions: PaymentWidgetOptions(brandPayOption: BrandPayOption("리다이렉트 URL")) // Access Token 발급에 사용되는 리다이렉트 URL
-    );
-    _paymentWidget
-        .renderPaymentMethods(
-            selector: 'methods',
-            amount: Amount(value: 300, currency: Currency.KRW, country: "KR"),
-            options: RenderPaymentMethodsOptions(variantKey: "DEFAULT"))
-        .then((control) {
-      _paymentMethodWidgetControl = control;
-    });
-    _paymentWidget.renderAgreement(selector: 'agreement').then((control) {
-      _agreementWidgetControl = control;
-    });
-  }
+class Payment extends StatelessWidget {
+  const Payment({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                children: [
-                  PaymentMethodWidget(
-                    paymentWidget: _paymentWidget,
-                    selector: 'methods',
-                  ),
-                  AgreementWidget(
-                      paymentWidget: _paymentWidget, selector: 'agreement'),
-                  ElevatedButton(
-                      onPressed: () async {
-                        final paymentResult =
-                            await _paymentWidget.requestPayment(
-                                paymentInfo: const PaymentInfo(
-                                    orderId: '_t1fPAFA2Lm84f08Gkw2x',
-                                    orderName: '토스 티셔츠 외 2건'));
-                        if (paymentResult.success != null) {
-                          // 결제 성공 처리
-                        } else if (paymentResult.fail != null) {
-                          // 결제 실패 처리
-                        }
-                      },
-                      child: const Text('결제하기')),
-                  // ElevatedButton(
-                  //     onPressed: () async {
-                  //       final selectedPaymentMethod =
-                  //           await _paymentMethodWidgetControl
-                  //               ?.getSelectedPaymentMethod();
-                  //       print(
-                  //           '${selectedPaymentMethod?.method} ${selectedPaymentMethod?.easyPay?.provider ?? ''}');
-                  //     },
-                  //     child: const Text('선택한 결제수단 출력')),
-                  // ElevatedButton(
-                  //     onPressed: () async {
-                  //       final agreementStatus =
-                  //           await _agreementWidgetControl?.getAgreementStatus();
-                  //       print('${agreementStatus?.agreedRequiredTerms}');
-                  //     },
-                  //     child: const Text('약관 동의 상태 출력')),
-                  // ElevatedButton(
-                  //     onPressed: () async {
-                  //       await _paymentMethodWidgetControl?.updateAmount(
-                  //           amount: 300);
-                  //       print('결제 금액이 300원으로 변경되었습니다.');
-                  //     },
-                  //     child: const Text('결제 금액 변경'))
-                ],
-              ),
-            )
-          ],
+    return IamportPayment(
+      appBar: AppBar(
+        title: const Text('아임포트 결제'),
+      ),
+      /* 웹뷰 로딩 컴포넌트 */
+      initialChild: Container(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('assets/images/iamport-logo.png'),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 15)),
+              const Text('잠시만 기다려주세요...', style: TextStyle(fontSize: 20)),
+            ],
+          ),
         ),
       ),
+      /* [필수입력] 가맹점 식별코드 */
+      userCode: 'iamport',
+      /* [필수입력] 결제 데이터 */
+      data: PaymentData(
+          pg: 'html5_inicis', // PG사
+          payMethod: 'card', // 결제수단
+          name: '아임포트 결제데이터 분석', // 주문명
+          merchantUid: 'mid_${DateTime.now().millisecondsSinceEpoch}', // 주문번호
+          amount: 39000, // 결제금액
+          buyerName: '홍길동', // 구매자 이름
+          buyerTel: '01012345678', // 구매자 연락처
+          buyerEmail: 'example@naver.com', // 구매자 이메일
+          buyerAddr: '서울시 강남구 신사동 661-16', // 구매자 주소
+          buyerPostcode: '06018', // 구매자 우편번호
+          appScheme: 'example', // 앱 URL scheme
+          cardQuota: [2, 3] //결제창 UI 내 할부개월수 제한
+          ),
+      /* [필수입력] 콜백 함수 */
+      callback: (Map<String, String> result) {
+        Navigator.pushReplacementNamed(
+          context,
+          '/result',
+          arguments: result,
+        );
+      },
     );
   }
 }
