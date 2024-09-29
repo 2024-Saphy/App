@@ -64,11 +64,8 @@ class _PurchaseProcessPageState extends State<PurchaseProcessPage> {
             title: "결제",
             bgColor: black,
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Payment(product: widget.product)),
-              );
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => (Container())));
             },
             flag: true,
             txtColor: white),
