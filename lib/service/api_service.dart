@@ -37,7 +37,7 @@ class APIService {
     final dio = Dio(BaseOptions(
         baseUrl: baseUrl,
         contentType: contentType ?? Headers.formUrlEncodedContentType,
-        headers: {HttpHeaders.authorizationHeader: 'Bearer $token'}));
+        headers: {HttpHeaders.authorizationHeader: '$token'}));
     dio.interceptors.add(logger);
     switch (method) {
       case DioMethod.post:

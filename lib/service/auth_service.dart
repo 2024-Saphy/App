@@ -13,27 +13,24 @@ Future<int?> loginService(String socialType, String email) async {
     );
 
     final statusCode = response.data['status']['code'];
-    logger.i('Status code: $statusCode');
 
     if (response.statusCode == 200) {
       logger.i('API call [loginService] successful: ${response.data}');
       final authorization = response.headers['Authorization'];
-      final jwt = authorization?[0].replaceFirst('Bearer ', '');
+      final jwt = 'Bearer ${authorization?[0]}';
       await writeJwt(jwt);
-      logger.i('JWT : $jwt');
       return statusCode;
     } else if (response.statusCode == 300) {
       logger.i(
           'API call [loginService] successful, redirect register screen: ${response.data}');
       return statusCode;
     } else {
-      logger.i('API call [loginService] failed: ${response.statusMessage}');
+      logger.e('API call [loginService] failed: ${response.statusMessage}');
       return statusCode;
     }
   } catch (e) {
-    logger.i('Network error occurred: $e');
+    throw Exception(e);
   }
-  return null;
 }
 
 Future<int?> joinService(
@@ -64,10 +61,10 @@ Future<int?> joinService(
       // logger.i('JWT : $jwt');
       return statusCode;
     } else {
-      logger.i('API call [loginService] failed: ${response.statusMessage}');
+      logger.e('API call [loginService] failed: ${response.statusMessage}');
+      return statusCode;
     }
   } catch (e) {
-    logger.i('Network error occurred: $e');
+    throw Exception(e);
   }
-  return null;
 }
