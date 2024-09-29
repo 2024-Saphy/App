@@ -3,9 +3,13 @@ class Product {
   String deviceType;
   String name;
   String description;
-  int price;
+  double price;
   int stock;
-  List<ImageInfo> images;
+  Map<String, String> images; // 이미지 정보를 Map<String, String>으로 저장
+  String brand;
+  String color;
+  String storage;
+  String grade;
 
   Product({
     required this.id,
@@ -15,6 +19,10 @@ class Product {
     required this.price,
     required this.stock,
     required this.images,
+    required this.brand,
+    required this.color,
+    required this.storage,
+    required this.grade,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -25,8 +33,11 @@ class Product {
       description: json['description'],
       price: json['price'],
       stock: json['stock'],
-      images: List<ImageInfo>.from(
-          json['images'].map((image) => ImageInfo.fromJson(image))),
+      images: Map<String, String>.from(json['images']), // 직접 변환
+      brand: json['brand'],
+      color: json['color'],
+      storage: json['storage'],
+      grade: json['grade'],
     );
   }
 
@@ -38,31 +49,11 @@ class Product {
       'description': description,
       'price': price,
       'stock': stock,
-      'images': images.map((image) => image.toJson()).toList(),
-    };
-  }
-}
-
-class ImageInfo {
-  String name;
-  String url;
-
-  ImageInfo({
-    required this.name,
-    required this.url,
-  });
-
-  factory ImageInfo.fromJson(Map<String, dynamic> json) {
-    return ImageInfo(
-      name: json['name'],
-      url: json['url'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'url': url,
+      'images': images, // 직접 저장
+      'brand': brand,
+      'color': color,
+      'storage': storage,
+      'grade': grade,
     };
   }
 }

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:saphy/screens/purchase/payment_page.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/widgets/normal_button.dart';
+import 'package:saphy/models/product.dart';
 
 class PurchaseProcessPage extends StatefulWidget {
-  const PurchaseProcessPage({super.key});
+  final Product product;
+
+  const PurchaseProcessPage({
+    super.key,
+    required this.product,
+  });
 
   @override
   State<PurchaseProcessPage> createState() => _PurchaseProcessPageState();
@@ -56,7 +63,13 @@ class _PurchaseProcessPageState extends State<PurchaseProcessPage> {
         child: NormalButton(
             title: "결제",
             bgColor: black,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Payment(product: widget.product)),
+              );
+            },
             flag: true,
             txtColor: white),
       ),
@@ -104,10 +117,11 @@ class _PurchaseProcessPageState extends State<PurchaseProcessPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Iphone 14", style: subTitleText()),
-                      Text("256GB, Black", style: bodyText()),
+                      Text(widget.product.name, style: subTitleText()),
+                      Text("${widget.product.storage}, ${widget.product.color}",
+                          style: bodyText()),
                       const Spacer(),
-                      Text("1,000,000원", style: subTitleText()),
+                      Text("${widget.product.price}", style: subTitleText()),
                     ],
                   ),
                 ),

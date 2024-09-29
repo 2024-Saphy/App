@@ -3,20 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/screens/products/product_detail_page.dart';
 import 'package:saphy/utils/textstyles.dart';
+import "package:saphy/models/product.dart";
 
 class ProductCard extends StatelessWidget {
-  final String brand;
-  final String name;
-  final String imageUrl;
-  final double price;
+  final Product product;
 
-  const ProductCard({
-    super.key,
-    required this.brand,
-    required this.name,
-    required this.imageUrl,
-    required this.price,
-  });
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +20,7 @@ class ProductCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => ProductDetail(
-              productBrand: brand,
-              productName: name,
-              productImageUrl: imageUrl,
-              price: price,
+              product: product,
             ),
           ),
         );
@@ -51,7 +40,8 @@ class ProductCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
-                  image: CachedNetworkImageProvider(imageUrl),
+                  image:
+                      CachedNetworkImageProvider(product.images["url"] ?? ""),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -66,9 +56,9 @@ class ProductCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(name, style: bodyBoldText()),
+                      Text(product.name, style: bodyBoldText()),
                       Text(
-                        brand,
+                        product.brand,
                         style: const TextStyle(
                           fontFamily: "Pretendard",
                           fontSize: 10,
@@ -80,7 +70,7 @@ class ProductCard extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    "${numberFormat.format(price)}원",
+                    "${numberFormat.format(product.price)}원",
                     style: const TextStyle(
                       fontWeight: FontWeight.w800,
                       fontFamily: "Pretendard",
