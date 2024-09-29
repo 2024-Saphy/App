@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/screens/products/product_detail_page.dart';
+import 'package:saphy/utils/number_format.dart';
 import 'package:saphy/utils/textstyles.dart';
 import "package:saphy/models/product.dart";
 
@@ -12,7 +13,6 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat numberFormat = NumberFormat('###,###,###,###');
     var screenWidth = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
@@ -27,7 +27,7 @@ class ProductCard extends StatelessWidget {
       },
       child: Container(
         width: (screenWidth - 55) / 2,
-        height: 220,
+        height: 240,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -39,11 +39,10 @@ class ProductCard extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image:
-                      CachedNetworkImageProvider(product.images["url"] ?? ""),
-                  fit: BoxFit.cover,
-                ),
+                // image: DecorationImage(
+                //   image: CachedNetworkImageProvider(product.images[0] ?? ""),
+                //   fit: BoxFit.cover,
+                // ),
               ),
             ),
             Padding(
