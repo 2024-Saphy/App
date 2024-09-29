@@ -22,14 +22,6 @@
           }
         },
         {
-          "client_id": "754445879555-k8q7bdb3b9smf9082guceqeith1rdsnu.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.inq.saphy",
-            "certificate_hash": "c51808929095346237d2a1b2f70f998fab61643b"
-          }
-        },
-        {
           "client_id": "754445879555-e2lt672vru7gia1kih23rpo3kq725m39.apps.googleusercontent.com",
           "client_type": 3
         }
