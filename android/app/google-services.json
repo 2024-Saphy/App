@@ -7,14 +7,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:754445879555:android:a8dc2d555589872e04c136",
+        "mobilesdk_app_id": "1:754445879555:android:a6b348ed20bee7aa04c136",
         "android_client_info": {
           "package_name": "com.inq.saphy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "754445879555-2cf68o04seos49f93a81tnu8mr49ev7k.apps.googleusercontent.com",
+          "client_id": "754445879555-95gt3epsg0eevl2rdt5rnaoquh5v635c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.inq.saphy",
@@ -22,7 +22,7 @@
           }
         },
         {
-          "client_id": "754445879555-msrjakrvhv016ltraa30o6qak37ajqoi.apps.googleusercontent.com",
+          "client_id": "754445879555-k8q7bdb3b9smf9082guceqeith1rdsnu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.inq.saphy",
@@ -36,7 +36,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvgHWxTCbZ8jlDktwOtfAnacs5JN2ZI9o"
+          "current_key": "AIzaSyAXpfjBxnrqvdaH30upxsuHtuVFiA3JTFU"
         }
       ],
       "services": {
@@ -45,6 +45,13 @@
             {
               "client_id": "754445879555-e2lt672vru7gia1kih23rpo3kq725m39.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "754445879555-aim3102ob65o26m3vm5clj7hkspsr4jf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inq.saphy"
+              }
             }
           ]
         }
