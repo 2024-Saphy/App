@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-enum DioMethod { post, get, put, delete }
+enum DioMethod { post, get, put, delete, patch }
 
 class APIService {
   APIService._singletone();
@@ -42,6 +42,11 @@ class APIService {
     switch (method) {
       case DioMethod.post:
         return dio.post(
+          endpoint,
+          data: param ?? formData,
+        );
+      case DioMethod.patch:
+        return dio.patch(
           endpoint,
           data: param ?? formData,
         );
