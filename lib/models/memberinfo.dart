@@ -1,15 +1,15 @@
 class MemberInfo {
   String? nickname;
   String? profileImgUrl;
-  String? purchasePendingCount;
-  String? purchaseInProgressCount;
-  String? purchaseCompletedCount;
-  String? deliveryStartedCount;
-  String? deliveryGoingCount;
-  String? deliveryDeliveredCount;
-  String? salesPendingCount;
-  String? salesInProgressCount;
-  String? salesCompletedCount;
+  int? purchasePendingCount;
+  int? purchaseInProgressCount;
+  int? purchaseCompletedCount;
+  int? deliveryStartedCount;
+  int? deliveryGoingCount;
+  int? deliveryDeliveredCount;
+  int? salesPendingCount;
+  int? salesInProgressCount;
+  int? salesCompletedCount;
 
   MemberInfo({
     this.nickname,

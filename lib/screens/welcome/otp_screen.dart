@@ -122,8 +122,9 @@ class _OtpScreenState extends State<OtpScreen> {
                             widget.onVerificationSuccess();
                             Navigator.of(context).pop();
                           });
+                          logger.i("정상적으로 로그인 되었습니다.");
                         } catch (e) {
-                          print(e);
+                          logger.i(e);
                         }
                       },
                     ),
