@@ -54,8 +54,8 @@ dependencies:
   simple_shadow: ^0.3.1
   toggle_list: ^0.3.1
   carousel_slider: ^5.0.0
-  tosspayments_widget_sdk_flutter: ^2.0.6
   card_loading: ^0.3.2
+  iamport_flutter: ^0.10.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0

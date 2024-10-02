@@ -3,9 +3,15 @@ import 'package:saphy/screens/purchase/purchase_process_page.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/widgets/normal_button.dart';
 import 'package:saphy/widgets/purchase_info.dart';
+import 'package:saphy/models/product.dart';
 
 class PurchasePage extends StatelessWidget {
-  const PurchasePage({super.key});
+  final Product product;
+
+  const PurchasePage({
+    super.key,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,29 +30,28 @@ class PurchasePage extends StatelessWidget {
                   topRight: Radius.circular(30),
                 ),
               ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   vertical: 40,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    PurchaseHeader(),
-                    SizedBox(height: 10),
+                    const PurchaseHeader(),
+                    const SizedBox(height: 10),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
                       child: PurchaseInfo(
-                        // 요기는 나중에는 상품 모델 백엔이랑 해서 정해지면 모델에서 정보 받아올듯
-                        productCondition: "A",
-                        productColor: "그린",
-                        productName: "Iphone 14",
-                        price: 130000,
-                        productStorage: "128G",
+                        productCondition: product.grade,
+                        productColor: product.color,
+                        productName: product.name,
+                        price: product.price,
+                        productStorage: product.storage,
                       ),
                     ),
-                    Spacer(),
-                    PurchaseFooter(),
+                    const Spacer(),
+                    PurchaseFooter(product: product),
                   ],
                 ),
               ),
@@ -59,7 +64,12 @@ class PurchasePage extends StatelessWidget {
 }
 
 class PurchaseFooter extends StatefulWidget {
-  const PurchaseFooter({super.key});
+  final Product product;
+
+  const PurchaseFooter({
+    super.key,
+    required this.product,
+  });
 
   @override
   State<PurchaseFooter> createState() => _PurchaseFooterState();
@@ -108,7 +118,10 @@ class _PurchaseFooterState extends State<PurchaseFooter> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => (const PurchaseProcessPage())),
+                      builder: (context) => PurchaseProcessPage(
+                        product: widget.product, // widget.product 사용
+                      ),
+                    ),
                   );
                 }
               : () {
