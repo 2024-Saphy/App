@@ -4,26 +4,17 @@ import 'package:intl/intl.dart';
 import 'package:saphy/screens/purchase/purchase_page.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/textstyles.dart';
+import 'package:saphy/models/product.dart';
 
 class ProductDetail extends StatelessWidget {
-  final String productBrand;
-  final String productName;
-  final String productImageUrl;
-  final double price;
+  final Product product;
 
-  const ProductDetail({
-    super.key,
-    required this.productBrand,
-    required this.productName,
-    required this.productImageUrl,
-    required this.price,
-  });
+  const ProductDetail({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     final NumberFormat numberFormat = NumberFormat('###,###,###,###');
     var screenWidth = MediaQuery.of(context).size.width;
-    var screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: altWhite,
@@ -58,7 +49,8 @@ class ProductDetail extends StatelessWidget {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: CachedNetworkImageProvider(productImageUrl),
+                          image: CachedNetworkImageProvider(
+                              product.images["url"] ?? ""),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -71,18 +63,18 @@ class ProductDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text.rich(
+                      Text.rich(
                         TextSpan(
                           text: "출고가 ",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: "Pretendard",
                             fontSize: 15,
                             color: gray700,
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: "500,000원",
-                              style: TextStyle(
+                              text: numberFormat.format(product.price),
+                              style: const TextStyle(
                                 decoration: TextDecoration.lineThrough,
                                 decorationColor: gray700,
                                 fontFamily: "Pretendard",
@@ -107,13 +99,13 @@ class ProductDetail extends StatelessWidget {
                                   color: mainPrimary,
                                 )),
                             TextSpan(
-                              text: "${numberFormat.format(price)}원",
+                              text: "${numberFormat.format(product.price)}원",
                             ),
                           ],
                         ),
                       ),
                       Text(
-                        productName,
+                        product.name,
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontFamily: "Pretendard",
@@ -229,7 +221,7 @@ class ProductDetail extends StatelessWidget {
                                     style: bodyText(),
                                   ),
                                   Text(
-                                    "Grade A",
+                                    "Grade ${product.grade}",
                                     style: titleText30(),
                                   )
                                 ],
@@ -335,8 +327,9 @@ class ProductDetail extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const PurchasePage()),
+                                      builder: (context) => PurchasePage(
+                                            product: product,
+                                          )),
                                 );
                               },
                               child: Container(
@@ -452,23 +445,36 @@ class ProductDetail extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const PurchasePage()),
+                                builder: (context) => PurchasePage(
+                                      product: product,
+                                    )),
                           );
                         },
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: const Color(0xff404756),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              "구매하기",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Pretendard",
-                                fontSize: 15,
-                                color: white,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PurchasePage(
+                                        product: product,
+                                      )),
+                            );
+                          },
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: const Color(0xff404756),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "구매하기",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Pretendard",
+                                  fontSize: 15,
+                                  color: white,
+                                ),
                               ),
                             ),
                           ),
