@@ -10,7 +10,7 @@ class KakaoLoginController implements SocialLogin {
   Future login() async {
     if (await isKakaoTalkInstalled()) {
       try {
-        OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
+        OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
         await writeAccessToke(token.accessToken);
         await writeRefreshToke(token.refreshToken);
         logger.i('Kakaotalk Login Success ${token.accessToken}');
