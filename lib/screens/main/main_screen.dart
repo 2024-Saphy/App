@@ -101,6 +101,10 @@ class _MainScreenState extends State<MainScreen> {
                       const SizedBox(
                         width: 20,
                       ),
+                      categoryButton("태블릿", "tablet-3d"),
+                      const SizedBox(
+                        width: 20,
+                      ),
                       categoryButton("노트북", "laptop-3d"),
                       const SizedBox(
                         width: 20,
