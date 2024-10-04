@@ -50,32 +50,32 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDvgHWxTCbZ8jlDktwOtfAnacs5JN2ZI9o',
-    appId: '1:754445879555:android:a8dc2d555589872e04c136',
+    apiKey: 'AIzaSyAXpfjBxnrqvdaH30upxsuHtuVFiA3JTFU',
+    appId: '1:754445879555:android:a6b348ed20bee7aa04c136',
     messagingSenderId: '754445879555',
     projectId: 'saphy-27f69',
     storageBucket: 'saphy-27f69.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCtHWeObFJDgM4Why074HeusteeltZxCbw',
-    appId: '1:754445879555:ios:8ad3553c76c38b9104c136',
+    apiKey: 'AIzaSyD5KcUUEsmJ4EUnEpYCtnsDUdlsIlaRvrY',
+    appId: '1:754445879555:ios:32c64f4e933a9be504c136',
     messagingSenderId: '754445879555',
     projectId: 'saphy-27f69',
     storageBucket: 'saphy-27f69.appspot.com',
-    androidClientId: '754445879555-2cf68o04seos49f93a81tnu8mr49ev7k.apps.googleusercontent.com',
-    iosClientId: '754445879555-r1fu6an4tqau05de9hc6vffif00r950b.apps.googleusercontent.com',
-    iosBundleId: 'com.example.saphy',
+    androidClientId: '754445879555-95gt3epsg0eevl2rdt5rnaoquh5v635c.apps.googleusercontent.com',
+    iosClientId: '754445879555-aim3102ob65o26m3vm5clj7hkspsr4jf.apps.googleusercontent.com',
+    iosBundleId: 'com.inq.saphy',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCtHWeObFJDgM4Why074HeusteeltZxCbw',
-    appId: '1:754445879555:ios:8ad3553c76c38b9104c136',
+    apiKey: 'AIzaSyD5KcUUEsmJ4EUnEpYCtnsDUdlsIlaRvrY',
+    appId: '1:754445879555:ios:e10abf321d33a90604c136',
     messagingSenderId: '754445879555',
     projectId: 'saphy-27f69',
     storageBucket: 'saphy-27f69.appspot.com',
-    androidClientId: '754445879555-2cf68o04seos49f93a81tnu8mr49ev7k.apps.googleusercontent.com',
-    iosClientId: '754445879555-r1fu6an4tqau05de9hc6vffif00r950b.apps.googleusercontent.com',
+    androidClientId: '754445879555-95gt3epsg0eevl2rdt5rnaoquh5v635c.apps.googleusercontent.com',
+    iosClientId: '754445879555-dtu8qtal15i5ef8hpikfisduur4qnivb.apps.googleusercontent.com',
     iosBundleId: 'com.example.saphy',
   );
 
