@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/screens/purchase/purchase_page.dart';
 import 'package:saphy/utils/colors.dart';
+import 'package:saphy/utils/number_format.dart';
 import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/models/product.dart';
 
@@ -13,7 +14,6 @@ class ProductDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat numberFormat = NumberFormat('###,###,###,###');
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -47,13 +47,12 @@ class ProductDetail extends StatelessWidget {
                     child: Container(
                       height: 400,
                       width: double.infinity,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: CachedNetworkImageProvider(
-                              product.images["url"] ?? ""),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      decoration: const BoxDecoration(
+                          // image: DecorationImage(
+                          //   image: CachedNetworkImageProvider(product.images[0]),
+                          //   fit: BoxFit.cover,
+                          // ),
+                          ),
                     ),
                   ),
                 ),

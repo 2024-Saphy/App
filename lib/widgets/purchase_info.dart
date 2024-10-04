@@ -5,7 +5,7 @@ class PurchaseInfo extends StatelessWidget {
   final String productName;
   final String productStorage;
   final String productColor;
-  final double price;
+  final int price;
 
   const PurchaseInfo({
     super.key,
