@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:saphy/models/product.dart';
@@ -52,15 +52,68 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        title: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          child: SizedBox(
+            height: 25,
+            child: Image(
+                image: AssetImage('assets/images/SaphyLogoSmallWhite.png')),
+          ),
+        ),
+        backgroundColor: Colors.transparent, //appBar 투명색
+        elevation: 0.0,
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.menu,
+                color: white,
+              )),
+          const SizedBox(
+            width: 10,
+          )
+        ],
+      ),
+      extendBodyBehindAppBar: true,
       backgroundColor: altWhite,
       body: CustomScrollView(
         slivers: [
           const SliverToBoxAdapter(
             child: Carousel(),
           ),
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 20,
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: SizedBox(
+                  height: 90,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      categoryButton("전체", "box"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      categoryButton("스마트폰", "phone-3d"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      categoryButton("노트북", "laptop-3d"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      categoryButton("음향기기", "headphone-3d"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      categoryButton("웨어러블", "wearable-3d"),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
           SliverToBoxAdapter(
@@ -109,6 +162,41 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Container categoryButton(String category, String url) {
+    return Container(
+      height: 90,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: white,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: AssetImage('assets/images/$url.png'),
+                fit: BoxFit.cover,
+              )),
+            ),
+            Text(
+              category,
+              style: const TextStyle(
+                  fontFamily: "Pretendard",
+                  fontSize: 15,
+                  color: black,
+                  fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
       ),
     );
   }
