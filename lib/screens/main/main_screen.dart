@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:saphy/models/product.dart';
+import 'package:saphy/screens/products/item_list_page.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/widgets/carousel.dart';
@@ -42,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
         throw Exception('Failed to load products');
       }
     } catch (e) {
-      print('Error: ${e.toString()}'); // 오류 메시지 확인
+      print('Error: ${e.toString()}');
       return [];
     }
   }
@@ -83,7 +84,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              padding: const EdgeInsets.all(20),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: SizedBox(
@@ -91,7 +92,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      categoryButton("전체", "box"),
+                      categoryButton("전체", "ALL"),
                       const SizedBox(
                         width: 20,
                       ),
@@ -170,7 +171,17 @@ class _MainScreenState extends State<MainScreen> {
 
   InkWell categoryButton(String category, String url) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ItemListPage(
+              name: category,
+              url: url,
+            ),
+          ),
+        );
+      },
       child: Container(
         height: 90,
         decoration: BoxDecoration(
