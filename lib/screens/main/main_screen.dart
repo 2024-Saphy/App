@@ -16,7 +16,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final int productLength = 6;
   late Future<List<Product>> _products;
 
   @override
@@ -28,8 +27,8 @@ class _MainScreenState extends State<MainScreen> {
   Future<List<Product>> getProducts() async {
     final dio = Dio();
     try {
-      final response =
-          await dio.get('https://saphy.site/api/items/all?type=ALL');
+      final response = await dio
+          .get('https://saphy.site/api/items?deviceType=PHONE&size=20');
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>;
         if (data['results'] != null) {
@@ -68,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
           IconButton(
               onPressed: () {},
               icon: const Icon(
-                Icons.menu,
+                Icons.notifications_outlined,
                 color: white,
               )),
           const SizedBox(
@@ -123,7 +122,7 @@ class _MainScreenState extends State<MainScreen> {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Text("최근 확인한 상품", style: titleText()),
+              child: Text("전체 상품", style: titleText()),
             ),
           ),
           SliverPadding(
