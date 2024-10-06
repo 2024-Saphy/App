@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iamport_flutter/iamport_payment.dart';
 import 'package:iamport_flutter/model/payment_data.dart';
 import 'package:saphy/models/product.dart';
+import 'package:saphy/screens/purchase/purchase_success.dart';
 
 class Payment extends StatelessWidget {
   final Product product;
@@ -41,6 +42,12 @@ class Payment extends StatelessWidget {
           String? impUid = result['imp_uid'];
           String? merchantUid = result['merchant_uid'];
           await verifyIamport(impUid, merchantUid, context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const PurchaseSuccess(),
+            ),
+          );
         } else {
           String? errorMsg = result['error_msg'];
           print('결제 실패: $errorMsg');
