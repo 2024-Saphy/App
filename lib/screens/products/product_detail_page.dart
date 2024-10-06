@@ -161,7 +161,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         ),
                       ),
                       Text(
-                        "[${productDetail?.grade}] ${widget.product.name} [${productDetail?.storage} ${productDetail?.color}]",
+                        "[${productDetail?.grade}] ${widget.product.name} ${productDetail?.storage} ${productDetail?.color}",
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontFamily: "Pretendard",
