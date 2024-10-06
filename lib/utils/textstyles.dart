@@ -16,10 +16,10 @@ TextStyle titleText30() {
   );
 }
 
-TextStyle subTitleText() {
-  return const TextStyle(
+TextStyle subTitleText({bold = true}) {
+  return TextStyle(
     fontSize: 20,
-    fontWeight: FontWeight.bold,
+    fontWeight: bold ? FontWeight.bold : FontWeight.w500,
     fontFamily: "Pretendard",
   );
 }

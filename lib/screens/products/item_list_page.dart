@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:saphy/utils/product_provider.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/textstyles.dart';
-import 'package:saphy/models/product.dart';
-import 'package:dio/dio.dart';
 import 'package:saphy/widgets/product_card.dart';
 
 class ItemListPage extends StatefulWidget {
@@ -10,124 +10,124 @@ class ItemListPage extends StatefulWidget {
   const ItemListPage({super.key, required this.url, required this.name});
 
   @override
-  _ItemListPageState createState() => _ItemListPageState();
+  State<ItemListPage> createState() => _ItemListPageState();
 }
 
 class _ItemListPageState extends State<ItemListPage> {
-  late Future<List<Product>> _products;
+  ProductProvider? _productProvider;
+
+  @override
+  void dispose() {
+    _productProvider?.cancelRequest(); // 미리 저장된 ProductProvider 사용
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
-    _products = getProducts();
-  }
-
-  Future<List<Product>> getProducts() async {
-    final dio = Dio();
-    try {
-      final response = await dio
-          .get('https://saphy.site/api/items?deviceType=${widget.url}&size=20');
-      if (response.statusCode == 200) {
-        final data = response.data as Map<String, dynamic>;
-        if (data['results'] != null) {
-          List<Product> products = (data['results'] as List)
-              .map((item) => Product.fromJson(item))
-              .toList();
-          return products;
-        } else {
-          throw Exception('No results found in the response');
-        }
-      } else {
-        throw Exception('Failed to load products');
-      }
-    } catch (e) {
-      print('Error: ${e.toString()}'); // 오류 메시지 확인
-      return [];
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _productProvider = Provider.of<ProductProvider>(context, listen: false);
+      _productProvider?.fetchProducts(widget.url);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context);
+
     return Scaffold(
       backgroundColor: const Color(0xfff4f4f4),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: altWhite,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios,
-                  size: 25,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.search,
-                  size: 25,
-                ),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ),
-      ),
+      appBar: _buildAppBar(context),
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Text(
-                widget.name,
-                style: titleText(),
-              ),
+          _buildHeader(widget.name),
+          _buildProductCount(productProvider.count),
+          _buildProductGrid(productProvider)
+        ],
+      ),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: altWhite,
+      title: Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.arrow_back_ios, size: 25),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(20),
-            sliver: SliverToBoxAdapter(
-              child: Wrap(
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.spaceBetween,
-                spacing: 15,
-                runSpacing: 15,
-                children: [
-                  FutureBuilder(
-                      future: _products,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error.toString()}');
-                        } else if (!snapshot.hasData ||
-                            snapshot.data!.isEmpty) {
-                          return const Center(child: Text('No products found'));
-                        } else {
-                          final products = snapshot.data!;
-                          return Wrap(
-                            direction: Axis.horizontal,
-                            alignment: WrapAlignment.spaceBetween,
-                            spacing: 15,
-                            runSpacing: 15,
-                            children: products
-                                .map((product) => ProductCard(product: product))
-                                .toList(),
-                          );
-                        }
-                      })
+            IconButton(
+              icon: const Icon(Icons.search, size: 25),
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SliverToBoxAdapter _buildHeader(String name) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+        child: Text(name, style: titleText()),
+      ),
+    );
+  }
+
+  SliverPadding _buildProductCount(int count) {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      sliver: SliverToBoxAdapter(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text.rich(
+              TextSpan(
+                text: "상품 ",
+                style: subTitleText(bold: false),
+                children: <TextSpan>[
+                  TextSpan(text: "$count", style: subTitleText())
                 ],
               ),
             ),
-          ),
-        ],
+            IconButton(
+                icon: const Icon(
+                  Icons.sort,
+                  size: 20,
+                ),
+                onPressed: () {}),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SliverPadding _buildProductGrid(ProductProvider provider) {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      sliver: SliverToBoxAdapter(
+        child: provider.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : provider.products.isEmpty
+                ? const Center(child: Text('상품이 없습니다'))
+                : Wrap(
+                    direction: Axis.horizontal,
+                    alignment: WrapAlignment.spaceBetween,
+                    spacing: 15,
+                    runSpacing: 15,
+                    children: provider.products
+                        .map((product) => ProductCard(product: product))
+                        .toList(),
+                  ),
       ),
     );
   }
