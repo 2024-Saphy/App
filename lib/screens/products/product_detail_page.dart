@@ -1,16 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:intl/intl.dart';
 import 'package:saphy/screens/purchase/purchase_page.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/number_format.dart';
 import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/models/product.dart';
+import 'package:dio/dio.dart';
 
-class ProductDetail extends StatelessWidget {
+class ProductDetail extends StatefulWidget {
   final Product product;
-
   const ProductDetail({super.key, required this.product});
+
+  @override
+  State<ProductDetail> createState() => _ProductDetailState();
+}
+
+class _ProductDetailState extends State<ProductDetail> {
+  Product? productDetail;
+
+  @override
+  void initState() {
+    super.initState();
+    loadProduct();
+  }
+
+  Future<void> loadProduct() async {
+    Product product = await getProduct();
+    setState(() {
+      productDetail = product;
+    });
+  }
+
+  Future<Product> getProduct() async {
+    final dio = Dio();
+    try {
+      final response =
+          await dio.get('https://saphy.site/api/items/${widget.product.id}');
+      if (response.statusCode == 200) {
+        final data = response.data as Map<String, dynamic>;
+        List<dynamic> results = data['results'];
+        if (results.isNotEmpty) {
+          Product product = Product.fromJson(results[0]);
+          return product;
+        } else {
+          throw Exception('No results found in the response');
+        }
+      } else {
+        throw Exception('Failed to load products');
+      }
+    } catch (e) {
+      print('Error: ${e.toString()}'); // 오류 메시지 확인
+      return Product(
+        id: 0,
+        deviceType: "deviceType",
+        name: "name",
+        description: "description",
+        price: 0,
+        stock: 0,
+        images: [ImageModel(name: "name", url: "url")],
+        brand: "brand",
+        color: "color",
+        storage: "storage",
+        grade: "grade",
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +101,13 @@ class ProductDetail extends StatelessWidget {
                     child: Container(
                       height: 400,
                       width: double.infinity,
-                      decoration: const BoxDecoration(
-                          // image: DecorationImage(
-                          //   image: CachedNetworkImageProvider(product.images[0]),
-                          //   fit: BoxFit.cover,
-                          // ),
-                          ),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: CachedNetworkImageProvider(
+                              widget.product.images[0].url),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -72,7 +127,7 @@ class ProductDetail extends StatelessWidget {
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: numberFormat.format(product.price),
+                              text: numberFormat.format(widget.product.price),
                               style: const TextStyle(
                                 decoration: TextDecoration.lineThrough,
                                 decorationColor: gray700,
@@ -98,13 +153,14 @@ class ProductDetail extends StatelessWidget {
                                   color: mainPrimary,
                                 )),
                             TextSpan(
-                              text: "${numberFormat.format(product.price)}원",
+                              text:
+                                  "${numberFormat.format(widget.product.price)}원",
                             ),
                           ],
                         ),
                       ),
                       Text(
-                        product.name,
+                        "[${productDetail?.grade}] ${widget.product.name} ${productDetail?.storage} ${productDetail?.color}",
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontFamily: "Pretendard",
@@ -139,9 +195,7 @@ class ProductDetail extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10),
                       Container(
                         // 등급 안내 상자
                         width: double.infinity,
@@ -181,29 +235,6 @@ class ProductDetail extends StatelessWidget {
                               1
                             ],
                           ),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromRGBO(122, 122, 122, 0.55),
-                              offset: Offset(2, 2),
-                              blurRadius: 4,
-                            ),
-                            BoxShadow(
-                              color: Color.fromRGBO(255, 255, 255, 0.9),
-                              offset: Offset(1, 1),
-                              blurRadius: 0,
-                              spreadRadius: -1,
-                            ),
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.34),
-                              offset: Offset(-1, -1),
-                              blurRadius: 0,
-                              spreadRadius: -1,
-                            ),
-                          ],
-                          border: Border.all(
-                            color: const Color(0xffdedede),
-                            width: 1,
-                          ),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
@@ -216,11 +247,11 @@ class ProductDetail extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '해당 상품은 등급 A 제품입니다.',
+                                    '해당 상품은 등급 ${productDetail?.grade} 제품입니다.',
                                     style: bodyText(),
                                   ),
                                   Text(
-                                    "Grade ${product.grade}",
+                                    "Grade ${productDetail?.grade}",
                                     style: titleText30(),
                                   )
                                 ],
@@ -235,7 +266,7 @@ class ProductDetail extends StatelessWidget {
                                     flex: 1,
                                     child: InkWell(
                                       child: Container(
-                                        width: screenWidth * 0.3,
+                                        width: screenWidth * 0.32,
                                         decoration: BoxDecoration(
                                             color: const Color(0xff404756),
                                             borderRadius:
@@ -258,15 +289,15 @@ class ProductDetail extends StatelessWidget {
                                     flex: 1,
                                     child: InkWell(
                                       child: Container(
-                                        width: screenWidth * 0.3,
+                                        width: screenWidth * 0.32,
                                         decoration: BoxDecoration(
                                             color: const Color(0xff404756),
                                             borderRadius:
                                                 BorderRadius.circular(10)),
-                                        child: const Center(
+                                        child: Center(
                                           child: Text(
-                                            "A등급 리뷰 보기",
-                                            style: TextStyle(
+                                            "${productDetail?.grade}등급 리뷰 보기",
+                                            style: const TextStyle(
                                                 fontFamily: "Pretendard",
                                                 color: white),
                                           ),
@@ -280,138 +311,26 @@ class ProductDetail extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 100,
-                        decoration: BoxDecoration(
-                            color: white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: gray400, width: 0.5)),
-                        child: const Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text("다른 색상 메뉴"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: gray400, width: 0.5),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text("쿠폰 발급 메뉴"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      const SizedBox(height: 20),
+                      spaceDivider("다른 색상 메뉴"),
+                      const SizedBox(height: 20),
+                      spaceDivider("쿠폰 발급 메뉴"),
+                      const SizedBox(height: 20),
                       Row(
                         // 버튼
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Flexible(
-                            flex: 1,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PurchasePage(
-                                            product: product,
-                                          )),
-                                );
-                              },
-                              child: Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xff404756),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    "구매하기",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "Pretendard",
-                                      fontSize: 15,
-                                      color: white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff404756),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  "판매하기",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "Pretendard",
-                                    fontSize: 15,
-                                    color: white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          Flexible(flex: 1, child: button("구매하기")),
+                          const SizedBox(width: 10),
+                          Flexible(flex: 1, child: button("판매하기")),
                         ],
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        // 상품 정보
-                        width: double.infinity,
-                        height: 900,
-                        decoration: BoxDecoration(
-                            color: white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: gray400, width: 0.5)),
-                        child: const Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text("상품 정보 사진 칸"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        // 상품 정보
-                        width: double.infinity,
-                        height: 400,
-                        decoration: BoxDecoration(
-                            color: white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: gray400, width: 0.5)),
-                        child: const Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text("댓글 칸"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 160,
-                      ),
+                      const SizedBox(height: 20),
+                      spaceDivider("상품 정보 사진 칸"),
+                      const SizedBox(height: 20),
+                      spaceDivider("댓글 칸"),
+                      const SizedBox(height: 160),
                     ],
                   ),
                 ),
@@ -423,93 +342,74 @@ class ProductDetail extends StatelessWidget {
             child: Container(
               width: screenWidth,
               height: 100,
-              color: const Color(0xfff4f4f4f4),
+              color: altWhite,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Row(
-                  // 버튼
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     IconButton(
                         onPressed: () {},
                         icon: const Icon(Icons.favorite_outline)),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PurchasePage(
-                                      product: product,
-                                    )),
-                          );
-                        },
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PurchasePage(
-                                        product: product,
-                                      )),
-                            );
-                          },
-                          child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: const Color(0xff404756),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "구매하기",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "Pretendard",
-                                  fontSize: 15,
-                                  color: white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: const Color(0xff404756),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "판매하기",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "Pretendard",
-                              fontSize: 15,
-                              color: white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    const SizedBox(width: 10),
+                    Flexible(flex: 1, child: button("구매하기")),
+                    const SizedBox(width: 10),
+                    Flexible(flex: 1, child: button("판매하기")),
                   ],
                 ),
               ),
             ),
           )
         ],
+      ),
+    );
+  }
+
+  InkWell button(String label) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PurchasePage(
+                    product: widget.product,
+                  )),
+        );
+      },
+      child: Container(
+        height: 50,
+        decoration: BoxDecoration(
+          color: const Color(0xff404756),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: "Pretendard",
+              fontSize: 15,
+              color: white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container spaceDivider(String label) {
+    return Container(
+      width: double.infinity,
+      height: 100,
+      decoration: BoxDecoration(
+        color: white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: gray400, width: 0.5),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Text(label),
       ),
     );
   }

@@ -39,10 +39,11 @@ class ProductCard extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                // image: DecorationImage(
-                //   image: CachedNetworkImageProvider(product.images[0] ?? ""),
-                //   fit: BoxFit.cover,
-                // ),
+                image: DecorationImage(
+                  image:
+                      CachedNetworkImageProvider(product.images[0].url ?? ""),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Padding(

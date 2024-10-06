@@ -17,11 +17,10 @@ class Carousel extends StatelessWidget {
         color: Colors.white,
       ),
       (
-        link:
-            "https://i.pinimg.com/736x/d3/81/bb/d381bbb3036599443634fef9503d888c.jpg",
+        link: "https://pbs.twimg.com/media/FQVX7vKX0AcgiRB.jpg",
         type: "Collaboration",
         content: "전 세계를 홀린\nKirby와의 콜라보!",
-        color: Colors.black
+        color: Colors.white
       ),
     ];
     int totalCount = itemList.length;
@@ -79,25 +78,7 @@ class Carousel extends StatelessWidget {
                   fontSize: 50,
                   height: 1.2),
             ),
-            const SizedBox(
-              height: 30,
-            ),
-            // SizedBox(
-            //   height: 3,
-            //   width: 280,
-            //   child: Row(
-            //     children: [
-            //       Expanded(flex: index, child: Container(color: color)),
-            //       Expanded(
-            //         flex: totalCount + index,
-            //         child: Container(
-            //           color:
-            //               color == Colors.white ? Colors.black : Colors.white,
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            const SizedBox(height: 20)
           ],
         ),
       ),
