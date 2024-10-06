@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:intl/intl.dart';
 import 'package:saphy/screens/purchase/purchase_page.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/number_format.dart';
@@ -196,9 +195,7 @@ class _ProductDetailState extends State<ProductDetail> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10),
                       Container(
                         // 등급 안내 상자
                         width: double.infinity,
@@ -314,138 +311,26 @@ class _ProductDetailState extends State<ProductDetail> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 100,
-                        decoration: BoxDecoration(
-                            color: white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: gray400, width: 0.5)),
-                        child: const Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text("다른 색상 메뉴"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: gray400, width: 0.5),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text("쿠폰 발급 메뉴"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      const SizedBox(height: 20),
+                      spaceDivider("다른 색상 메뉴"),
+                      const SizedBox(height: 20),
+                      spaceDivider("쿠폰 발급 메뉴"),
+                      const SizedBox(height: 20),
                       Row(
                         // 버튼
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Flexible(
-                            flex: 1,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PurchasePage(
-                                            product: widget.product,
-                                          )),
-                                );
-                              },
-                              child: Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xff404756),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    "구매하기",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "Pretendard",
-                                      fontSize: 15,
-                                      color: white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff404756),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  "판매하기",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "Pretendard",
-                                    fontSize: 15,
-                                    color: white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          Flexible(flex: 1, child: button("구매하기")),
+                          const SizedBox(width: 10),
+                          Flexible(flex: 1, child: button("판매하기")),
                         ],
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        // 상품 정보
-                        width: double.infinity,
-                        height: 900,
-                        decoration: BoxDecoration(
-                            color: white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: gray400, width: 0.5)),
-                        child: const Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text("상품 정보 사진 칸"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        // 상품 정보
-                        width: double.infinity,
-                        height: 400,
-                        decoration: BoxDecoration(
-                            color: white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: gray400, width: 0.5)),
-                        child: const Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text("댓글 칸"),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 160,
-                      ),
+                      const SizedBox(height: 20),
+                      spaceDivider("상품 정보 사진 칸"),
+                      const SizedBox(height: 20),
+                      spaceDivider("댓글 칸"),
+                      const SizedBox(height: 160),
                     ],
                   ),
                 ),
@@ -457,82 +342,74 @@ class _ProductDetailState extends State<ProductDetail> {
             child: Container(
               width: screenWidth,
               height: 100,
-              color: const Color(0xfff4f4f4f4),
+              color: altWhite,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Row(
-                  // 버튼
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     IconButton(
                         onPressed: () {},
                         icon: const Icon(Icons.favorite_outline)),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PurchasePage(
-                                      product: widget.product,
-                                    )),
-                          );
-                        },
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: const Color(0xff404756),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              "구매하기",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Pretendard",
-                                fontSize: 15,
-                                color: white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: const Color(0xff404756),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "판매하기",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "Pretendard",
-                              fontSize: 15,
-                              color: white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    const SizedBox(width: 10),
+                    Flexible(flex: 1, child: button("구매하기")),
+                    const SizedBox(width: 10),
+                    Flexible(flex: 1, child: button("판매하기")),
                   ],
                 ),
               ),
             ),
           )
         ],
+      ),
+    );
+  }
+
+  InkWell button(String label) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PurchasePage(
+                    product: widget.product,
+                  )),
+        );
+      },
+      child: Container(
+        height: 50,
+        decoration: BoxDecoration(
+          color: const Color(0xff404756),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: "Pretendard",
+              fontSize: 15,
+              color: white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container spaceDivider(String label) {
+    return Container(
+      width: double.infinity,
+      height: 100,
+      decoration: BoxDecoration(
+        color: white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: gray400, width: 0.5),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Text(label),
       ),
     );
   }

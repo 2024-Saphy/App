@@ -15,11 +15,20 @@ class ItemListPage extends StatefulWidget {
 
 class _ItemListPageState extends State<ItemListPage> {
   late Future<List<Product>> _products;
+  int cnt = 0;
 
   @override
   void initState() {
     super.initState();
     _products = getProducts();
+    countProducts();
+  }
+
+  Future<void> countProducts() async {
+    List<Product> products = await getProducts(); // getProducts()에서 결과를 대기
+    setState(() {
+      cnt = products.length; // 제품 개수를 cnt에 설정
+    });
   }
 
   Future<List<Product>> getProducts() async {
@@ -82,10 +91,36 @@ class _ItemListPageState extends State<ItemListPage> {
         slivers: [
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30.0,
+              ),
               child: Text(
                 widget.name,
                 style: titleText(),
+              ),
+            ),
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(
+              height: 10,
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            sliver: SliverToBoxAdapter(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '상품 $cnt',
+                    style: subTitleText(),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.sort_outlined),
+                    onPressed: () {},
+                  ),
+                ],
               ),
             ),
           ),
@@ -128,6 +163,29 @@ class _ItemListPageState extends State<ItemListPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Container buildFilterButton(String label) {
+    return Container(
+      height: 45,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: gray300, width: 1),
+        color: white,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 8),
+        child: Center(
+          child: Text(
+            label,
+            style: const TextStyle(
+                fontFamily: "Pretendard",
+                fontSize: 15,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
     );
   }
