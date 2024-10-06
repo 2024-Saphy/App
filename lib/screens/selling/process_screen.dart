@@ -34,12 +34,12 @@ class _ProcessScreenState extends State<ProcessScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
-                padding: EdgeInsets.only(left: 20.0, bottom: 100.0),
+                padding: EdgeInsets.only(left: 20.0, bottom: 32.0),
                 child: Text(
                   '판매는\n이렇게 진행돼요',
                   style: TextStyle(
@@ -49,6 +49,10 @@ class _ProcessScreenState extends State<ProcessScreen> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 36.0),
+                child: Center(child: Image.asset('assets/images/shop.png')),
               ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
