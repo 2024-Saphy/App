@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:saphy/utils/product_provider.dart';
+import 'package:flutter/widgets.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/widgets/product_card.dart';
+import 'package:dio/dio.dart';
+import 'package:saphy/models/product.dart';
 
 class ItemListPage extends StatefulWidget {
   final String name, url;
@@ -25,9 +26,9 @@ class _ItemListPageState extends State<ItemListPage> {
   }
 
   Future<void> countProducts() async {
-    List<Product> products = await getProducts(); // getProducts()에서 결과를 대기
+    List<Product> products = await getProducts();
     setState(() {
-      cnt = products.length; // 제품 개수를 cnt에 설정
+      cnt = products.length;
     });
   }
 
@@ -50,121 +51,129 @@ class _ItemListPageState extends State<ItemListPage> {
         throw Exception('Failed to load products');
       }
     } catch (e) {
-      print('Error: ${e.toString()}'); // 오류 메시지 확인
       return [];
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final productProvider = Provider.of<ProductProvider>(context);
-
     return Scaffold(
       backgroundColor: const Color(0xfff4f4f4),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: altWhite,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios,
-                  size: 25,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.search,
-                  size: 25,
-                ),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ),
-      ),
+      appBar: _appBar(),
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 30.0,
-              ),
-              child: Text(
-                widget.name,
-                style: titleText(),
-              ),
-            ),
-          ),
+          _buildHeader(),
           const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 10,
-            ),
+            child: SizedBox(height: 10),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver: SliverToBoxAdapter(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '상품 $cnt',
-                    style: subTitleText(),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.sort_outlined),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(20),
-            sliver: SliverToBoxAdapter(
-              child: Wrap(
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.spaceBetween,
-                spacing: 15,
-                runSpacing: 15,
-                children: [
-                  FutureBuilder(
-                      future: _products,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error.toString()}');
-                        } else if (!snapshot.hasData ||
-                            snapshot.data!.isEmpty) {
-                          return const Center(child: Text('No products found'));
-                        } else {
-                          final products = snapshot.data!;
-                          return Wrap(
-                            direction: Axis.horizontal,
-                            alignment: WrapAlignment.spaceBetween,
-                            spacing: 15,
-                            runSpacing: 15,
-                            children: products
-                                .map((product) => ProductCard(product: product))
-                                .toList(),
-                          );
-                        }
-                      })
-                ],
-              ),
-            ),
-          ),
+          _buildSorter(),
+          _buildProductGrid(),
         ],
+      ),
+    );
+  }
+
+  AppBar _appBar() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: altWhite,
+      title: Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                size: 25,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.search,
+                size: 25,
+              ),
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SliverToBoxAdapter _buildHeader() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 30.0,
+        ),
+        child: Text(
+          widget.name,
+          style: titleText(),
+        ),
+      ),
+    );
+  }
+
+  SliverPadding _buildSorter() {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      sliver: SliverToBoxAdapter(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '상품 $cnt',
+              style: subTitleText(),
+            ),
+            IconButton(
+              icon: const Icon(Icons.sort_outlined),
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SliverPadding _buildProductGrid() {
+    return SliverPadding(
+      padding: const EdgeInsets.only(bottom: 50, right: 20, left: 20, top: 10),
+      sliver: SliverToBoxAdapter(
+        child: Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.spaceBetween,
+          spacing: 15,
+          runSpacing: 15,
+          children: [
+            FutureBuilder(
+                future: _products,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error.toString()}');
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text('상품이 없습니다'));
+                  } else {
+                    final products = snapshot.data!;
+                    return Wrap(
+                      direction: Axis.horizontal,
+                      alignment: WrapAlignment.spaceBetween,
+                      spacing: 15,
+                      runSpacing: 15,
+                      children: products
+                          .map((product) => ProductCard(product: product))
+                          .toList(),
+                    );
+                  }
+                })
+          ],
+        ),
       ),
     );
   }
