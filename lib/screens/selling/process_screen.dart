@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saphy/screens/selling/photo_screen.dart';
 import 'package:saphy/utils/colors.dart';
@@ -14,6 +15,23 @@ class _ProcessScreenState extends State<ProcessScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(CupertinoIcons.back, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: const Text(
+              '고객센터',
+              style: TextStyle(color: Colors.black), // 텍스트 스타일 설정
+            ),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
@@ -21,9 +39,9 @@ class _ProcessScreenState extends State<ProcessScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
-                padding: EdgeInsets.only(left: 20.0, top: 40.0, bottom: 100.0),
+                padding: EdgeInsets.only(left: 20.0, bottom: 100.0),
                 child: Text(
-                  '판매절차를\n알려드릴게요',
+                  '판매는\n이렇게 진행돼요',
                   style: TextStyle(
                     fontFamily: 'Pretendard',
                     fontSize: 40.0,
@@ -32,25 +50,60 @@ class _ProcessScreenState extends State<ProcessScreen> {
                   ),
                 ),
               ),
-              const Process(
-                number: '1',
-                content: '사진 촬영 지침에 맞게 \n제품 사진 촬영하기!',
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 20.0,
+                  ),
+                  Column(
+                    children: [
+                      Step(
+                        number: '1',
+                        last: false,
+                      ),
+                      Step(
+                        number: '2',
+                        last: false,
+                      ),
+                      Step(
+                        number: '3',
+                        last: false,
+                      ),
+                      Step(
+                        number: '4',
+                        last: true,
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 20.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Process(
+                        content: '사진 촬영하기',
+                        description: '사진 촬영 지침에 맞게 촬영해요.',
+                      ),
+                      Process(
+                        content: '하자 입력하기',
+                        description: '카테고리에 알맞는 정보를 입력해주세요.',
+                      ),
+                      Process(
+                        content: '기기 수거',
+                        description: '사피에서 판매될 기기를 수거해요.',
+                      ),
+                      Process(
+                        content: '판매 완료!',
+                        description: '책정된 금액이 계좌로 입금돼요.',
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              const Process(
-                number: '2',
-                content: '사진 촬영 지침에 맞게 \n제품 사진 촬영하기!',
-              ),
-              const Process(
-                number: '3',
-                content: '사진 촬영 지침에 맞게 \n제품 사진 촬영하기!',
-              ),
-              const Process(
-                number: '4',
-                content: '사진 촬영 지침에 맞게 \n제품 사진 촬영하기!',
-              ),
-              const SizedBox(height: 100.0),
+              const SizedBox(height: 84.0),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: NormalButton(
                   title: '확인했어요',
                   bgColor: black,
@@ -63,9 +116,6 @@ class _ProcessScreenState extends State<ProcessScreen> {
                   flag: true,
                 ),
               ),
-              const SizedBox(
-                height: 30.0,
-              ),
             ],
           ),
         ),
@@ -74,50 +124,71 @@ class _ProcessScreenState extends State<ProcessScreen> {
   }
 }
 
-class Process extends StatelessWidget {
-  const Process({
+class Step extends StatelessWidget {
+  const Step({
     super.key,
     required this.number,
-    required this.content,
+    required this.last,
   });
 
   final String number;
+  final bool last;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Prefix(
+          number: number,
+        ),
+        if (!last)
+          Container(
+            color: const Color(0xffa5abbb),
+            width: 2.0,
+            height: 24.0,
+          ),
+      ],
+    );
+  }
+}
+
+class Process extends StatelessWidget {
+  const Process({
+    super.key,
+    required this.content,
+    required this.description,
+  });
+
   final String content;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 5.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: gray300,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(
-              width: 10.0,
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            content,
+            style: const TextStyle(
+              fontFamily: 'Pretendard',
+              fontSize: 20.0,
+              color: black,
+              fontWeight: FontWeight.w700,
             ),
-            Prefix(
-              number: number,
+          ),
+          Text(
+            description,
+            style: const TextStyle(
+              fontFamily: 'Pretendard',
+              fontSize: 16.0,
+              color: black,
+              fontWeight: FontWeight.w600,
             ),
-            const SizedBox(
-              width: 20.0,
-            ),
-            Expanded(
-              child: Text(
-                content,
-                style: const TextStyle(
-                  fontFamily: 'Pretendard',
-                  fontSize: 20.0,
-                  color: black,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 12.0)
+        ],
       ),
     );
   }
@@ -135,19 +206,17 @@ class Prefix extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(15.0),
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: black,
-            width: 3.0,
-          )),
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: Color(0xffdcdcdc),
+      ),
       child: Text(
         number,
         style: const TextStyle(
           fontFamily: 'Pretendard',
-          fontSize: 40.0,
+          fontSize: 15.0,
           color: black,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
