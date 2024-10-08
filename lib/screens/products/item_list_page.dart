@@ -151,27 +151,28 @@ class _ItemListPageState extends State<ItemListPage> {
           runSpacing: 15,
           children: [
             FutureBuilder(
-                future: _products,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error.toString()}');
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text('상품이 없습니다'));
-                  } else {
-                    final products = snapshot.data!;
-                    return Wrap(
-                      direction: Axis.horizontal,
-                      alignment: WrapAlignment.spaceBetween,
-                      spacing: 15,
-                      runSpacing: 15,
-                      children: products
-                          .map((product) => ProductCard(product: product))
-                          .toList(),
-                    );
-                  }
-                })
+              future: _products,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error.toString()}');
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('상품이 없습니다'));
+                } else {
+                  final products = snapshot.data!;
+                  return Wrap(
+                    direction: Axis.horizontal,
+                    alignment: WrapAlignment.spaceBetween,
+                    spacing: 15,
+                    runSpacing: 15,
+                    children: products
+                        .map((product) => ProductCard(product: product))
+                        .toList(),
+                  );
+                }
+              },
+            )
           ],
         ),
       ),
