@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/textstyles.dart';
+import 'package:saphy/widgets/app_bar.dart';
 import 'package:saphy/widgets/product_card.dart';
 import 'package:dio/dio.dart';
 import 'package:saphy/models/product.dart';
@@ -59,61 +60,15 @@ class _ItemListPageState extends State<ItemListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f4f4),
-      appBar: _appBar(),
+      appBar: TopAppBar(label: widget.name),
       body: CustomScrollView(
         slivers: [
-          _buildHeader(),
           const SliverToBoxAdapter(
             child: SizedBox(height: 10),
           ),
           _buildSorter(),
           _buildProductGrid(),
         ],
-      ),
-    );
-  }
-
-  AppBar _appBar() {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      backgroundColor: altWhite,
-      title: Padding(
-        padding: const EdgeInsets.only(top: 10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios,
-                size: 25,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.search,
-                size: 25,
-              ),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  SliverToBoxAdapter _buildHeader() {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 30.0,
-        ),
-        child: Text(
-          widget.name,
-          style: titleText(),
-        ),
       ),
     );
   }

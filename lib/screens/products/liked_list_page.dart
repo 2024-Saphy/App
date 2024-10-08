@@ -6,6 +6,7 @@ import 'package:saphy/models/product.dart';
 import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/widgets/product_card.dart';
 import 'package:saphy/utils/colors.dart';
+import 'package:saphy/widgets/app_bar.dart';
 
 class LikedListPage extends StatefulWidget {
   const LikedListPage({super.key});
@@ -19,27 +20,9 @@ class _LikedListPageState extends State<LikedListPage> {
 
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color(0xfff4f4f4),
-      appBar: AppBar(
-        backgroundColor: altWhite,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back_ios, size: 25),
-                onPressed: () {},
-              ),
-              SizedBox(height: 50, width: screenWidth - 150),
-              IconButton(
-                  icon: const Icon(Icons.search, size: 25), onPressed: () {}),
-            ],
-          ),
-        ),
-      ),
+      appBar: const TopAppBar(label: "찜 목록"),
       body: CustomScrollView(
         slivers: [
           SliverPadding(
