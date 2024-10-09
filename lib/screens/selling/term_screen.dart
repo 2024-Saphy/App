@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saphy/screens/selling/process_screen.dart';
 import 'package:saphy/utils/colors.dart';
@@ -14,14 +15,22 @@ class _TermScreenState extends State<TermScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(CupertinoIcons.back, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
-                padding: EdgeInsets.only(left: 20.0, top: 40.0, bottom: 100.0),
+                padding: EdgeInsets.only(left: 20.0, bottom: 100.0),
                 child: Text(
                   '이용약관에\n동의해주세요',
                   style: TextStyle(
@@ -49,9 +58,9 @@ class _TermScreenState extends State<TermScreen> {
                     '사진은 선명하고 제품의 상태를 명확히 보여줄 수 있어야 합니다. 흐리거나 제품의 상태를 왜곡하는 사진은 삭제될 수 있습니다.',
                 initial: false,
               ),
-              const SizedBox(height: 200.0),
+              const SizedBox(height: 100.0),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: NormalButton(
                   title: '확인했어요',
                   bgColor: black,

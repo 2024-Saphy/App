@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:saphy/screens/selling/flaw_screen.dart';
@@ -12,6 +14,159 @@ class PhotoScreen extends StatefulWidget {
 }
 
 class _PhotoScreenState extends State<PhotoScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showPopup(context);
+    });
+  }
+
+  void _showPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: Dialog(
+            backgroundColor: white,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 4.0),
+                    child: Text(
+                      'Photo Guide',
+                      style: TextStyle(
+                        fontFamily: 'Prompt',
+                        fontSize: 32.0,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 4.0),
+                    child: Text.rich(
+                      TextSpan(
+                        text: '상품의 ',
+                        style: TextStyle(
+                          fontFamily: 'Pretendard',
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '모든 면',
+                            style: TextStyle(fontWeight: FontWeight.w800),
+                          ),
+                          TextSpan(text: '이 보이도록 촬영해주세요.'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 4.0),
+                    child: Text.rich(
+                      TextSpan(
+                        text: '밝은 ',
+                        style: TextStyle(
+                          fontFamily: 'Pretendard',
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '배경',
+                            style: TextStyle(fontWeight: FontWeight.w800),
+                          ),
+                          TextSpan(text: '에서 촬영해주세요.'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 4.0),
+                    child: Text.rich(
+                      TextSpan(
+                        text: '실사진 ',
+                        style: TextStyle(
+                          fontFamily: 'Pretendard',
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '최소 4장',
+                            style: TextStyle(fontWeight: FontWeight.w800),
+                          ),
+                          TextSpan(text: '이 필요해요!'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 4.0),
+                    child: Text.rich(
+                      TextSpan(
+                        text: '상태가 잘 보이도록\n',
+                        style: TextStyle(
+                          fontFamily: 'Pretendard',
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '적절한 거리',
+                            style: TextStyle(fontWeight: FontWeight.w800),
+                          ),
+                          TextSpan(text: '에서 촬영해주세요'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 4.0),
+                    child: Text.rich(
+                      TextSpan(
+                        text: '케이스 등 ',
+                        style: TextStyle(
+                          fontFamily: 'Pretendard',
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '보호 장비는\n 탈착 후',
+                            style: TextStyle(fontWeight: FontWeight.w800),
+                          ),
+                          TextSpan(text: ' 촬영해주세요.'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: NormalButton(
+                      title: '확인했어요',
+                      bgColor: gray800,
+                      txtColor: white,
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      flag: true,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,23 +230,11 @@ class _PhotoScreenState extends State<PhotoScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                SingleChildScrollView(
+                const SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
                       PhotoPlaceholder(
-                        image: Image.asset('assets/images/Shuhua.webp'),
-                      ),
-                      PhotoPlaceholder(
-                        image: Image.asset('assets/images/Shuhua.webp'),
-                      ),
-                      PhotoPlaceholder(
-                        image: Image.asset('assets/images/Shuhua.webp'),
-                      ),
-                      PhotoPlaceholder(
-                        image: Image.asset('assets/images/Shuhua.webp'),
-                      ),
-                      const PhotoPlaceholder(
                         image: null,
                       ),
                     ],
@@ -109,14 +252,11 @@ class _PhotoScreenState extends State<PhotoScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                SingleChildScrollView(
+                const SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
                       PhotoPlaceholder(
-                        image: Image.asset('assets/images/Shuhua.webp'),
-                      ),
-                      const PhotoPlaceholder(
                         image: null,
                       ),
                     ],
@@ -124,7 +264,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 80.0, vertical: 10.0),
+                      horizontal: 80.0, vertical: 20.0),
                   child: NormalButton(
                     title: '더 추가하기',
                     bgColor: gray800,
@@ -136,10 +276,10 @@ class _PhotoScreenState extends State<PhotoScreen> {
               ],
             ),
             const SizedBox(
-              height: 70.0,
+              height: 20.0,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: NormalButton(
                 title: '다음으로',
                 bgColor: black,
@@ -153,7 +293,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
               ),
             ),
             const SizedBox(
-              height: 50.0,
+              height: 40.0,
             ),
           ],
         ),
