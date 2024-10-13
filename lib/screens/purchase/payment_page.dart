@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:iamport_flutter/iamport_payment.dart';
 import 'package:iamport_flutter/model/payment_data.dart';
 import 'package:saphy/models/product.dart';
+import 'package:saphy/screens/purchase/purchase_fail.dart';
 import 'package:saphy/screens/purchase/purchase_success.dart';
 import 'package:saphy/service/api_service.dart';
 import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/colors.dart';
+import 'package:saphy/widgets/normal_button.dart';
 
 class Payment extends StatelessWidget {
   final Product product;
@@ -13,86 +15,93 @@ class Payment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: preparePayment(product),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(
-              backgroundColor: white,
-            ),
-          );
-        }
+    return Scaffold(
+      backgroundColor: altWhite,
+      body: FutureBuilder(
+        future: preparePayment(product),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                backgroundColor: white,
+              ),
+            );
+          }
 
-        if (snapshot.hasError) {
-          return const Center(
-            child: Text('결제 준비 실패'), // 결제 준비가 실패한 경우 표시할 UI
-          );
-        }
+          if (snapshot.data != null) {
+            final paymentData = snapshot.data as Map<String, dynamic>;
+            final String merchantUid = paymentData['merchantUid'];
+            final double amount = paymentData['amount'];
 
-        if (snapshot.hasData) {
-          final paymentData = snapshot.data as Map<String, dynamic>;
-          final String merchantUid = paymentData['merchantUid'];
-          final double amount = paymentData['amount'];
-
-          return IamportPayment(
-            initialChild: Container(
-              color: Colors.white,
-              child: const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('잠시만 기다려주세요...', style: TextStyle(fontSize: 20)),
-                  ],
+            return IamportPayment(
+              initialChild: Container(
+                color: Colors.white,
+                child: const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('잠시만 기다려주세요...', style: TextStyle(fontSize: 20)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            userCode: 'imp16147707',
-            data: PaymentData(
-              pg: 'tosspayments',
-              payMethod: 'card',
-              name: product.name,
-              merchantUid: merchantUid, // 준비된 merchantUid 사용
-              amount: amount, // 준비된 amount 사용
-              buyerName: '홍길동',
-              buyerTel: '01012345678',
-              buyerEmail: 'example@naver.com',
-              buyerAddr: '서울시 강남구 신사동 661-16',
-              buyerPostcode: '06018',
-              appScheme: 'example',
-              cardQuota: [2, 3],
-            ),
-            callback: (Map<String, String> result) async {
-              if (result['success'] == 'true') {
-                String? impUid = result['imp_uid'];
-                String? merchantUid = result['merchant_uid'];
-                await verifyIamport(impUid, merchantUid, context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PurchaseSuccess(),
-                  ),
-                );
-              } else {
-                String? errorMsg = result['error_msg'];
-                print('결제 실패: $errorMsg');
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('결제 실패: $errorMsg')),
-                );
-              }
-            },
-          );
-        }
+              userCode: 'imp16147707',
+              data: PaymentData(
+                pg: 'tosspayments',
+                payMethod: 'card',
+                name: product.name,
+                merchantUid: merchantUid,
+                amount: amount,
+                buyerName: '홍길동',
+                buyerTel: '01012345678',
+                buyerEmail: 'example@naver.com',
+                buyerAddr: '서울시 강남구 신사동 661-16',
+                buyerPostcode: '06018',
+                appScheme: 'example',
+                cardQuota: [2, 3],
+              ),
+              callback: (Map<String, String> result) async {
+                print('결제 결과: $result');
 
-        // 기본적으로 로딩 UI를 표시
-        return const Center(
-          child: CircularProgressIndicator(), // 기본적으로 결제 준비 중 로딩 표시
-        );
-      },
+                if (result['success'] == 'true') {
+                  String? impUid = result['imp_uid'];
+                  String? merchantUid = result['merchant_uid'];
+                  await verifyIamport(product.id, impUid, merchantUid, context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PurchaseSuccess(),
+                    ),
+                  );
+                } else {
+                  String? errorMsg = result['error_msg'];
+                  print('결제 실패: $errorMsg');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('결제 실패: $errorMsg')),
+                  );
+                }
+              },
+            );
+          }
+          return const Text("결제 실패!");
+          // return Center(
+          //   child: Column(
+          //     children: [
+          //       const Text("결제 실패"),
+          //       NormalButton(
+          //           title: "홈으로 돌아가기",
+          //           bgColor: black,
+          //           txtColor: white,
+          //           onTap: () {},
+          //           flag: true)
+          //     ],
+          //   ),
+          // );
+        },
+      ),
     );
   }
 
-  // preparePayment 함수는 결제 준비 데이터를 서버에서 받아오는 역할
   Future<Map<String, dynamic>?> preparePayment(Product product) async {
     String token = await readJwt();
     token = token.toString().split(" ")[2];
@@ -100,20 +109,22 @@ class Payment extends StatelessWidget {
     final param = {
       'itemId': product.id,
       'quantity': 1,
-      'amount': product.price,
+      'amount': '${product.price}.00',
       'payMethod': 'CREDIT_CARD',
     };
 
     try {
       final response = await APIService.instance.request(
-        '/payments/prepare',
+        'https://saphy.site/payments/prepare',
         DioMethod.post,
         contentType: 'application/json',
         token: "Bearer $token",
         param: param,
       );
 
-      if (response.statusCode == 200 && response.data != null) {
+      final statusCode = response.data['status']['code'];
+
+      if (statusCode == 200) {
         final data = response.data;
         final merchantUid = data['results'][0]['merchantUid'];
         final amount = data['results'][0]['amount'];
@@ -128,31 +139,26 @@ class Payment extends StatelessWidget {
   }
 
   // 결제 후 Iamport에서 검증하는 함수
-  Future<void> verifyIamport(
-      String? impUid, String? itemId, BuildContext context) async {
-    // JWT 토큰 읽기
+  Future<void> verifyIamport(int itemId, String? impUid, String? merchantUid,
+      BuildContext context) async {
     String token = await readJwt();
     token = token.toString().split(" ")[2];
 
-    // impUid 또는 itemId가 없을 경우 중단
-    if (impUid == null || itemId == null) return;
+    if (impUid == null) return;
 
-    // 결제 검증에 사용할 파라미터
     final param = {
-      "merchantUid":
-          "ORD-8d323fff-339a-4707-89b1-7b1cbb1681f6", // 실제 merchantUid 값을 가져오거나 사용
+      "merchantUid": merchantUid,
       "itemId": itemId,
-      "impUid": impUid, // Iamport에서 반환된 impUid를 사용
-      "amount": 999.99 // 실제 결제 금액을 사용
+      "impUid": impUid,
+      "amount": "${product.price}.00"
     };
 
     try {
-      // API 요청 보내기 (POST)
       final response = await APIService.instance.request(
-        '/payments/complete',
+        'https://saphy.site/payments/complete',
         DioMethod.post,
         contentType: 'application/json',
-        token: "Bearer $token", // JWT 토큰을 헤더에 포함
+        token: "Bearer $token",
         param: param,
       );
 

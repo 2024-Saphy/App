@@ -7,17 +7,21 @@ class PurchaseFail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          const Text("결제 실패"),
-          NormalButton(
-              title: "홈으로 돌아가기",
-              bgColor: black,
-              txtColor: white,
-              onTap: () {},
-              flag: true)
-        ],
+    final screenHeight = MediaQuery.of(context).size.height;
+    return SizedBox(
+      height: screenHeight,
+      child: Center(
+        child: Column(
+          children: [
+            const Text("결제 실패"),
+            NormalButton(
+                title: "홈으로 돌아가기",
+                bgColor: black,
+                txtColor: white,
+                onTap: () {},
+                flag: true)
+          ],
+        ),
       ),
     );
   }
