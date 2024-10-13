@@ -3,10 +3,12 @@ import 'package:flutter/widgets.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/models/product.dart';
+import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/widgets/product_card.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/widgets/app_bar.dart';
+import 'package:dio/dio.dart';
 
 class LikedListPage extends StatefulWidget {
   const LikedListPage({super.key});
@@ -17,6 +19,53 @@ class LikedListPage extends StatefulWidget {
 
 class _LikedListPageState extends State<LikedListPage> {
   final NumberFormat numberFormat = NumberFormat('###,###,###,###');
+  late Future<List<Product>> _products;
+  int cnt = 0;
+
+  Future<List<Product>> getProducts() async {
+    final dio = Dio();
+    String? accessToken = await readAccessToken();
+
+    try {
+      final response = await dio.get(
+        'https://saphy.site/item-wishes/',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken', // 필요한 헤더 추가
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        final data = response.data as Map<String, dynamic>;
+        if (data['results'] != null) {
+          List<Product> products = (data['results'] as List)
+              .map((item) => Product.fromJson(item))
+              .toList();
+          return products;
+        } else {
+          throw Exception('No results found in the response');
+        }
+      } else {
+        throw Exception('Failed to load products');
+      }
+    } catch (e) {
+      return [];
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _products = getProducts();
+    countProducts();
+  }
+
+  Future<void> countProducts() async {
+    List<Product> products = await getProducts();
+    setState(() {
+      cnt = products.length;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +102,39 @@ class _LikedListPageState extends State<LikedListPage> {
               ),
             ),
           ),
-          const SliverPadding(
-            padding: EdgeInsets.all(20),
+          SliverPadding(
+            padding: const EdgeInsets.all(20),
             sliver: SliverToBoxAdapter(
               child: Wrap(
                 direction: Axis.horizontal,
                 alignment: WrapAlignment.spaceBetween,
                 spacing: 15,
                 runSpacing: 15,
-                children: [],
+                children: [
+                  FutureBuilder(
+                    future: _products,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error.toString()}');
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Center(child: Text('상품이 없습니다'));
+                      } else {
+                        final products = snapshot.data!;
+                        return Wrap(
+                          direction: Axis.horizontal,
+                          alignment: WrapAlignment.spaceBetween,
+                          spacing: 15,
+                          runSpacing: 15,
+                          children: products
+                              .map((product) => ProductCard(product: product))
+                              .toList(),
+                        );
+                      }
+                    },
+                  )
+                ],
               ),
             ),
           ),

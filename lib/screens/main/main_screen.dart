@@ -145,7 +145,7 @@ class _MainScreenState extends State<MainScreen> {
                         } else if (!snapshot.hasData ||
                             snapshot.data!.isEmpty) {
                           return const Center(
-                              child: Text('No products found')); // 데이터 없음 메시지
+                              child: Text('상품이 없습니다')); // 데이터 없음 메시지
                         } else {
                           final products = snapshot.data!; // 데이터 가져오기
                           return Wrap(
