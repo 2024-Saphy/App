@@ -56,6 +56,8 @@ dependencies:
   carousel_slider: ^5.0.0
   card_loading: ^0.3.2
   iamport_flutter: ^0.10.19
+  image_picker: ^1.1.2
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_lints: ^4.0.0
