@@ -1,7 +1,10 @@
-import 'dart:ui';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:saphy/provider/image_provider.dart';
 import 'package:saphy/screens/selling/flaw_screen.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/widgets/normal_button.dart';
@@ -14,6 +17,8 @@ class PhotoScreen extends StatefulWidget {
 }
 
 class _PhotoScreenState extends State<PhotoScreen> {
+  final ImagePicker _imagePicker = ImagePicker();
+
   @override
   void initState() {
     super.initState();
@@ -167,8 +172,19 @@ class _PhotoScreenState extends State<PhotoScreen> {
     );
   }
 
+  Future<void> pickImage() async {
+    final pickedFile =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        context.read<ImageProviderModel>().addImage(pickedFile);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final imageProvider = context.watch<ImageProviderModel>();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -219,61 +235,48 @@ class _PhotoScreenState extends State<PhotoScreen> {
             const SizedBox(
               height: 40.0,
             ),
-            Column(
-              children: [
-                const Text(
-                  '제품 전체 사진',
-                  style: TextStyle(
-                    fontFamily: 'Pretendard',
-                    fontSize: 20.0,
-                    color: black,
-                    fontWeight: FontWeight.w500,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                children: [
+                  const Text(
+                    '제품 전체 사진',
+                    style: TextStyle(
+                      fontFamily: 'Pretendard',
+                      fontSize: 20.0,
+                      color: black,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      PhotoPlaceholder(
-                        image: null,
-                      ),
-                    ],
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            await pickImage();
+                          },
+                          child: const PhotoPlaceholder(
+                            image: null,
+                          ),
+                        ),
+                        ...imageProvider.images.map((image) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Image.file(
+                              File(image.path),
+                              width: 160.0,
+                              height: 160.0,
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                const Text(
-                  '자세한 손상 사진',
-                  style: TextStyle(
-                    fontFamily: 'Pretendard',
-                    fontSize: 20.0,
-                    color: black,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      PhotoPlaceholder(
-                        image: null,
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 80.0, vertical: 20.0),
-                  child: NormalButton(
-                    title: '더 추가하기',
-                    bgColor: gray800,
-                    txtColor: white,
-                    onTap: () {},
-                    flag: true,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(
               height: 20.0,
