@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saphy/screens/main/main_screen.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/widgets/normal_button.dart';
 
@@ -31,7 +32,15 @@ class PurchaseSuccess extends StatelessWidget {
                     title: "홈으로 돌아가기",
                     bgColor: black,
                     txtColor: white,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainScreen(),
+                        ),
+                        (route) => false,
+                      );
+                    },
                     flag: true)
               ],
             ),

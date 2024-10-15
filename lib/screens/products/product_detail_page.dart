@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:saphy/screens/purchase/purchase_page.dart';
+import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/number_format.dart';
 import 'package:saphy/utils/textstyles.dart';
@@ -17,6 +18,7 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   Product? productDetail;
+  bool isWished = false; // 아이템이 찜되었는지 상태를 관리
 
   @override
   void initState() {
@@ -62,7 +64,55 @@ class _ProductDetailState extends State<ProductDetail> {
         color: "color",
         storage: "storage",
         grade: "grade",
+        descriptionImage: ImageModel(name: "name", url: "url"),
       );
+    }
+  }
+
+  Future<void> toggleWish() async {
+    final dio = Dio();
+    try {
+      String token = await readJwt();
+      token = token.toString().split(" ")[2];
+
+      if (!isWished) {
+        // 아이템을 찜하는 POST 요청
+        final response = await dio.post(
+          'https://saphy.site/item-wishes?itemId=${widget.product.id}',
+          options: Options(
+            headers: {
+              'Authorization': token,
+            },
+          ),
+        );
+
+        if (response.statusCode == 201) {
+          // 요청이 성공적으로 처리된 경우
+          setState(() {
+            isWished = true; // 아이템이 찜 상태로 변경
+          });
+        }
+      } else {
+        // 아이템 찜 해제하는 POST 요청
+        final response = await dio.delete(
+          'https://saphy.site/item-wishes/${widget.product.id}', // 삭제 요청을 보낼 URL
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer $token',
+            },
+          ),
+        );
+
+        if (response.statusCode == 200) {
+          // 요청이 성공적으로 처리된 경우
+          setState(() {
+            isWished = false; // 아이템이 찜 해제 상태로 변경
+          });
+        }
+      }
+    } catch (e) {
+      print('Error: $e');
+      // 에러 처리 로직 추가 가능
     }
   }
 
@@ -350,8 +400,16 @@ class _ProductDetailState extends State<ProductDetail> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.favorite_outline)),
+                      onPressed: toggleWish,
+                      icon: Icon(
+                        isWished
+                            ? Icons.favorite
+                            : Icons.favorite_outline, // 찜 상태에 따라 아이콘 변경
+                        color: isWished
+                            ? Colors.red
+                            : Colors.black, // 찜 상태에 따라 색상 변경
+                      ),
+                    ),
                     const SizedBox(width: 10),
                     Flexible(flex: 1, child: button("구매하기")),
                     const SizedBox(width: 10),

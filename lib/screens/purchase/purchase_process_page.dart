@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saphy/screens/purchase/payment_page.dart';
 import 'package:saphy/utils/colors.dart';
+import 'package:saphy/utils/number_format.dart';
 import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/widgets/normal_button.dart';
 import 'package:saphy/models/product.dart';
@@ -118,10 +119,11 @@ class _PurchaseProcessPageState extends State<PurchaseProcessPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(widget.product.name, style: subTitleText()),
-                      Text("${widget.product.storage}, ${widget.product.color}",
+                      Text("${widget.product.storage} ${widget.product.color}",
                           style: bodyText()),
                       const Spacer(),
-                      Text("${widget.product.price}", style: subTitleText()),
+                      Text(numberFormat.format(widget.product.price),
+                          style: subTitleText()),
                     ],
                   ),
                 ),

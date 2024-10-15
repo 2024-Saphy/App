@@ -115,8 +115,8 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   Future<List<Product>> searchText(String value) async {
     final dio = Dio();
     try {
-      final response = await dio.get(
-          'https://saphy.site/api/items?deviceType=PHONE&size=20&query=$value');
+      final response =
+          await dio.get('https://saphy.site/api/items?size=20&query=$value');
 
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>;
