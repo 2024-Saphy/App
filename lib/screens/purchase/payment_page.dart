@@ -63,11 +63,11 @@ class Payment extends StatelessWidget {
               callback: (Map<String, String> result) async {
                 print('결제 결과: $result');
 
-                if (result['success'] == 'true') {
+                if (result['error_msg'] == null) {
                   String? impUid = result['imp_uid'];
                   String? merchantUid = result['merchant_uid'];
                   await verifyIamport(product.id, impUid, merchantUid, context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const PurchaseSuccess(),
@@ -78,6 +78,12 @@ class Payment extends StatelessWidget {
                   print('결제 실패: $errorMsg');
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('결제 실패: $errorMsg')),
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PurchaseFail(),
+                    ),
                   );
                 }
               },
@@ -166,6 +172,12 @@ class Payment extends StatelessWidget {
         // 결제 검증 성공 처리
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('결제 검증 성공')),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const PurchaseSuccess(),
+          ),
         );
       } else {
         // 실패 처리
