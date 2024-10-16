@@ -15,4 +15,9 @@ class ImageProviderModel with ChangeNotifier {
     _images.removeAt(index);
     notifyListeners();
   }
+
+  void clearImages() {
+    _images.clear();
+    notifyListeners();
+  }
 }
