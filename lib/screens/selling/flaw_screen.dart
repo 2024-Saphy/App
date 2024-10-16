@@ -158,7 +158,7 @@ class _FlawScreenState extends State<FlawScreen> {
               title: '제출할게요',
               bgColor: black,
               txtColor: white,
-              onTap: () {
+              onTap: () async {
                 List<File> imageFiles = imageProvider.images
                     .map((xfile) => File(xfile.path))
                     .toList();
@@ -173,7 +173,8 @@ class _FlawScreenState extends State<FlawScreen> {
                     "isRepaired": controllers[5].text, // 수리 여부
                   }
                 };
-                final statecode = createSellingItem(imageFiles, requestObject);
+                final statecode =
+                    await createSellingItem(imageFiles, requestObject);
                 if (statecode == 200) {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => const EndSellingScreen(),
