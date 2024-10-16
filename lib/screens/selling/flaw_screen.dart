@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:saphy/provider/image_provider.dart';
+import 'package:saphy/screens/selling/end_selling_screen.dart';
 import 'package:saphy/service/selling_service.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/widgets/normal_button.dart';
@@ -172,7 +173,12 @@ class _FlawScreenState extends State<FlawScreen> {
                     "isRepaired": controllers[5].text, // 수리 여부
                   }
                 };
-                createSellingItem(imageFiles, requestObject);
+                final statecode = createSellingItem(imageFiles, requestObject);
+                if (statecode == 200) {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const EndSellingScreen(),
+                  ));
+                }
               },
               flag: true,
             ),
