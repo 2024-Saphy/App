@@ -185,6 +185,8 @@ class _PhotoScreenState extends State<PhotoScreen> {
   @override
   Widget build(BuildContext context) {
     final imageProvider = context.watch<ImageProviderModel>();
+    bool isButtonEnabled = imageProvider.images.length >= 4;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -256,22 +258,26 @@ class _PhotoScreenState extends State<PhotoScreen> {
                           onTap: () async {
                             await pickImage();
                           },
-                          child: const PhotoPlaceholder(
-                            image: null,
-                          ),
+                          child: const PhotoPlaceholder(image: null),
                         ),
-                        ...imageProvider.images.map((image) {
-                          return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Image.file(
-                              File(image.path),
-                              width: 160.0,
-                              height: 160.0,
-                              fit: BoxFit.cover,
-                            ),
-                          );
-                        }),
+                        Consumer<ImageProviderModel>(
+                          builder: (context, imageProvider, child) {
+                            return Row(
+                              children: imageProvider.images.map((image) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5.0),
+                                  child: Image.file(
+                                    File(image.path),
+                                    width: 160.0,
+                                    height: 160.0,
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              }).toList(),
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -285,12 +291,16 @@ class _PhotoScreenState extends State<PhotoScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: NormalButton(
                 title: '다음으로',
-                bgColor: black,
+                bgColor: isButtonEnabled ? black : gray400,
                 txtColor: white,
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const FlawScreen(),
-                  ));
+                  isButtonEnabled
+                      ? {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const FlawScreen(),
+                          ))
+                        }
+                      : null;
                 },
                 flag: true,
               ),
