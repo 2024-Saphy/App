@@ -5,6 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:saphy/provider/image_provider.dart';
 import 'package:saphy/screens/screen_controller.dart';
+import 'package:saphy/utils/colors.dart';
+import 'package:saphy/screens/welcome/welcome_screen.dart';
+import 'package:saphy/screens/welcome/signup_screen.dart';
+import 'package:saphy/screens/welcome/otp_screen.dart';
+import 'package:saphy/screens/selling/splash_selling_screen.dart';
 
 void main() async {
   await dotenv.load(fileName: 'assets/config/.env');
