@@ -1,12 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:saphy/screens/selling/splash_selling_screen.dart';
-import 'package:saphy/screens/welcome/otp_screen.dart';
-import 'package:saphy/screens/welcome/signup_screen.dart';
-import 'package:saphy/screens/welcome/welcome_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
-import 'package:saphy/utils/colors.dart';
+import 'package:saphy/provider/image_provider.dart';
 import 'package:saphy/screens/screen_controller.dart';
 
 void main() async {
@@ -17,7 +14,14 @@ void main() async {
   KakaoSdk.init(
     nativeAppKey: kakaoNativeAppKey,
   );
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ImageProviderModel()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

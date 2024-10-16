@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saphy/screens/selling/end_selling_screen.dart';
 import 'package:saphy/utils/colors.dart';
@@ -14,6 +15,14 @@ class _RuleScreenState extends State<RuleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(CupertinoIcons.back, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),

@@ -41,7 +41,7 @@ class _EndSellingScreenState extends State<EndSellingScreen> {
             textAlign: TextAlign.center,
           ),
           const Text(
-            '기기 수거를 위한 절차를 확인해볼까요?',
+            '기기 접수가 완료되면 알려드릴게요!',
             style: TextStyle(
               fontFamily: 'Pretendard',
               fontSize: 20.0,
