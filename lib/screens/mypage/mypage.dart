@@ -101,7 +101,7 @@ class _MyPageState extends State<MyPage> {
                                 CircleAvatar(
                                   radius: 40,
                                   backgroundImage: NetworkImage(
-                                    data.profileImgUrl == null ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" : data.profileImgUrl.toString(),
+                                    data.profileImage == null ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" : data.profileImage.toString(),
                                   ),
                                 ),
                                 const SizedBox(width: 20),

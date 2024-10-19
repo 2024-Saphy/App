@@ -68,3 +68,32 @@ Future<int?> joinService(
     throw Exception(e);
   }
 }
+
+Future<int?> setProfileImageService() async {
+  String token = await readJwt();
+  token = token.toString().split(" ")[2];
+  try {
+    final response = await APIService.instance.request(
+      '/members/profileImage',
+      DioMethod.patch,
+      token: "Bearer $token",
+      param: {
+        "profileImage": "string"
+      },
+      contentType: 'application/json',
+    );
+
+    final statusCode = response.data['status']['code'];
+    logger.i('Status code: $statusCode');
+
+    if (response.statusCode == 200) {
+      logger.i('API call [joinService] successful: ${response.data}');
+      return statusCode;
+    } else {
+      logger.e('API call [loginService] failed: ${response.statusMessage}');
+      return statusCode;
+    }
+  } catch (e) {
+    throw Exception(e);
+  }
+}

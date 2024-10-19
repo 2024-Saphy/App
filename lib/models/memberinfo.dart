@@ -1,6 +1,6 @@
 class MemberInfo {
   String? nickname;
-  String? profileImgUrl;
+  ProfileImage? profileImage;
   int? purchasePendingCount;
   int? purchaseInProgressCount;
   int? purchaseCompletedCount;
@@ -13,7 +13,7 @@ class MemberInfo {
 
   MemberInfo({
     this.nickname,
-    this.profileImgUrl,
+    this.profileImage,
     this.purchasePendingCount,
     this.purchaseInProgressCount,
     this.purchaseCompletedCount,
@@ -27,7 +27,9 @@ class MemberInfo {
 
   MemberInfo.fromJson(Map<String, dynamic> json) {
     nickname = json['nickname'];
-    profileImgUrl = json['profileImgUrl'];
+    profileImage = json['profileImage'] != null
+        ? ProfileImage.fromJson(json['profileImage'])
+        : null;
     purchasePendingCount = json['purchasePendingCount'];
     purchaseInProgressCount = json['purchaseInProgressCount'];
     purchaseCompletedCount = json['purchaseCompletedCount'];
@@ -42,7 +44,9 @@ class MemberInfo {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['nickname'] = nickname;
-    data['profileImgUrl'] = profileImgUrl;
+    if (profileImage != null) {
+      data['profileImage'] = profileImage!.toJson();
+    }
     data['purchasePendingCount'] = purchasePendingCount;
     data['purchaseInProgressCount'] = purchaseInProgressCount;
     data['purchaseCompletedCount'] = purchaseCompletedCount;
@@ -52,6 +56,25 @@ class MemberInfo {
     data['salesPendingCount'] = salesPendingCount;
     data['salesInProgressCount'] = salesInProgressCount;
     data['salesCompletedCount'] = salesCompletedCount;
+    return data;
+  }
+}
+
+class ProfileImage {
+  String? name;
+  String? url;
+
+  ProfileImage({this.name, this.url});
+
+  ProfileImage.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    url = json['url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['name'] = name;
+    data['url'] = url;
     return data;
   }
 }

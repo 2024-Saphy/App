@@ -54,7 +54,7 @@ class _EditProfileState extends State<EditProfile> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
                         child: Image.network(
-                          data.profileImgUrl == null ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" : data.profileImgUrl.toString(),
+                          data.profileImage == null ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" : data.profileImage.toString(),
                         ),
                       )
                     ),
