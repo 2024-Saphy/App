@@ -3,12 +3,11 @@ import 'package:flutter/widgets.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:saphy/models/product.dart';
+import 'package:saphy/service/api_service.dart';
 import 'package:saphy/service/authentication/secure_storage.dart';
-import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/widgets/product_card.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/widgets/app_bar.dart';
-import 'package:dio/dio.dart';
 
 class LikedListPage extends StatefulWidget {
   const LikedListPage({super.key});
@@ -23,18 +22,17 @@ class _LikedListPageState extends State<LikedListPage> {
   int cnt = 0;
 
   Future<List<Product>> getProducts() async {
-    final dio = Dio();
-    String? accessToken = await readAccessToken();
+    String token = await readJwt();
+    token = token.toString().split(" ")[2];
 
     try {
-      final response = await dio.get(
-        'https://saphy.site/item-wishes/',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $accessToken', // 필요한 헤더 추가
-          },
-        ),
+      final response = await APIService.instance.request(
+        'https://saphy.site/item-wishes?type=ALL',
+        DioMethod.get,
+        contentType: 'application/json',
+        token: "Bearer $token",
       );
+
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>;
         if (data['results'] != null) {

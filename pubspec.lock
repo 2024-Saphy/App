@@ -716,42 +716,42 @@ packages:
     dependency: transitive
     description:
       name: kakao_flutter_sdk_auth
-      sha256: "43b81bb90d0e01516d321ab3cedc32303f661f115c564489c0fcc4e4a065c777"
+      sha256: "686996c63c7e006ccf9a0bdfee5307465d7ae134d2f1ae2b4a06c597604689bc"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.2"
+    version: "1.9.6"
   kakao_flutter_sdk_common:
     dependency: transitive
     description:
       name: kakao_flutter_sdk_common
-      sha256: "0e3ffd97fa35386d6fabe854cb4c5799b303c75b25f15ce4ec10163d87a5caa5"
+      sha256: "698d5f63d15438ad47af3baf0815fd30dfcacfa76640e96e5a18fc8504f25bde"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.2"
+    version: "1.9.6"
   kakao_flutter_sdk_talk:
     dependency: "direct main"
     description:
       name: kakao_flutter_sdk_talk
-      sha256: e4aea82d5ac167c57dc2f6ea2e75ae5712d1ae29dadde1343df2c007591b6b53
+      sha256: d13ef12ba6ec6e1a7d510834eebfbf15c0c902807873d404d7b1f05f48f9c253
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.2"
+    version: "1.9.6"
   kakao_flutter_sdk_template:
     dependency: transitive
     description:
       name: kakao_flutter_sdk_template
-      sha256: "7d38a7fe8984649f83e81831868aba0b85d058cd7c0568814f8e4dcb8dba4000"
+      sha256: "29738faf73a35ab0f8c2bd2ba7b15e46b22fafbf9cf9c7147d3e3d0747211dda"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.2"
+    version: "1.9.6"
   kakao_flutter_sdk_user:
     dependency: "direct main"
     description:
       name: kakao_flutter_sdk_user
-      sha256: "9d3bd35d5b31cf01d45c7d114ca0c589d5098d8e6efce6f13d574ea692ba6a62"
+      sha256: f3692feefad530bcfcdd1b8cf685b0c2c3da4a6d28a7df7f57529e57b7040f1b
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.2"
+    version: "1.9.6"
   leak_tracker:
     dependency: transitive
     description:
@@ -1009,13 +1009,13 @@ packages:
     source: hosted
     version: "3.0.1"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
-      sha256: d3bbe5553a986e83980916ded2f0b435ef2e1893dfaa29d5a7a790d0eca12180
+      sha256: "746e5369a43170c25816cc472ee016d3a66bc13fcf430c0bc41ad7b4b2922051"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.3"
+    version: "2.3.2"
   shared_preferences_android:
     dependency: transitive
     description:
@@ -1028,10 +1028,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_foundation
-      sha256: "7708d83064f38060c7b39db12aefe449cb8cdc031d6062280087bc4cdb988f5c"
+      sha256: "07e050c7cd39bad516f8d64c455f04508d09df104be326d8c02551590a0d513d"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.5"
+    version: "2.5.3"
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -1052,10 +1052,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_web
-      sha256: d762709c2bbe80626ecc819143013cc820fa49ca5e363620ee20a8b15a3e3daf
+      sha256: d2ca4132d3946fec2184261726b355836a82c33d7d5b67af32692aff18a4684e
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.4.2"
   shared_preferences_windows:
     dependency: transitive
     description:

@@ -8,6 +8,7 @@ import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/number_format.dart';
 import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/models/product.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetail extends StatefulWidget {
   final Product product;
@@ -20,11 +21,23 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   Product? productDetail;
   bool isWished = false;
+  late SharedPreferences wished;
+
+  Future initWishes() async {
+    wished = await SharedPreferences.getInstance();
+    final wishedList = wished.getBool(widget.product.id.toString());
+    if (wishedList != null) {
+      setState(() {
+        isWished = true;
+      });
+    } else {}
+  }
 
   @override
   void initState() {
     super.initState();
     loadProduct();
+    initWishes();
   }
 
   Future<void> loadProduct() async {
@@ -82,8 +95,6 @@ class _ProductDetailState extends State<ProductDetail> {
       token = token.toString().split(" ")[2];
 
       if (!isWished) {
-        // 아이템을 찜하는 POST 요청
-
         final response = await APIService.instance.request(
           'https://saphy.site/item-wishes?itemId=${widget.product.id}',
           DioMethod.post,
@@ -92,9 +103,9 @@ class _ProductDetailState extends State<ProductDetail> {
         );
 
         if (response.statusCode == 200) {
-          // 요청이 성공적으로 처리된 경우
+          await wished.setBool(widget.product.id.toString(), true);
           setState(() {
-            isWished = true; // 아이템이 찜 상태로 변경
+            isWished = true;
           });
         }
       } else {
@@ -106,6 +117,7 @@ class _ProductDetailState extends State<ProductDetail> {
         );
 
         if (response.statusCode == 200) {
+          await wished.setBool(widget.product.id.toString(), false);
           setState(() {
             isWished = false; // 아이템이 찜 해제 상태로 변경
           });
