@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/widgets.dart';
 import 'package:saphy/screens/purchase/purchase_page.dart';
+import 'package:saphy/service/api_service.dart';
 import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/number_format.dart';
 import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/models/product.dart';
-import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetail extends StatefulWidget {
   final Product product;
@@ -18,12 +20,24 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   Product? productDetail;
-  bool isWished = false; // 아이템이 찜되었는지 상태를 관리
+  bool isWished = false;
+  late SharedPreferences wished;
+
+  Future initWishes() async {
+    wished = await SharedPreferences.getInstance();
+    final wishedList = wished.getBool(widget.product.id.toString());
+    if (wishedList != null) {
+      setState(() {
+        isWished = true;
+      });
+    } else {}
+  }
 
   @override
   void initState() {
     super.initState();
     loadProduct();
+    initWishes();
   }
 
   Future<void> loadProduct() async {
@@ -34,10 +48,17 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 
   Future<Product> getProduct() async {
-    final dio = Dio();
+    String token = await readJwt();
+    token = token.toString().split(" ")[2];
+
     try {
-      final response =
-          await dio.get('https://saphy.site/api/items/${widget.product.id}');
+      final response = await APIService.instance.request(
+        'https://saphy.site/api/items/${widget.product.id}',
+        DioMethod.get,
+        contentType: 'application/json',
+        token: "Bearer $token",
+      );
+
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>;
         List<dynamic> results = data['results'];
@@ -51,7 +72,6 @@ class _ProductDetailState extends State<ProductDetail> {
         throw Exception('Failed to load products');
       }
     } catch (e) {
-      print('Error: ${e.toString()}'); // 오류 메시지 확인
       return Product(
         id: 0,
         deviceType: "deviceType",
@@ -70,41 +90,34 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 
   Future<void> toggleWish() async {
-    final dio = Dio();
     try {
       String token = await readJwt();
       token = token.toString().split(" ")[2];
 
       if (!isWished) {
-        // 아이템을 찜하는 POST 요청
-        final response = await dio.post(
+        final response = await APIService.instance.request(
           'https://saphy.site/item-wishes?itemId=${widget.product.id}',
-          options: Options(
-            headers: {
-              'Authorization': token,
-            },
-          ),
-        );
-
-        if (response.statusCode == 201) {
-          // 요청이 성공적으로 처리된 경우
-          setState(() {
-            isWished = true; // 아이템이 찜 상태로 변경
-          });
-        }
-      } else {
-        // 아이템 찜 해제하는 POST 요청
-        final response = await dio.delete(
-          'https://saphy.site/item-wishes/${widget.product.id}', // 삭제 요청을 보낼 URL
-          options: Options(
-            headers: {
-              'Authorization': 'Bearer $token',
-            },
-          ),
+          DioMethod.post,
+          contentType: 'application/json',
+          token: "Bearer $token",
         );
 
         if (response.statusCode == 200) {
-          // 요청이 성공적으로 처리된 경우
+          await wished.setBool(widget.product.id.toString(), true);
+          setState(() {
+            isWished = true;
+          });
+        }
+      } else {
+        final response = await APIService.instance.request(
+          'https://saphy.site/item-wishes/${widget.product.id}',
+          DioMethod.delete,
+          contentType: 'application/json',
+          token: "Bearer $token",
+        );
+
+        if (response.statusCode == 200) {
+          await wished.setBool(widget.product.id.toString(), false);
           setState(() {
             isWished = false; // 아이템이 찜 해제 상태로 변경
           });
@@ -145,22 +158,7 @@ class _ProductDetailState extends State<ProductDetail> {
           SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
-                  height: 400,
-                  child: Center(
-                    child: Container(
-                      height: 400,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: CachedNetworkImageProvider(
-                              widget.product.images[0].url),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                productImage(widget.product.images[0].url),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
@@ -246,180 +244,71 @@ class _ProductDetailState extends State<ProductDetail> {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      Container(
-                        // 등급 안내 상자
-                        width: double.infinity,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: const Color.fromRGBO(222, 222, 222, 1),
-                          gradient: const LinearGradient(
-                            begin: Alignment(-0.92, -0.39),
-                            end: Alignment(0.92, 0.39),
-                            colors: [
-                              Color(0xffa1a1a1),
-                              Color(0xffdedede),
-                              Color(0xffdedede),
-                              Color(0xffdedede),
-                              Color(0xffdedede),
-                              white,
-                              white,
-                              Color(0xffffffff),
-                              Color(0xffdedede),
-                              Color(0xffdedede),
-                              Color(0xffdedede),
-                              Color(0xffa1a1a1),
-                            ],
-                            stops: [
-                              0,
-                              0.16,
-                              0.21,
-                              0.24,
-                              0.27,
-                              0.36,
-                              0.45,
-                              0.6,
-                              0.72,
-                              0.8,
-                              0.84,
-                              1
-                            ],
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '해당 상품은 등급 ${productDetail?.grade} 제품입니다.',
-                                    style: bodyText(),
-                                  ),
-                                  Text(
-                                    "Grade ${productDetail?.grade}",
-                                    style: titleText30(),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    flex: 1,
-                                    child: InkWell(
-                                      child: Container(
-                                        width: screenWidth * 0.32,
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xff404756),
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: const Center(
-                                          child: Text(
-                                            "실제 사진 보기",
-                                            style: TextStyle(
-                                                fontFamily: "Pretendard",
-                                                color: white),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Flexible(
-                                    flex: 1,
-                                    child: InkWell(
-                                      child: Container(
-                                        width: screenWidth * 0.32,
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xff404756),
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Center(
-                                          child: Text(
-                                            "${productDetail?.grade}등급 리뷰 보기",
-                                            style: const TextStyle(
-                                                fontFamily: "Pretendard",
-                                                color: white),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      gradeInformation(screenWidth),
                       const SizedBox(height: 20),
-                      spaceDivider("다른 색상 메뉴"),
-                      const SizedBox(height: 20),
-                      spaceDivider("쿠폰 발급 메뉴"),
-                      const SizedBox(height: 20),
-                      Row(
-                        // 버튼
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Flexible(flex: 1, child: button("구매하기")),
-                          const SizedBox(width: 10),
-                          Flexible(flex: 1, child: button("판매하기")),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      spaceDivider("상품 정보 사진 칸"),
-                      const SizedBox(height: 20),
-                      spaceDivider("댓글 칸"),
-                      const SizedBox(height: 160),
+                      spaceDivider(""),
+                      const SizedBox(height: 80),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              width: screenWidth,
-              height: 100,
-              color: altWhite,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: toggleWish,
-                      icon: Icon(
-                        isWished
-                            ? Icons.favorite
-                            : Icons.favorite_outline, // 찜 상태에 따라 아이콘 변경
-                        color: isWished
-                            ? Colors.red
-                            : Colors.black, // 찜 상태에 따라 색상 변경
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Flexible(flex: 1, child: button("구매하기")),
-                    const SizedBox(width: 10),
-                    Flexible(flex: 1, child: button("판매하기")),
-                  ],
+          buttonBar(screenWidth)
+        ],
+      ),
+    );
+  }
+
+  SizedBox productImage(String url) {
+    return SizedBox(
+      height: 400,
+      child: Center(
+        child: Container(
+          height: 400,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: CachedNetworkImageProvider(widget.product.images[0].url),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Positioned buttonBar(double screenWidth) {
+    return Positioned(
+      bottom: 0,
+      child: Container(
+        width: screenWidth,
+        height: 100,
+        color: altWhite,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: toggleWish,
+                icon: Icon(
+                  isWished
+                      ? Icons.favorite
+                      : Icons.favorite_outline, // 찜 상태에 따라 아이콘 변경
+                  color: isWished
+                      ? const Color(0xff9abcff)
+                      : Colors.black, // 찜 상태에 따라 색상 변경
                 ),
               ),
-            ),
-          )
-        ],
+              const SizedBox(width: 10),
+              Flexible(flex: 1, child: button("구매하기")),
+              const SizedBox(width: 10),
+              Flexible(flex: 1, child: button("판매하기")),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -456,11 +345,82 @@ class _ProductDetailState extends State<ProductDetail> {
     );
   }
 
-  Container spaceDivider(String label) {
+  Container gradeInformation(double screenWidth) {
     return Container(
+      // 등급 안내 상자
       width: double.infinity,
       height: 100,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: const Color.fromRGBO(222, 222, 222, 1),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '해당 상품은 등급 ${productDetail?.grade} 제품입니다.',
+                  style: bodyText(),
+                ),
+                Text(
+                  "Grade ${productDetail?.grade}",
+                  style: titleText30(),
+                )
+              ],
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                gradeButton("실제 사진 보기", screenWidth),
+                const SizedBox(
+                  height: 5,
+                ),
+                gradeButton("${productDetail?.grade}등급 리뷰 보기", screenWidth),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Flexible gradeButton(String label, double screenWidth) {
+    return Flexible(
+      flex: 1,
+      child: InkWell(
+        child: Container(
+          width: screenWidth * 0.32,
+          decoration: BoxDecoration(
+              color: const Color(0xff404756),
+              borderRadius: BorderRadius.circular(10)),
+          child: Center(
+            child: Text(
+              label,
+              style: const TextStyle(fontFamily: "Pretendard", color: white),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container spaceDivider(String label) {
+    return Container(
+      width: double.infinity,
+      height: 2000,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: CachedNetworkImageProvider(
+                productDetail?.descriptionImage.url ?? ""),
+            fit: BoxFit.cover),
         color: white,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: gray400, width: 0.5),
