@@ -5,7 +5,13 @@ import 'package:saphy/utils/textstyles.dart';
 class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
   final AppBar? appBar;
   final String? label;
-  const TopAppBar({super.key, this.appBar, this.label});
+  final bool? searchable;
+  const TopAppBar({
+    super.key,
+    this.appBar,
+    this.label,
+    this.searchable,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +35,19 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
             label ?? "",
             style: titleText(),
           ),
-          IconButton(
-            icon: const Icon(
-              Icons.search,
-              size: 25,
-            ),
-            onPressed: () {},
-          ),
+          Row(
+            children: [
+              searchable == true
+                  ? IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                        size: 25,
+                      ),
+                      onPressed: () {},
+                    )
+                  : const SizedBox()
+            ],
+          )
         ],
       ),
     );

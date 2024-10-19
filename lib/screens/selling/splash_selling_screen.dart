@@ -15,48 +15,49 @@ class _SplashSellingScreenState extends State<SplashSellingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: altWhite,
         body: Column(
-      children: [
-        Expanded(
-          flex: 3,
-          child: Image.asset(
-            fit: BoxFit.cover,
-            'assets/images/products.jpg',
-            width: MediaQuery.of(context).size.width,
-          ),
-        ),
-        const Expanded(
-          flex: 2,
-          child: Center(
-            child: Text(
-              '편하고 안전하게. \n원하는 가격으로.',
-              style: TextStyle(
-                fontFamily: 'Pretendard',
-                fontSize: 40.0,
-                color: black,
-                fontWeight: FontWeight.w700,
+          children: [
+            Expanded(
+              flex: 3,
+              child: Image.asset(
+                fit: BoxFit.cover,
+                'assets/images/products.jpg',
+                width: MediaQuery.of(context).size.width,
               ),
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40.0),
-          child: NormalButton(
-            title: '판매 시작하기',
-            bgColor: black,
-            txtColor: white,
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const TermScreen(),
-              ));
-            },
-            flag: true,
-          ),
-        ),
-        const SizedBox(
-          height: 50.0,
-        )
-      ],
-    ));
+            const Expanded(
+              flex: 2,
+              child: Center(
+                child: Text(
+                  '편하고 안전하게. \n원하는 가격으로.',
+                  style: TextStyle(
+                    fontFamily: 'Pretendard',
+                    fontSize: 40.0,
+                    color: black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              child: NormalButton(
+                title: '판매 시작하기',
+                bgColor: black,
+                txtColor: white,
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const TermScreen(),
+                  ));
+                },
+                flag: true,
+              ),
+            ),
+            const SizedBox(
+              height: 50.0,
+            )
+          ],
+        ));
   }
 }

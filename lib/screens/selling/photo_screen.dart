@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:saphy/provider/image_provider.dart';
 import 'package:saphy/screens/selling/flaw_screen.dart';
 import 'package:saphy/utils/colors.dart';
+import 'package:saphy/utils/textstyles.dart';
+import 'package:saphy/widgets/app_bar.dart';
 import 'package:saphy/widgets/normal_button.dart';
 
 class PhotoScreen extends StatefulWidget {
@@ -188,68 +191,44 @@ class _PhotoScreenState extends State<PhotoScreen> {
     bool isButtonEnabled = imageProvider.images.length >= 4;
 
     return Scaffold(
+      backgroundColor: altWhite,
+      appBar: const TopAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 50.0,
-            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 40.0,
-                      ),
-                      Text(
-                        '사진 촬영하기',
-                        style: TextStyle(
-                          fontFamily: 'Pretendard',
-                          fontSize: 40.0,
-                          color: black,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10, bottom: 20, left: 40.0),
+                  child: Text(
+                    '사진 촬영하기',
+                    style: textStyle(30, true, null),
                   ),
                 ),
-                Image.asset('assets/images/camera.png'),
-                const Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
-                  child: Text(
-                    '제품의 모든 각도를 잘 보여줄 수 있도록 명확하고 밝은 곳에서 사진을 촬영하세요',
-                    style: TextStyle(
-                      fontFamily: 'Pretendard',
-                      fontSize: 20.0,
-                      color: black,
-                      fontWeight: FontWeight.w500,
+                const SizedBox(
+                  height: 40,
+                ),
+                Center(child: Image.asset('assets/images/camera.png')),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 40.0, horizontal: 40.0),
+                  child: Center(
+                    child: Text(
+                      '제품의 모든 각도를 잘 보여줄 수 있도록\n명확하고 밝은 곳에서 사진을 촬영하세요',
+                      style: textStyle(20, false, null),
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
               ],
-            ),
-            const SizedBox(
-              height: 40.0,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 children: [
-                  const Text(
-                    '제품 전체 사진',
-                    style: TextStyle(
-                      fontFamily: 'Pretendard',
-                      fontSize: 20.0,
-                      color: black,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  Text('제품 전체 사진', style: textStyle(20, true, null)),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(

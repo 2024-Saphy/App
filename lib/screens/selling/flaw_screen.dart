@@ -8,6 +8,8 @@ import 'package:saphy/provider/image_provider.dart';
 import 'package:saphy/screens/selling/end_selling_screen.dart';
 import 'package:saphy/service/selling_service.dart';
 import 'package:saphy/utils/colors.dart';
+import 'package:saphy/utils/textstyles.dart';
+import 'package:saphy/widgets/app_bar.dart';
 import 'package:saphy/widgets/normal_button.dart';
 import 'package:toggle_list/toggle_list.dart';
 
@@ -55,48 +57,24 @@ class _FlawScreenState extends State<FlawScreen> {
   Widget build(BuildContext context) {
     final imageProvider = Provider.of<ImageProviderModel>(context);
     return Scaffold(
+      backgroundColor: altWhite,
       resizeToAvoidBottomInset: false,
+      appBar: const TopAppBar(),
       body: Column(
         children: [
-          const Expanded(
+          Expanded(
             flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 40.0,
-                    ),
-                    Text(
-                      '더 자세한\n정보를 알려주세요',
-                      style: TextStyle(
-                        fontFamily: 'Pretendard',
-                        fontSize: 40.0,
-                        color: black,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 45.0,
-                    ),
-                    Text(
-                      '예상 판매 금액을 측정할 수 있어요',
-                      style: TextStyle(
-                        fontFamily: 'Pretendard',
-                        fontSize: 20.0,
-                        color: black,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text('더 자세한\n정보를 알려주세요', style: textStyle(30, true, null)),
+                  const SizedBox(height: 5.0),
+                  Text('예상 판매 금액을 측정할 수 있어요',
+                      style: textStyle(20, false, null)),
+                ],
+              ),
             ),
           ),
           Expanded(
@@ -116,7 +94,7 @@ class _FlawScreenState extends State<FlawScreen> {
                       padding: EdgeInsets.all(10.0),
                     ),
                     itemDecoration: BoxDecoration(
-                      color: gray100,
+                      color: const Color.fromARGB(95, 196, 196, 196),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     title: Text(

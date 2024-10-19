@@ -15,6 +15,7 @@ class _RuleScreenState extends State<RuleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: altWhite,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(CupertinoIcons.back, color: Colors.black),

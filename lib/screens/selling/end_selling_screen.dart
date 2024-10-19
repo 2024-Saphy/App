@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:saphy/screens/main/main_screen.dart';
 import 'package:saphy/screens/screen_controller.dart';
 import 'package:saphy/utils/colors.dart';
+import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/widgets/normal_button.dart';
 
 class EndSellingScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class _EndSellingScreenState extends State<EndSellingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: altWhite,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -30,24 +32,14 @@ class _EndSellingScreenState extends State<EndSellingScreen> {
               ],
             ),
           ),
-          const Text(
+          Text(
             '판매 요청이\n완료되었어요',
-            style: TextStyle(
-              fontFamily: 'Pretendard',
-              fontSize: 40.0,
-              color: black,
-              fontWeight: FontWeight.w700,
-            ),
+            style: textStyle(35, true, null),
             textAlign: TextAlign.center,
           ),
-          const Text(
+          Text(
             '기기 접수가 완료되면 알려드릴게요!',
-            style: TextStyle(
-              fontFamily: 'Pretendard',
-              fontSize: 20.0,
-              color: black,
-              fontWeight: FontWeight.w500,
-            ),
+            style: textStyle(20, false, null),
             textAlign: TextAlign.center,
           ),
           Padding(

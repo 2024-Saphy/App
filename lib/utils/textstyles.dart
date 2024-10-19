@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 
+TextStyle textStyle(double size, bool bold, Color? color) {
+  return TextStyle(
+    fontSize: size,
+    fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+    fontFamily: "Pretendard",
+    color: color ?? Colors.black,
+  );
+}
+
 TextStyle titleText() {
   return const TextStyle(
     fontSize: 25,

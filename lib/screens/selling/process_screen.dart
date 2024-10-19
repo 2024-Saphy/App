@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saphy/screens/selling/photo_screen.dart';
 import 'package:saphy/utils/colors.dart';
+import 'package:saphy/utils/textstyles.dart';
+import 'package:saphy/widgets/app_bar.dart';
 import 'package:saphy/widgets/normal_button.dart';
 
 class ProcessScreen extends StatefulWidget {
@@ -15,39 +17,20 @@ class _ProcessScreenState extends State<ProcessScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(CupertinoIcons.back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              '고객센터',
-              style: TextStyle(color: Colors.black), // 텍스트 스타일 설정
-            ),
-          ),
-        ],
-      ),
+      backgroundColor: altWhite,
+      appBar: const TopAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 20.0, bottom: 32.0),
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 20.0, bottom: 32.0, top: 10),
                 child: Text(
                   '판매는\n이렇게 진행돼요',
-                  style: TextStyle(
-                    fontFamily: 'Pretendard',
-                    fontSize: 40.0,
-                    color: black,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: textStyle(30, true, null),
                 ),
               ),
               Padding(

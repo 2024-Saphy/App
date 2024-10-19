@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saphy/screens/selling/process_screen.dart';
 import 'package:saphy/utils/colors.dart';
+import 'package:saphy/utils/textstyles.dart';
+import 'package:saphy/widgets/app_bar.dart';
 import 'package:saphy/widgets/normal_button.dart';
 
 class TermScreen extends StatefulWidget {
@@ -25,30 +27,20 @@ class _TermScreenState extends State<TermScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(CupertinoIcons.back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
+      backgroundColor: altWhite,
+      appBar: const TopAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 20.0, bottom: 100.0),
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 20.0, bottom: 100.0, top: 10),
                 child: Text(
                   '이용약관에\n동의해주세요',
-                  style: TextStyle(
-                    fontFamily: 'Pretendard',
-                    fontSize: 40.0,
-                    color: black,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: textStyle(30, true, null),
                 ),
               ),
               Term(
