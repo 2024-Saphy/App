@@ -104,8 +104,8 @@ class _SignupScreenState extends State<SignupScreen> {
                       _nameController.text,
                       _phoneController.text,
                     );
-                    final code2 = await setProfileImageService();
-                    if (code == 200 && code2 == 200) {
+                    // final code2 = await setProfileImageService();
+                    if (code == 200) {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const ScreenController(),
                       ));

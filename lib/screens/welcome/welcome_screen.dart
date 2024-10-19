@@ -208,6 +208,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           'KAKAO',
                           user.kakaoAccount!.email!,
                         );
+                        // final code2 = await setProfileImageService();
                         if (code == 200) {
                           //Login Success
                           Navigator.of(context)
