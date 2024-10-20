@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:saphy/models/product.dart';
@@ -36,13 +37,13 @@ class _MainScreenState extends State<MainScreen> {
               .toList();
           return products;
         } else {
-          throw Exception('No results found in the response');
+          return [];
         }
       } else {
-        throw Exception('Failed to load products');
+        // 로드 실패
+        return [];
       }
     } catch (e) {
-      print('Error: ${e.toString()}');
       return [];
     }
   }
@@ -173,7 +174,7 @@ class _MainScreenState extends State<MainScreen> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
+          CupertinoPageRoute(
             builder: (context) => ItemListPage(
               name: category,
               url: url,

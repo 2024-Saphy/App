@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/textstyles.dart';
@@ -18,12 +19,21 @@ class SearchResultScreen extends StatefulWidget {
 class _SearchResultScreenState extends State<SearchResultScreen> {
   late TextEditingController _controller;
   Future<List<Product>>? _products;
+  int cnt = 0;
+
+  Future<void> countProducts() async {
+    List<Product> products = await searchText(widget.query);
+    setState(() {
+      cnt = products.length;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
     _products = searchText(widget.query);
+    countProducts();
   }
 
   @override
@@ -34,10 +44,10 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color(0xfff4f4f4),
       appBar: AppBar(
+        toolbarHeight: 70,
         automaticallyImplyLeading: false,
         backgroundColor: altWhite,
         title: Row(
@@ -58,8 +68,11 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
               (String value) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => SearchResultScreen(query: value),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        SearchResultScreen(query: value),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
                   ),
                 );
               },
@@ -79,8 +92,9 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
         ),
       ),
       body: CustomScrollView(slivers: [
+        _buildSorter(),
         SliverPadding(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
           sliver: SliverToBoxAdapter(
             child: FutureBuilder<List<Product>>(
               future: _products,
@@ -91,7 +105,22 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                   return Center(
                       child: Text('Error: ${snapshot.error.toString()}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('상품이 없습니다'));
+                  return Center(
+                      child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: Image.asset(
+                          'assets/images/Question-3d.png',
+                          width: 180.0,
+                        ),
+                      ),
+                      Text(
+                        '상품이 없습니다',
+                        style: textStyle(20, true, null),
+                      ),
+                    ],
+                  ));
                 } else {
                   final products = snapshot.data!;
                   return Wrap(
@@ -126,13 +155,35 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
               .toList();
           return products;
         } else {
-          throw Exception('검색 결과가 없습니다.');
+          return [];
         }
       } else {
-        throw Exception('상품 로드에 실패했습니다.');
+        return [];
       }
     } catch (e) {
-      throw Exception('에러가 발생했습니다.');
+      return [];
     }
+  }
+
+  SliverPadding _buildSorter() {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      sliver: SliverToBoxAdapter(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '상품 $cnt',
+              style: subTitleText(),
+            ),
+            IconButton(
+              icon: const Icon(Icons.sort_outlined),
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

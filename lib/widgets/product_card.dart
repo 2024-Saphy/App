@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:intl/intl.dart';
 import 'package:saphy/screens/products/product_detail_page.dart';
 import 'package:saphy/utils/number_format.dart';
 import 'package:saphy/utils/textstyles.dart';
@@ -18,7 +18,7 @@ class ProductCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
+          CupertinoPageRoute(
             builder: (context) => ProductDetail(
               product: product,
             ),
@@ -40,8 +40,7 @@ class ProductCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
-                  image:
-                      CachedNetworkImageProvider(product.images[0].url ?? ""),
+                  image: CachedNetworkImageProvider(product.images[0].url),
                   fit: BoxFit.cover,
                 ),
               ),

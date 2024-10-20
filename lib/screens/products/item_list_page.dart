@@ -60,7 +60,10 @@ class _ItemListPageState extends State<ItemListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f4f4),
-      appBar: TopAppBar(label: widget.name),
+      appBar: TopAppBar(
+        label: widget.name,
+        searchable: true,
+      ),
       body: CustomScrollView(
         slivers: [
           const SliverToBoxAdapter(
@@ -99,36 +102,43 @@ class _ItemListPageState extends State<ItemListPage> {
     return SliverPadding(
       padding: const EdgeInsets.only(bottom: 50, right: 20, left: 20, top: 10),
       sliver: SliverToBoxAdapter(
-        child: Wrap(
-          direction: Axis.horizontal,
-          alignment: WrapAlignment.spaceBetween,
-          spacing: 15,
-          runSpacing: 15,
-          children: [
-            FutureBuilder(
-              future: _products,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error.toString()}');
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('상품이 없습니다'));
-                } else {
-                  final products = snapshot.data!;
-                  return Wrap(
-                    direction: Axis.horizontal,
-                    alignment: WrapAlignment.spaceBetween,
-                    spacing: 15,
-                    runSpacing: 15,
-                    children: products
-                        .map((product) => ProductCard(product: product))
-                        .toList(),
-                  );
-                }
-              },
-            )
-          ],
+        child: FutureBuilder(
+          future: _products,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error.toString()}');
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Center(
+                  child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Image.asset(
+                      'assets/images/Question-3d.png',
+                      width: 180.0,
+                    ),
+                  ),
+                  Text(
+                    '상품이 없습니다',
+                    style: textStyle(20, true, null),
+                  ),
+                ],
+              ));
+            } else {
+              final products = snapshot.data!;
+              return Wrap(
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.spaceBetween,
+                spacing: 15,
+                runSpacing: 15,
+                children: products
+                    .map((product) => ProductCard(product: product))
+                    .toList(),
+              );
+            }
+          },
         ),
       ),
     );

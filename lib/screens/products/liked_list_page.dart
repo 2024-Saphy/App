@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 import 'package:saphy/models/product.dart';
 import 'package:saphy/service/api_service.dart';
 import 'package:saphy/service/authentication/secure_storage.dart';
+import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/widgets/product_card.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/widgets/app_bar.dart';
@@ -21,13 +23,13 @@ class _LikedListPageState extends State<LikedListPage> {
   late Future<List<Product>> _products;
   int cnt = 0;
 
-  Future<List<Product>> getProducts() async {
+  Future<List<Product>> getProducts(String url) async {
     String token = await readJwt();
     token = token.toString().split(" ")[2];
 
     try {
       final response = await APIService.instance.request(
-        'https://saphy.site/item-wishes?type=ALL',
+        'https://saphy.site/item-wishes?type=$url',
         DioMethod.get,
         contentType: 'application/json',
         token: "Bearer $token",
@@ -54,12 +56,12 @@ class _LikedListPageState extends State<LikedListPage> {
   @override
   void initState() {
     super.initState();
-    _products = getProducts();
-    countProducts();
+    _products = getProducts("ALL");
+    countProducts("ALL");
   }
 
-  Future<void> countProducts() async {
-    List<Product> products = await getProducts();
+  Future<void> countProducts(String url) async {
+    List<Product> products = await getProducts(url);
     setState(() {
       cnt = products.length;
     });
@@ -69,7 +71,10 @@ class _LikedListPageState extends State<LikedListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f4f4),
-      appBar: const TopAppBar(label: "찜 목록"),
+      appBar: const TopAppBar(
+        label: "찜 목록",
+        searchable: true,
+      ),
       body: CustomScrollView(
         slivers: [
           SliverPadding(
@@ -82,26 +87,39 @@ class _LikedListPageState extends State<LikedListPage> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      buildFilterButton("전체"),
-                      const SizedBox(width: 10),
-                      buildFilterButton("스마트폰"),
-                      const SizedBox(width: 10),
-                      buildFilterButton("스마트폰"),
-                      const SizedBox(width: 10),
-                      buildFilterButton("스마트폰"),
-                      const SizedBox(width: 10),
-                      buildFilterButton("스마트폰"),
-                      const SizedBox(width: 10),
-                      buildFilterButton("스마트폰"),
-                      const SizedBox(width: 10),
+                      buildFilterButton("전체", "ALL"),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      buildFilterButton("스마트폰", "PHONE"),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      buildFilterButton("태블릿", "TABLET"),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      buildFilterButton("노트북", "LAPTOP"),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      buildFilterButton("음향기기", "headphone-3d"),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      buildFilterButton("웨어러블", "wearable-3d"),
                     ],
                   ),
                 ),
               ),
             ),
           ),
+          const SliverToBoxAdapter(
+            child: SizedBox(height: 10),
+          ),
+          _buildSorter(),
           SliverPadding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             sliver: SliverToBoxAdapter(
               child: Wrap(
                 direction: Axis.horizontal,
@@ -117,7 +135,22 @@ class _LikedListPageState extends State<LikedListPage> {
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error.toString()}');
                       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: Text('상품이 없습니다'));
+                        return Center(
+                            child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: Image.asset(
+                                'assets/images/Question-3d.png',
+                                width: 180.0,
+                              ),
+                            ),
+                            Text(
+                              '상품이 없습니다',
+                              style: textStyle(20, true, null),
+                            ),
+                          ],
+                        ));
                       } else {
                         final products = snapshot.data!;
                         return Wrap(
@@ -141,23 +174,48 @@ class _LikedListPageState extends State<LikedListPage> {
     );
   }
 
-  Container buildFilterButton(String label) {
-    return Container(
-      height: 45,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: gray300, width: 1),
-        color: white,
+  SliverPadding _buildSorter() {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      sliver: SliverToBoxAdapter(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '상품 $cnt',
+              style: subTitleText(),
+            ),
+            IconButton(
+              icon: const Icon(Icons.sort_outlined),
+              onPressed: () {},
+            ),
+          ],
+        ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 8),
-        child: Center(
-          child: Text(
-            label,
-            style: const TextStyle(
-                fontFamily: "Pretendard",
-                fontSize: 15,
-                fontWeight: FontWeight.bold),
+    );
+  }
+
+  InkWell buildFilterButton(String label, String url) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          // URL에 따라 제품을 다시 가져오고, 상태를 업데이트합니다.
+          _products = getProducts(url);
+          countProducts(url); // 필터에 맞는 제품 개수를 카운트합니다.
+        });
+      },
+      child: Container(
+        height: 45,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: gray300, width: 1),
+          color: white,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 8),
+          child: Center(
+            child: Text(label, style: textStyle(15, false, null)),
           ),
         ),
       ),
