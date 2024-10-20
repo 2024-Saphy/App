@@ -207,9 +207,8 @@ class _LikedListPageState extends State<LikedListPage> {
     return InkWell(
       onTap: () {
         setState(() {
-          // URL에 따라 제품을 다시 가져오고, 상태를 업데이트합니다.
           _products = getProducts(url);
-          countProducts(url); // 필터에 맞는 제품 개수를 카운트합니다.
+          countProducts(url);
         });
       },
       child: Container(

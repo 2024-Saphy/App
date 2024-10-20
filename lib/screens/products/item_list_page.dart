@@ -46,10 +46,10 @@ class _ItemListPageState extends State<ItemListPage> {
               .toList();
           return products;
         } else {
-          throw Exception('No results found in the response');
+          return [];
         }
       } else {
-        throw Exception('Failed to load products');
+        return [];
       }
     } catch (e) {
       return [];
