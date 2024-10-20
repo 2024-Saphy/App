@@ -40,7 +40,7 @@ class _PurchaseProcessPageState extends State<PurchaseProcessPage> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("취소", style: bodyText()),
+              child: Text("취소", style: textStyle(15, false, black)),
             ),
           ),
         ],
@@ -99,13 +99,12 @@ class _PurchaseProcessPageState extends State<PurchaseProcessPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      // 이미지 추가 시:
-                      // image: DecorationImage(
-                      //   image: NetworkImage('image_url'),
-                      //   fit: BoxFit.cover,
-                      // ),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      image: DecorationImage(
+                        image: NetworkImage(widget.product.images[0].url),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     height: double.infinity,
                   ),

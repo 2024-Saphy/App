@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saphy/screens/purchase/purchase_process_page.dart';
 import 'package:saphy/utils/colors.dart';
@@ -103,7 +104,7 @@ class _PurchaseFooterState extends State<PurchaseFooter> {
           ),
         ),
         const Divider(
-          color: black,
+          color: gray800,
           thickness: 1,
           indent: 5,
           endIndent: 5,
@@ -111,13 +112,13 @@ class _PurchaseFooterState extends State<PurchaseFooter> {
         const SizedBox(height: 10),
         NormalButton(
           title: "구매하기",
-          bgColor: white,
-          txtColor: black,
+          bgColor: black,
+          txtColor: white,
           onTap: _isAgreed
               ? () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (context) => PurchaseProcessPage(
                         product: widget.product, // widget.product 사용
                       ),
@@ -169,7 +170,7 @@ class PurchaseHeader extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         const Divider(
-          color: black,
+          color: gray800,
           thickness: 1,
           indent: 40,
           endIndent: 40,
