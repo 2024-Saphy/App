@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
@@ -318,9 +319,9 @@ class _ProductDetailState extends State<ProductDetail> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
+          CupertinoPageRoute(
               builder: (context) => PurchasePage(
-                    product: widget.product,
+                    product: productDetail!,
                   )),
         );
       },

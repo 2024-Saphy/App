@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:saphy/models/product.dart';
@@ -173,7 +174,7 @@ class _MainScreenState extends State<MainScreen> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
+          CupertinoPageRoute(
             builder: (context) => ItemListPage(
               name: category,
               url: url,
