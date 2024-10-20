@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:saphy/models/product.dart';
+import 'package:saphy/screens/notification/notification_screen.dart';
 import 'package:saphy/screens/products/item_list_page.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/textstyles.dart';
@@ -65,7 +66,13 @@ class _MainScreenState extends State<MainScreen> {
         elevation: 0.0,
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => const NotificationScreen()),
+                );
+              },
               icon: const Icon(
                 Icons.notifications_outlined,
                 color: white,
