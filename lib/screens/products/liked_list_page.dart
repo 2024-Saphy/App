@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart';
 import 'package:saphy/models/product.dart';
+import 'package:saphy/screens/screen_controller.dart';
 import 'package:saphy/service/api_service.dart';
 import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/textstyles.dart';
@@ -71,7 +72,13 @@ class _LikedListPageState extends State<LikedListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f4f4),
-      appBar: const TopAppBar(
+      appBar: TopAppBar(
+        backAction: () {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => (const ScreenController())));
+        },
         label: "찜 목록",
         searchable: true,
       ),

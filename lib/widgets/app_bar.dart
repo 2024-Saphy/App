@@ -3,11 +3,13 @@ import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/textstyles.dart';
 
 class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final void Function()? backAction;
   final AppBar? appBar;
   final String? label;
   final bool? searchable;
   const TopAppBar({
     super.key,
+    this.backAction,
     this.appBar,
     this.label,
     this.searchable,
@@ -27,9 +29,10 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
               Icons.arrow_back_ios,
               size: 25,
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: backAction ??
+                () {
+                  Navigator.pop(context);
+                },
           ),
           Text(
             label ?? "",
