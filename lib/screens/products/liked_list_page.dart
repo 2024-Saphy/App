@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:saphy/models/product.dart';
 import 'package:saphy/service/api_service.dart';
 import 'package:saphy/service/authentication/secure_storage.dart';
+import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/widgets/product_card.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/widgets/app_bar.dart';
@@ -117,7 +118,22 @@ class _LikedListPageState extends State<LikedListPage> {
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error.toString()}');
                       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: Text('상품이 없습니다'));
+                        return Center(
+                            child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: Image.asset(
+                                'assets/images/Question-3d.png',
+                                width: 180.0,
+                              ),
+                            ),
+                            Text(
+                              '상품이 없습니다',
+                              style: textStyle(20, true, null),
+                            ),
+                          ],
+                        ));
                       } else {
                         final products = snapshot.data!;
                         return Wrap(
