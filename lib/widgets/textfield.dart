@@ -13,21 +13,18 @@ SizedBox textField(
       controller: controller,
       onSubmitted: onSubmitted,
       decoration: InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: gray800, width: 1),
-          borderRadius: BorderRadius.circular(15),
-        ),
+        filled: true,
+        fillColor: white.withOpacity(0.8),
+        hintText: '검색어를 입력하세요',
+        hintStyle: const TextStyle(color: Colors.grey),
         border: OutlineInputBorder(
-          borderSide: const BorderSide(color: gray800, width: 1),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(12.0), // 둥근 모서리 설정
+          borderSide: BorderSide.none, // 테두리 제거
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: mainPrimary, width: 1),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        hintText: '검색어를 입력하세요',
-        hintStyle: const TextStyle(
-          color: gray700,
+          borderRadius: BorderRadius.circular(12.0), // 포커스 시에도 둥근 모서리 유지
+          borderSide: BorderSide(
+              color: mainPrimary.withOpacity(0.5), width: 1.5), // 포커스 시 테두리 스타일
         ),
       ),
     ),
