@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saphy/screens/purchase/payment_page.dart';
 import 'package:saphy/utils/colors.dart';
@@ -67,7 +68,7 @@ class _PurchaseProcessPageState extends State<PurchaseProcessPage> {
             onTap: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(
+                  CupertinoPageRoute(
                       builder: (context) =>
                           (Payment(product: widget.product))));
             },
