@@ -60,7 +60,10 @@ class _ItemListPageState extends State<ItemListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f4f4),
-      appBar: TopAppBar(label: widget.name),
+      appBar: TopAppBar(
+        label: widget.name,
+        searchable: true,
+      ),
       body: CustomScrollView(
         slivers: [
           const SliverToBoxAdapter(

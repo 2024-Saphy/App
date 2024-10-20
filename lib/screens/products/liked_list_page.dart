@@ -70,7 +70,10 @@ class _LikedListPageState extends State<LikedListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff4f4f4),
-      appBar: const TopAppBar(label: "찜 목록"),
+      appBar: const TopAppBar(
+        label: "찜 목록",
+        searchable: true,
+      ),
       body: CustomScrollView(
         slivers: [
           SliverPadding(
