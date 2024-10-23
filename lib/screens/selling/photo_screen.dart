@@ -197,7 +197,6 @@ class _PhotoScreenState extends State<PhotoScreen> {
         child: Column(
           children: [
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -267,7 +266,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
               height: 20.0,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
               child: NormalButton(
                 title: '다음으로',
                 bgColor: isButtonEnabled ? black : gray400,
@@ -283,9 +282,6 @@ class _PhotoScreenState extends State<PhotoScreen> {
                 },
                 flag: true,
               ),
-            ),
-            const SizedBox(
-              height: 40.0,
             ),
           ],
         ),

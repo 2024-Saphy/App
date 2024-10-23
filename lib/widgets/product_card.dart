@@ -55,7 +55,7 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Text("${numberFormat.format(product.price)}원",
                       style: textStyle(20, true, black)),
-                  Text(product.name, style: textStyle(16, false, gray800)),
+                  Text(product.name, style: textStyle(16, false, black)),
                 ],
               ),
             )
