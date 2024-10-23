@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saphy/screens/selling/term_screen.dart';
 import 'package:saphy/utils/colors.dart';
@@ -47,7 +48,7 @@ class _SplashSellingScreenState extends State<SplashSellingScreen> {
                 bgColor: black,
                 txtColor: white,
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                     builder: (context) => const TermScreen(),
                   ));
                 },

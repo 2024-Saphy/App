@@ -275,7 +275,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
                 onTap: () {
                   isButtonEnabled
                       ? {
-                          Navigator.of(context).push(MaterialPageRoute(
+                          Navigator.of(context).push(CupertinoPageRoute(
                             builder: (context) => const FlawScreen(),
                           ))
                         }

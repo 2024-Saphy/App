@@ -74,7 +74,7 @@ class _TermScreenState extends State<TermScreen> {
                   onTap: () {
                     _allTermsAccepted
                         ? {
-                            Navigator.of(context).push(MaterialPageRoute(
+                            Navigator.of(context).push(CupertinoPageRoute(
                               builder: (context) => const ProcessScreen(),
                             ))
                           }

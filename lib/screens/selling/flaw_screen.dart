@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
@@ -154,7 +155,7 @@ class _FlawScreenState extends State<FlawScreen> {
                 final statecode =
                     await createSellingItem(imageFiles, requestObject);
                 if (statecode == 200) {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  Navigator.of(context).pushReplacement(CupertinoPageRoute(
                     builder: (context) => const EndSellingScreen(),
                   ));
                 }

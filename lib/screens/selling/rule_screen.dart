@@ -161,7 +161,7 @@ class _RuleScreenState extends State<RuleScreen> {
                   txtColor: white,
                   onTap: () {
                     Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
                         builder: (context) => const EndSellingScreen(),
                       ),
                       (Route<dynamic> route) =>

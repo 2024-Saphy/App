@@ -96,7 +96,7 @@ class _ProcessScreenState extends State<ProcessScreen> {
                   bgColor: black,
                   txtColor: white,
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(CupertinoPageRoute(
                       builder: (context) => const PhotoScreen(),
                     ));
                   },
