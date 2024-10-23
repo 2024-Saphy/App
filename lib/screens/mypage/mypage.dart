@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:saphy/models/memberinfo.dart';
 import 'package:saphy/screens/mypage/edit_profile.dart';
 import 'package:saphy/screens/mypage/setting.dart';
+import 'package:saphy/screens/mypage/setting_page/personalinformation.dart';
+import 'package:saphy/screens/mypage/setting_page/terms.dart';
 import 'package:saphy/service/authentication/secure_storage.dart';
 import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/textstyles.dart';
@@ -101,7 +103,7 @@ class _MyPageState extends State<MyPage> {
                                 CircleAvatar(
                                   radius: 40,
                                   backgroundImage: NetworkImage(
-                                    data.profileImage == null ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" : data.profileImage.toString(),
+                                    data.profileImage?.url ?? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
                                   ),
                                 ),
                                 const SizedBox(width: 20),
@@ -561,7 +563,12 @@ class _MyPageState extends State<MyPage> {
                   children: [
                     TextButton(
                       onPressed: () {
-
+                        // 공지사항이 없다고 알림
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("공지사항이 없습니다."),
+                          ),
+                        );
                       },
                       style: ButtonStyle(
                         overlayColor: WidgetStateProperty.all(Colors.transparent),
@@ -583,7 +590,8 @@ class _MyPageState extends State<MyPage> {
                     ),
                     TextButton(
                       onPressed: () {
-
+                        Navigator.of(context).push(CupertinoPageRoute(
+                            builder: (context) => const Terms()));
                       },
                       style: ButtonStyle(
                         overlayColor: WidgetStateProperty.all(Colors.transparent),
@@ -604,8 +612,9 @@ class _MyPageState extends State<MyPage> {
                       color: Colors.black26,
                     ),
                     TextButton(
-                      onPressed: () async {
-                        await getMemberInfo();
+                      onPressed: () {
+                        Navigator.of(context).push(CupertinoPageRoute(
+                            builder: (context) => const PersonalInformation()));
                       },
                       style: ButtonStyle(
                         overlayColor: WidgetStateProperty.all(Colors.transparent),

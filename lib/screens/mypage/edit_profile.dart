@@ -49,14 +49,12 @@ class _EditProfileState extends State<EditProfile> {
                 children: [
                   SizedBox(
                     width: double.infinity,
+                    height: 100,
                     child: CircleAvatar(
-                      radius: 50,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Image.network(
-                          data.profileImage == null ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" : data.profileImage.toString(),
-                        ),
-                      )
+                      radius: 40,
+                      backgroundImage: NetworkImage(
+                        data.profileImage?.url ?? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+                      ),
                     ),
                   ),
                   const SizedBox(

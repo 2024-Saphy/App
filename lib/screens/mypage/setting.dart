@@ -1,6 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saphy/screens/mypage/setting_page/address.dart';
+import 'package:saphy/screens/mypage/setting_page/cashreceipt.dart';
 import 'package:saphy/screens/mypage/setting_page/login_info.dart';
+import 'package:saphy/screens/mypage/setting_page/notice.dart';
+import 'package:saphy/screens/mypage/setting_page/oss_page.dart';
+import 'package:saphy/screens/mypage/setting_page/payments.dart';
+import 'package:saphy/screens/mypage/setting_page/personalinformation.dart';
+import 'package:saphy/screens/mypage/setting_page/terms.dart';
 import 'package:saphy/screens/welcome/welcome_screen.dart';
 import 'package:saphy/service/authentication/google_login_controller.dart';
 import 'package:saphy/service/authentication/kakao_login_controller.dart';
@@ -53,30 +60,37 @@ class _SettingPageState extends State<SettingPage> {
                     builder: (context) => const LoginInfo()));
               },
             ),
-            const SettingMenu(
+            SettingMenu(
               title: "주소록",
               icon: Icons.list_alt,
-              onTap: null,
+              onTap: (){
+                Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (context) => const AddressList()));
+              },
             ),
-            const SettingMenu(
+            SettingMenu(
               title: "결제 정보",
               icon: Icons.credit_card,
-              onTap: null,
+              onTap: (){
+                Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (context) => const PaymentsList()));
+              },
             ),
-            const SettingMenu(
-              title: "판매 정산 계좌",
-              icon: Icons.monetization_on_outlined,
-              onTap: null,
-            ),
-            const SettingMenu(
+            SettingMenu(
               title: "현금영수증 정보",
               icon: Icons.receipt_long,
-              onTap: null,
+              onTap: (){
+                Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (context) => const CashReceipt()));
+              },
             ),
-            const SettingMenu(
+            SettingMenu(
               title: "알림",
               icon: Icons.notifications_none,
-              onTap: null,
+              onTap: (){
+                Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (context) => const NoticeSetting()));
+              },
             ),
             const SizedBox(
               height: 20,
@@ -88,20 +102,32 @@ class _SettingPageState extends State<SettingPage> {
             const SizedBox(
               height: 10,
             ),
-            const SettingMenu(
+            SettingMenu(
               title: "이용약관",
               icon: Icons.list_alt_sharp,
-              onTap: null,
+              onTap: (){
+                Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (context) => const Terms()));
+              },
             ),
-            const SettingMenu(
+            SettingMenu(
               title: "개인정보처리방침",
               icon: Icons.security,
-              onTap: null,
+              onTap: (){
+                Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (context) => const PersonalInformation()));
+              },
             ),
-            const SettingMenu(
+            SettingMenu(
               title: "오픈소스 라이선스",
               icon: Icons.code_rounded,
-              onTap: null,
+              onTap: (){
+                Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (context) => const OssPage()));
+              },
+            ),
+            const SizedBox(
+              height: 20,
             ),
             NormalButton(
               title: '로그아웃',

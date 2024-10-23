@@ -222,17 +222,40 @@ class _LoginInfoState extends State<LoginInfo> {
                 padding: const EdgeInsets.all(0),
               ),
               onPressed: () async {
-                logger.i("회원탈퇴 시작");
-                await deleteAccount();
-                final googleViewModel = MainViewModel(GoogleLoginController());
-                googleViewModel.logout();
-                final kakaoViewModel = MainViewModel(KakaoLoginController());
-                googleViewModel.logout();
-                kakaoViewModel.logout();
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => const WelcomeScreen(),
-                  ),
+                // 팝업으로 재확인
+                final result = await showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("회원탈퇴"),
+                      content: const Text("정말로 회원탈퇴를 하시겠습니까?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, false);
+                          },
+                          child: const Text("취소"),
+                        ),
+                        TextButton(
+                          onPressed: () async{
+                            logger.i("회원탈퇴 시작");
+                            await deleteAccount();
+                            final googleViewModel = MainViewModel(GoogleLoginController());
+                            googleViewModel.logout();
+                            final kakaoViewModel = MainViewModel(KakaoLoginController());
+                            googleViewModel.logout();
+                            kakaoViewModel.logout();
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => const WelcomeScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text("확인"),
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
               child: const Text("회원탈퇴", style: TextStyle(color: Colors.red, fontSize: 15)),
