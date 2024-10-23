@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:saphy/utils/colors.dart';
+import 'package:saphy/utils/textstyles.dart';
 
 class Carousel extends StatelessWidget {
   const Carousel({super.key});
@@ -13,13 +14,14 @@ class Carousel extends StatelessWidget {
         link:
             "https://i.pinimg.com/736x/cf/aa/d7/cfaad78b35a7b752054dd564b77f1f10.jpg",
         type: "Phone",
-        content: "iPhone 15도\nSaphy에서.",
+        content: "IPhone 16도\nSaphy에서.",
         color: Colors.white,
       ),
       (
-        link: "https://pbs.twimg.com/media/FQVX7vKX0AcgiRB.jpg",
-        type: "Collaboration",
-        content: "전 세계를 홀린\nKirby와의 콜라보!",
+        link:
+            "https://i.pinimg.com/736x/9d/e8/08/9de808527966126e0d92397b346fb06e.jpg",
+        type: "Phone",
+        content: "더욱 새로워진\nGalaxy S24.",
         color: Colors.white
       ),
     ];
@@ -60,14 +62,14 @@ class Carousel extends StatelessWidget {
             fit: BoxFit.cover),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
               type,
-              style: TextStyle(color: color, fontSize: 25),
+              style: textStyle(25, false, white),
             ),
             Text(
               content,
@@ -76,7 +78,7 @@ class Carousel extends StatelessWidget {
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.bold,
                   fontSize: 50,
-                  height: 1.2),
+                  height: 1.1),
             ),
             const SizedBox(height: 20)
           ],

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:saphy/screens/products/product_detail_page.dart';
+import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/number_format.dart';
 import 'package:saphy/utils/textstyles.dart';
 import "package:saphy/models/product.dart";
@@ -27,7 +28,7 @@ class ProductCard extends StatelessWidget {
       },
       child: Container(
         width: (screenWidth - 55) / 2,
-        height: 240,
+        height: 230,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -49,33 +50,12 @@ class ProductCard extends StatelessWidget {
               padding: const EdgeInsets.only(top: 10.0, left: 5.0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(product.name, style: bodyBoldText()),
-                      Text(
-                        product.brand,
-                        style: const TextStyle(
-                          fontFamily: "Pretendard",
-                          fontSize: 10,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    "${numberFormat.format(product.price)}원",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontFamily: "Pretendard",
-                      fontSize: 20,
-                    ),
-                  ),
+                  Text("${numberFormat.format(product.price)}원",
+                      style: textStyle(20, true, black)),
+                  Text(product.name, style: textStyle(16, false, gray800)),
                 ],
               ),
             )
