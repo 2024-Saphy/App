@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,6 +12,7 @@ import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/number_format.dart';
 import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/models/product.dart';
+import 'package:saphy/widgets/normal_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -24,6 +28,35 @@ class _ProductDetailState extends State<ProductDetail> {
   bool isWished = false;
   late SharedPreferences wished;
 
+  @override
+  void initState() {
+    super.initState();
+    loadProduct();
+    initWishes();
+  }
+
+  List<double> generatePriceData() {
+    List<double> priceData = [];
+    double price = 100000;
+    Random random = Random();
+
+    for (int i = 0; i < 70; i++) {
+      // 중간까지는 랜덤하게 가격을 올리거나 내림
+      if (i < 70) {
+        price += random.nextInt(10000) - 5000; // ±5000 범위에서 변동
+      } else {
+        // 마지막 30개 데이터는 가격을 내리기 시작
+        price -= random.nextInt(8000); // 0 ~ 8000 범위에서 감소
+      }
+
+      // 가격이 음수가 되지 않도록 최소 가격을 80,000으로 설정
+      price = max(price, 80000);
+      priceData.add(price);
+    }
+
+    return priceData;
+  }
+
   Future initWishes() async {
     wished = await SharedPreferences.getInstance();
     final wishedList = wished.getBool(widget.product.id.toString());
@@ -32,13 +65,6 @@ class _ProductDetailState extends State<ProductDetail> {
         isWished = true;
       });
     } else {}
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadProduct();
-    initWishes();
   }
 
   Future<void> loadProduct() async {
@@ -135,7 +161,7 @@ class _ProductDetailState extends State<ProductDetail> {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: altWhite,
+        backgroundColor: white,
         automaticallyImplyLeading: false,
         title: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
@@ -153,110 +179,115 @@ class _ProductDetailState extends State<ProductDetail> {
           )
         ],
       ),
-      backgroundColor: const Color(0xfff4f4f4),
+      backgroundColor: altWhite,
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Column(
               children: [
                 productImage(widget.product.images[0].url),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text.rich(
-                        TextSpan(
-                          text: "출고가 ",
-                          style: const TextStyle(
-                            fontFamily: "Pretendard",
-                            fontSize: 15,
-                            color: gray700,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: numberFormat.format(widget.product.price),
-                              style: const TextStyle(
-                                decoration: TextDecoration.lineThrough,
-                                decorationColor: gray700,
-                                fontFamily: "Pretendard",
-                                fontSize: 15,
-                                color: gray700,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Text.rich(
-                        TextSpan(
-                          style: const TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Pretendard",
-                          ),
-                          children: <TextSpan>[
-                            const TextSpan(
-                                text: "30% ",
-                                style: TextStyle(
-                                  color: mainPrimary,
-                                )),
-                            TextSpan(
-                              text:
-                                  "${numberFormat.format(widget.product.price)}원",
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        "[${productDetail?.grade}] ${widget.product.name} ${productDetail?.storage} ${productDetail?.color}",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "Pretendard",
-                          fontSize: 25,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Color.fromARGB(255, 255, 213, 0),
-                            size: 20,
-                          ),
-                          Text.rich(
-                            TextSpan(
-                              style: bodyText(),
-                              children: const <TextSpan>[
-                                TextSpan(
-                                  text: " 4.8 ",
-                                ),
-                                TextSpan(
-                                  text: "후기 5개",
-                                  style: TextStyle(
-                                      decoration: TextDecoration.underline),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      gradeInformation(screenWidth),
-                      const SizedBox(height: 20),
-                      spaceDivider(""),
-                      const SizedBox(height: 80),
-                    ],
-                  ),
-                ),
+                productTextInfor(),
+                const SizedBox(height: 15),
+                gradeInformation(screenWidth),
+                graphInformation(),
+                productInfor(),
+                const SizedBox(height: 80),
               ],
             ),
           ),
           buttonBar(screenWidth)
         ],
+      ),
+    );
+  }
+
+  Container productTextInfor() {
+    return Container(
+      color: white,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text.rich(
+              TextSpan(
+                text: "출고가 ",
+                style: const TextStyle(
+                  fontFamily: "Pretendard",
+                  fontSize: 15,
+                  color: gray700,
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: numberFormat.format(widget.product.price),
+                    style: const TextStyle(
+                      decoration: TextDecoration.lineThrough,
+                      decorationColor: gray700,
+                      fontFamily: "Pretendard",
+                      fontSize: 15,
+                      color: gray700,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Text.rich(
+              TextSpan(
+                style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Pretendard",
+                ),
+                children: <TextSpan>[
+                  const TextSpan(
+                      text: "30% ",
+                      style: TextStyle(
+                        color: mainPrimary,
+                      )),
+                  TextSpan(
+                    text: "${numberFormat.format(widget.product.price)}원",
+                  ),
+                ],
+              ),
+            ),
+            Text(
+              "[${productDetail?.grade}] ${widget.product.name} ${productDetail?.storage} ${productDetail?.color}",
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontFamily: "Pretendard",
+                fontSize: 25,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(
+                  Icons.star,
+                  color: Color.fromARGB(255, 255, 213, 0),
+                  size: 20,
+                ),
+                Text.rich(
+                  TextSpan(
+                    style: bodyText(),
+                    children: const <TextSpan>[
+                      TextSpan(
+                        text: " 4.8 ",
+                      ),
+                      TextSpan(
+                        text: "후기 5개",
+                        style: TextStyle(decoration: TextDecoration.underline),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -269,6 +300,7 @@ class _ProductDetailState extends State<ProductDetail> {
           height: 400,
           width: double.infinity,
           decoration: BoxDecoration(
+            color: white,
             image: DecorationImage(
               image: CachedNetworkImageProvider(widget.product.images[0].url),
               fit: BoxFit.cover,
@@ -295,12 +327,8 @@ class _ProductDetailState extends State<ProductDetail> {
               IconButton(
                 onPressed: toggleWish,
                 icon: Icon(
-                  isWished
-                      ? Icons.favorite
-                      : Icons.favorite_outline, // 찜 상태에 따라 아이콘 변경
-                  color: isWished
-                      ? const Color(0xff9abcff)
-                      : Colors.black, // 찜 상태에 따라 색상 변경
+                  isWished ? Icons.favorite : Icons.favorite_outline,
+                  color: isWished ? const Color(0xff9abcff) : Colors.black,
                 ),
               ),
               const SizedBox(width: 10),
@@ -351,12 +379,9 @@ class _ProductDetailState extends State<ProductDetail> {
       // 등급 안내 상자
       width: double.infinity,
       height: 100,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: const Color.fromRGBO(222, 222, 222, 1),
-      ),
+      color: white,
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -380,7 +405,7 @@ class _ProductDetailState extends State<ProductDetail> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                gradeButton("실제 사진 보기", screenWidth),
+                gradeButton("상품 상세 정보", screenWidth),
                 const SizedBox(
                   height: 5,
                 ),
@@ -397,6 +422,9 @@ class _ProductDetailState extends State<ProductDetail> {
     return Flexible(
       flex: 1,
       child: InkWell(
+        onTap: () {
+          _showPopup(context);
+        },
         child: Container(
           width: screenWidth * 0.32,
           decoration: BoxDecoration(
@@ -413,7 +441,83 @@ class _ProductDetailState extends State<ProductDetail> {
     );
   }
 
-  Container spaceDivider(String label) {
+  Padding graphInformation() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      child: Container(
+        color: white,
+        height: 270,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              child: Text(
+                "중고 시세",
+                style: textStyle(25, true, null),
+              ),
+            ),
+            SizedBox(
+              height: 200,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                child: LineChart(
+                  LineChartData(
+                    gridData: const FlGridData(show: false),
+                    titlesData: FlTitlesData(
+                      show: true,
+                      rightTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          getTitlesWidget: (value, meta) {
+                            if (value.toInt() % 10000 == 0) {
+                              return Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Text(
+                                  value.toInt().toString(),
+                                  style: textStyle(10, false, gray700),
+                                ),
+                              );
+                            }
+                            return const SizedBox();
+                          },
+                          reservedSize: 50,
+                        ),
+                      ),
+                      leftTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      topTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      bottomTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                    ),
+                    borderData: FlBorderData(show: false),
+                    lineBarsData: [
+                      LineChartBarData(
+                          spots: generatePriceData()
+                              .asMap()
+                              .entries
+                              .map((e) => FlSpot(e.key.toDouble(), e.value))
+                              .toList(),
+                          isCurved: true,
+                          color: mainPrimary,
+                          barWidth: 3,
+                          dotData: const FlDotData(show: false)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container productInfor() {
     return Container(
       width: double.infinity,
       height: 2000,
@@ -423,12 +527,82 @@ class _ProductDetailState extends State<ProductDetail> {
                 productDetail?.descriptionImage.url ?? ""),
             fit: BoxFit.cover),
         color: white,
-        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: gray400, width: 0.5),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Text(label),
+    );
+  }
+
+  void _showPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: Dialog(
+            backgroundColor: white,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
+                    children: [
+                      Text('상품 상세', style: textStyle(22, true, null)),
+                      const SizedBox(height: 4),
+                      Text("Saphy에서 검수를 진행한 결과입니다.",
+                          style: textStyle(18, false, null)),
+                      const SizedBox(height: 8),
+                      _buildInfoRow("개봉여부", "개봉"),
+                      _buildInfoRow("제품 박스 유무", "있음"),
+                      _buildInfoRow("전면/액정 외관", "흠집 없음"),
+                      _buildInfoRow("측/후면 외관", "흠집 없음"),
+                      _buildInfoRow("카메라/렌즈 외관", "흠집 없음"),
+                      _buildInfoRow("전원 동작", "정상"),
+                      _buildInfoRow("LCD 손상", "없음"),
+                      _buildInfoRow("화면 이상(잔상, 번인, 주름)", "없음"),
+                      _buildInfoRow("터치", "정상"),
+                      _buildInfoRow("생체 인식(지문, Face id 등)", "정상"),
+                      _buildInfoRow("GPS/WIFI", "정상"),
+                      _buildInfoRow("카메라(멍 유무, 동작여부)", "정상"),
+                      _buildInfoRow("스피커/마이크(녹음기능)", "정상"),
+                      _buildInfoRow("배터리 효율", "80~84%"),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: NormalButton(
+                          title: '확인했어요',
+                          bgColor: altBlack,
+                          txtColor: white,
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          flag: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Padding _buildInfoRow(String label, String status) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: textStyle(18, false, gray700),
+          ),
+          Text(
+            status,
+            style: textStyle(18, false, null),
+          ),
+        ],
       ),
     );
   }
