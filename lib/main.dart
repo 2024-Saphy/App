@@ -10,11 +10,12 @@ import 'package:saphy/screens/welcome/welcome_screen.dart';
 import 'package:saphy/screens/welcome/signup_screen.dart';
 import 'package:saphy/screens/welcome/otp_screen.dart';
 import 'package:saphy/screens/selling/splash_selling_screen.dart';
+import 'firebase_options.dart';
 
 void main() async {
   await dotenv.load(fileName: 'assets/config/.env');
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   String? kakaoNativeAppKey = dotenv.env['KAKAO_NATIVE_APP_KEY'];
   KakaoSdk.init(
     nativeAppKey: kakaoNativeAppKey,

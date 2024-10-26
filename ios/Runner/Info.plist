@@ -43,6 +43,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow access to photo library</string>
 	<key>KAKAO_NATIVE_APP_KEY</key>
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
