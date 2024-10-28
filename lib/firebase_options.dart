@@ -64,8 +64,8 @@ class DefaultFirebaseOptions {
     projectId: 'saphy-27f69',
     storageBucket: 'saphy-27f69.appspot.com',
     androidClientId: '754445879555-95gt3epsg0eevl2rdt5rnaoquh5v635c.apps.googleusercontent.com',
-    iosClientId: '754445879555-aim3102ob65o26m3vm5clj7hkspsr4jf.apps.googleusercontent.com',
-    iosBundleId: 'com.inq.saphy',
+    iosClientId: '754445879555-2k12ao456pgoa8aqdhn9co5od823sge4.apps.googleusercontent.com',
+    iosBundleId: 'com.inqinq.saphy',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
