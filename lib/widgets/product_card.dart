@@ -14,6 +14,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
@@ -28,7 +29,7 @@ class ProductCard extends StatelessWidget {
       },
       child: Container(
         width: (screenWidth - 55) / 2,
-        height: 230,
+        height: screenHeight * 0.24,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
