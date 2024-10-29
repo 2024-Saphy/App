@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:saphy/utils/number_format.dart';
 import 'package:saphy/utils/textstyles.dart';
 import 'package:saphy/models/product.dart';
 import 'package:saphy/widgets/normal_button.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetail extends StatefulWidget {
   final Product product;
@@ -26,7 +24,6 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   Product? productDetail;
   bool isWished = false;
-  late SharedPreferences wished;
 
   @override
   void initState() {
@@ -41,15 +38,12 @@ class _ProductDetailState extends State<ProductDetail> {
     Random random = Random();
 
     for (int i = 0; i < 70; i++) {
-      // 중간까지는 랜덤하게 가격을 올리거나 내림
       if (i < 70) {
-        price += random.nextInt(10000) - 5000; // ±5000 범위에서 변동
+        price += random.nextInt(10000) - 5000;
       } else {
-        // 마지막 30개 데이터는 가격을 내리기 시작
-        price -= random.nextInt(8000); // 0 ~ 8000 범위에서 감소
+        price -= random.nextInt(8000);
       }
 
-      // 가격이 음수가 되지 않도록 최소 가격을 80,000으로 설정
       price = max(price, 80000);
       priceData.add(price);
     }
@@ -58,13 +52,22 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 
   Future initWishes() async {
-    wished = await SharedPreferences.getInstance();
-    final wishedList = wished.getBool(widget.product.id.toString());
-    if (wishedList != null) {
-      setState(() {
-        isWished = true;
-      });
-    } else {}
+    String token = await readJwt();
+    token = token.toString().split(" ")[2];
+    try {
+      final response = await APIService.instance.request(
+        'https://saphy.site/item-wishes?type=ALL',
+        DioMethod.get,
+        contentType: 'application/json',
+        token: "Bearer $token",
+      );
+      final List<dynamic> results = response.data['results'];
+      if (results.any((item) => item['id'] == productDetail!.id)) {
+        setState(() {
+          isWished = true;
+        });
+      } else {}
+    } catch (e) {}
   }
 
   Future<void> loadProduct() async {
@@ -130,7 +133,6 @@ class _ProductDetailState extends State<ProductDetail> {
         );
 
         if (response.statusCode == 200) {
-          await wished.setBool(widget.product.id.toString(), true);
           setState(() {
             isWished = true;
           });
@@ -144,7 +146,6 @@ class _ProductDetailState extends State<ProductDetail> {
         );
 
         if (response.statusCode == 200) {
-          await wished.setBool(widget.product.id.toString(), false);
           setState(() {
             isWished = false; // 아이템이 찜 해제 상태로 변경
           });
