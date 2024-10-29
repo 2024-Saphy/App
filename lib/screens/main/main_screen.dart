@@ -51,6 +51,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -86,8 +87,8 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: altWhite,
       body: CustomScrollView(
         slivers: [
-          const SliverToBoxAdapter(
-            child: Carousel(),
+          SliverToBoxAdapter(
+            child: Carousel(screenHeight: screenHeight),
           ),
           SliverToBoxAdapter(
             child: Padding(

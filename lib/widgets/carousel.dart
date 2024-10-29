@@ -5,7 +5,8 @@ import 'package:saphy/utils/colors.dart';
 import 'package:saphy/utils/textstyles.dart';
 
 class Carousel extends StatelessWidget {
-  const Carousel({super.key});
+  double screenHeight;
+  Carousel({super.key, required this.screenHeight});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class Carousel extends StatelessWidget {
       child: CarouselSlider.builder(
         itemCount: itemList.length,
         options: CarouselOptions(
-          height: 575,
+          height: screenHeight * 0.6,
           viewportFraction: 1,
           enlargeCenterPage: false,
           autoPlay: true,
